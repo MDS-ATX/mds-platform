@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Iris",
+    "slug": "iris",
+    "description": "Iris offers a curated collection of modern condominiums designed for contemporary Austin living. Each residence features thoughtful layouts and quality finishes throughout.",
+    "totalUnits": 30,
+    "stories": 4,
+    "amenities": [
+      "Rooftop deck",
+      "EV charging stations",
+      "Package lockers",
+      "Bike storage",
+      "Secured entry"
+    ],
+    "unitTypes": [
+      {
+        "name": "Studio",
+        "bedrooms": 0,
+        "bathrooms": 1,
+        "sqftRange": { "min": 450, "max": 550 },
+        "priceRange": { "min": 275000, "max": 325000 },
+        "description": "Efficient open-concept living"
+      },
+      {
+        "name": "One Bedroom",
+        "bedrooms": 1,
+        "bathrooms": 1,
+        "sqftRange": { "min": 600, "max": 750 },
+        "priceRange": { "min": 350000, "max": 425000 },
+        "description": "Spacious living with dedicated bedroom"
+      },
+      {
+        "name": "Two Bedroom",
+        "bedrooms": 2,
+        "bathrooms": 2,
+        "sqftRange": { "min": 900, "max": 1100 },
+        "priceRange": { "min": 475000, "max": 575000 },
+        "description": "Room to spread out with dual master suites"
+      }
+    ]
+  },
+  {
+    "name": "Concourse",
+    "slug": "concourse",
+    "description": "Concourse brings a fresh perspective to Mueller living with modern residences that embrace both privacy and community. Steps from the Mueller town center.",
+    "totalUnits": 30,
+    "stories": 4,
+    "amenities": [
+      "Courtyard garden",
+      "Dog wash station",
+      "Fitness room",
+      "Package lockers",
+      "Secured parking"
+    ],
+    "unitTypes": [
+      {
+        "name": "One Bedroom",
+        "bedrooms": 1,
+        "bathrooms": 1,
+        "sqftRange": { "min": 625, "max": 775 },
+        "priceRange": { "min": 360000, "max": 440000 },
+        "description": "Open-concept layouts with premium finishes"
+      },
+      {
+        "name": "Two Bedroom",
+        "bedrooms": 2,
+        "bathrooms": 2,
+        "sqftRange": { "min": 950, "max": 1150 },
+        "priceRange": { "min": 500000, "max": 600000 },
+        "description": "Generous floor plans with flexible living spaces"
+      },
+      {
+        "name": "Three Bedroom",
+        "bedrooms": 3,
+        "bathrooms": 2,
+        "sqftRange": { "min": 1200, "max": 1400 },
+        "priceRange": { "min": 625000, "max": 750000 },
+        "description": "Penthouse-level living with panoramic views"
+      }
+    ]
+  }
+]

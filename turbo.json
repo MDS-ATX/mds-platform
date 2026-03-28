@@ -1,0 +1,28 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalEnv": [
+    "FUB_API_KEY",
+    "NEXT_PUBLIC_FUB_PIXEL_ID",
+    "NEXT_PUBLIC_SITE_URL",
+    "NEXT_PUBLIC_MAPBOX_TOKEN"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "!.next/cache/**"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "lint": {
+      "dependsOn": ["^build"]
+    },
+    "type-check": {
+      "dependsOn": ["^build"]
+    },
+    "clean": {
+      "cache": false
+    }
+  }
+}

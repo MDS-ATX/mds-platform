@@ -1,0 +1,7 @@
+{
+  "extends": "@mds/config/typescript/base",
+  "compilerOptions": {
+    "outDir": "./dist"
+  },
+  "include": ["src/**/*.ts"]
+}

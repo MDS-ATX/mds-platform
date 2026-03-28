@@ -1,0 +1,59 @@
+{
+  "name": "Mueller",
+  "description": "Mueller is Austin's premier mixed-use community, built on the former Robert Mueller Municipal Airport site. This walkable, bike-friendly neighborhood features tree-lined streets, abundant green spaces, and a vibrant town center.",
+  "highlights": [
+    "Walkable mixed-use community",
+    "Mueller Lake Park & trails",
+    "Thinkery children's museum",
+    "H-E-B & Alamo Drafthouse Cinema",
+    "Minutes from downtown Austin",
+    "Top-rated schools nearby"
+  ],
+  "walkScore": 72,
+  "bikeScore": 85,
+  "transitScore": 45,
+  "pointsOfInterest": [
+    {
+      "name": "Mueller Lake Park",
+      "category": "parks",
+      "distance": "0.3 mi",
+      "description": "30-acre park with lake, trails, and playgrounds"
+    },
+    {
+      "name": "H-E-B Mueller",
+      "category": "grocery",
+      "distance": "0.4 mi",
+      "description": "Full-service grocery store"
+    },
+    {
+      "name": "Alamo Drafthouse Cinema",
+      "category": "entertainment",
+      "distance": "0.5 mi",
+      "description": "Dine-in movie theater"
+    },
+    {
+      "name": "Thinkery",
+      "category": "entertainment",
+      "distance": "0.4 mi",
+      "description": "Interactive children's museum"
+    },
+    {
+      "name": "Mueller Farmers Market",
+      "category": "shopping",
+      "distance": "0.3 mi",
+      "description": "Weekly Sunday farmers market"
+    },
+    {
+      "name": "Torchy's Tacos",
+      "category": "dining",
+      "distance": "0.4 mi",
+      "description": "Austin-born taco chain"
+    },
+    {
+      "name": "Capital Metro Bus Stop",
+      "category": "transit",
+      "distance": "0.2 mi",
+      "description": "Route 37 to downtown"
+    }
+  ]
+}

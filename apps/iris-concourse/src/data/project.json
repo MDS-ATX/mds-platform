@@ -1,0 +1,34 @@
+{
+  "name": "Iris & Concourse",
+  "slug": "iris-concourse",
+  "tagline": "Modern Living in the Heart of Mueller",
+  "description": "Two distinctive condo communities by InTown Homes in Austin's Mueller neighborhood. Thoughtfully designed residences that blend modern architecture with neighborhood charm.",
+  "developer": {
+    "name": "InTown Homes",
+    "url": "https://www.intownhomesatx.com"
+  },
+  "brokerage": "MODUS Real Estate",
+  "location": {
+    "neighborhood": "Mueller",
+    "city": "Austin",
+    "state": "TX",
+    "zip": "78723",
+    "coordinates": {
+      "lat": 30.2988,
+      "lng": -97.7055
+    }
+  },
+  "meta": {
+    "title": "Iris & Concourse | New Condos in Mueller, Austin",
+    "description": "Discover Iris & Concourse — new condo residences by InTown Homes in Austin's Mueller neighborhood. Modern design, walkable community, starting from the $300s."
+  },
+  "status": "pre-launch",
+  "salesTeam": [
+    {
+      "name": "Jacob Hannusch",
+      "title": "Sales Associate",
+      "email": "jacob@modusrealestate.com",
+      "phone": ""
+    }
+  ]
+}

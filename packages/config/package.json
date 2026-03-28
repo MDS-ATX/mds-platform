@@ -1,0 +1,9 @@
+{
+  "name": "@mds/config",
+  "version": "0.0.1",
+  "private": true,
+  "exports": {
+    "./tailwind": "./tailwind/preset.ts",
+    "./typescript/base": "./typescript/base.json"
+  }
+}
