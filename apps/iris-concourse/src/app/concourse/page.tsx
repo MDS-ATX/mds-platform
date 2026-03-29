@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import buildings from "@/data/buildings.json";
 
 const building = buildings.find((b) => b.slug === "concourse")!;
@@ -7,14 +8,24 @@ export default function ConcoursePage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative py-20 bg-gradient-to-br from-gray-900 to-gray-800">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative py-20 bg-gradient-to-br from-gray-900 to-gray-800 overflow-hidden">
+        {building.heroImage && (
+          <Image
+            src={building.heroImage}
+            alt={`${building.name} at Mueller`}
+            fill
+            className="object-cover opacity-30"
+            priority
+          />
+        )}
+        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-5xl md:text-6xl font-heading font-bold text-white mb-4">
             {building.name}
           </h1>
-          <p className="text-xl text-gray-300 max-w-2xl">
+          <p className="text-xl text-gray-300 max-w-2xl mb-2">
             {building.description}
           </p>
+          <p className="text-gray-400">{building.address}</p>
         </div>
       </section>
 
@@ -32,9 +43,15 @@ export default function ConcoursePage() {
             </div>
             <div className="text-center p-6 bg-gray-50 rounded-xl">
               <p className="text-3xl font-bold text-gray-900">{building.unitTypes.length}</p>
-              <p className="text-gray-600 mt-1">Floor Plans</p>
+              <p className="text-gray-600 mt-1">Floor Plan Types</p>
             </div>
           </div>
+
+          {building.pricingMessage && (
+            <p className="text-center text-lg font-medium text-brand-600 mb-12">
+              {building.pricingMessage}
+            </p>
+          )}
 
           {/* Amenities */}
           <h2 className="text-2xl font-heading font-bold text-gray-900 mb-6">
@@ -56,7 +73,7 @@ export default function ConcoursePage() {
           <h2 className="text-2xl font-heading font-bold text-gray-900 mb-6">
             Residences
           </h2>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 gap-6">
             {building.unitTypes.map((unitType) => (
               <div
                 key={unitType.name}
@@ -81,12 +98,6 @@ export default function ConcoursePage() {
                     <span className="text-gray-500">Size</span>
                     <span className="font-medium">
                       {unitType.sqftRange.min.toLocaleString()} - {unitType.sqftRange.max.toLocaleString()} sq ft
-                    </span>
-                  </div>
-                  <div className="flex justify-between pt-2 border-t">
-                    <span className="text-gray-500">From</span>
-                    <span className="font-bold text-brand-600">
-                      ${unitType.priceRange.min.toLocaleString()}
                     </span>
                   </div>
                 </div>

@@ -1,1 +1,82 @@
-[]
+[
+  {
+    "src": "/images/hero/concourse-exterior.jpg",
+    "alt": "Concourse at Mueller exterior view",
+    "category": "exterior"
+  },
+  {
+    "src": "/images/gallery/exterior-mccurdy-1.jpg",
+    "alt": "Building exterior from McCurdy",
+    "category": "exterior"
+  },
+  {
+    "src": "/images/gallery/exterior-mccurdy-2.jpg",
+    "alt": "Building exterior street view",
+    "category": "exterior"
+  },
+  {
+    "src": "/images/gallery/exterior-mccurdy-3.jpg",
+    "alt": "Building exterior with landscaping",
+    "category": "exterior"
+  },
+  {
+    "src": "/images/gallery/kitchen-208-1.jpg",
+    "alt": "Modern kitchen with quartz countertops in Unit 208",
+    "category": "interior"
+  },
+  {
+    "src": "/images/gallery/kitchen-208-2.jpg",
+    "alt": "Kitchen with stainless steel appliances",
+    "category": "interior"
+  },
+  {
+    "src": "/images/gallery/living-208-1.jpg",
+    "alt": "Open-concept living area in Unit 208",
+    "category": "interior"
+  },
+  {
+    "src": "/images/gallery/living-211-1.jpg",
+    "alt": "Living room with natural light in Unit 211",
+    "category": "interior"
+  },
+  {
+    "src": "/images/gallery/bedroom-208-1.jpg",
+    "alt": "Primary bedroom with modern finishes",
+    "category": "interior"
+  },
+  {
+    "src": "/images/gallery/bedroom-303-1.jpg",
+    "alt": "Spacious bedroom in Unit 303",
+    "category": "interior"
+  },
+  {
+    "src": "/images/gallery/bathroom-208-1.jpg",
+    "alt": "Contemporary bathroom with tile finishes",
+    "category": "interior"
+  },
+  {
+    "src": "/images/gallery/bathroom-303-1.jpg",
+    "alt": "Modern bathroom with vanity",
+    "category": "interior"
+  },
+  {
+    "src": "/images/gallery/living-303-1.jpg",
+    "alt": "Two-story living area in Unit 303",
+    "category": "interior"
+  },
+  {
+    "src": "/images/gallery/kitchen-303-1.jpg",
+    "alt": "Kitchen with island seating in Unit 303",
+    "category": "interior"
+  },
+  {
+    "src": "/images/gallery/detail-211-1.jpg",
+    "alt": "Interior details and finishes",
+    "category": "interior"
+  },
+  {
+    "src": "/images/gallery/exterior-mccurdy-4.jpg",
+    "alt": "Building entrance and lobby",
+    "category": "exterior"
+  }
+]

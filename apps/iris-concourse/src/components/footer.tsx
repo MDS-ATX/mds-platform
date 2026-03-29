@@ -30,8 +30,8 @@ export function Footer() {
               <Link href="/concourse" className="text-sm hover:text-white transition-colors">
                 Concourse
               </Link>
-              <Link href="/pricing" className="text-sm hover:text-white transition-colors">
-                Pricing & Availability
+              <Link href="/residences" className="text-sm hover:text-white transition-colors">
+                Residences
               </Link>
               <Link href="/neighborhood" className="text-sm hover:text-white transition-colors">
                 Neighborhood

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import projectData from "@/data/project.json";
 import buildings from "@/data/buildings.json";
 
@@ -19,15 +20,18 @@ export default function HomePage() {
             <p className="text-xl text-gray-300 mb-4">
               {projectData.tagline}
             </p>
-            <p className="text-gray-400 mb-8 max-w-2xl">
+            <p className="text-gray-400 mb-2 max-w-2xl">
               {projectData.description}
+            </p>
+            <p className="text-lg font-medium text-brand-300 mb-8">
+              Residences starting in the $200s
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
-                href="/pricing"
+                href="/residences"
                 className="px-8 py-4 bg-white text-gray-900 font-medium rounded-lg hover:bg-gray-100 transition-colors"
               >
-                View Pricing
+                View Residences
               </Link>
               <Link
                 href="/contact"
@@ -60,10 +64,16 @@ export default function HomePage() {
                 href={`/${building.slug}`}
                 className="group block bg-gray-50 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300"
               >
-                <div className="aspect-[16/10] bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-                  <span className="text-gray-500 text-sm">
-                    Rendering coming soon
-                  </span>
+                <div className="aspect-[16/10] relative bg-gradient-to-br from-gray-200 to-gray-300">
+                  {building.heroImage && (
+                    <Image
+                      src={building.heroImage}
+                      alt={`${building.name} at Mueller`}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
+                  )}
                 </div>
                 <div className="p-8">
                   <h3 className="text-2xl font-heading font-bold text-gray-900 mb-2 group-hover:text-brand-600 transition-colors">
@@ -73,12 +83,7 @@ export default function HomePage() {
                   <div className="flex flex-wrap gap-4 text-sm text-gray-500">
                     <span>{building.totalUnits} Residences</span>
                     <span>{building.stories} Stories</span>
-                    <span>
-                      From $
-                      {Math.min(
-                        ...building.unitTypes.map((u) => u.priceRange.min)
-                      ).toLocaleString()}
-                    </span>
+                    <span>{building.pricingMessage}</span>
                   </div>
                 </div>
               </Link>
@@ -113,7 +118,7 @@ export default function HomePage() {
             Interested?
           </h2>
           <p className="text-brand-100 max-w-xl mx-auto mb-8">
-            Join our interest list to receive updates on pricing, availability,
+            Join our interest list to receive updates on availability
             and exclusive early access opportunities.
           </p>
           <Link

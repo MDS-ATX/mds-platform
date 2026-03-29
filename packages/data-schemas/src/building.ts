@@ -10,10 +10,13 @@ export const unitTypeSchema = z.object({
     min: z.number(),
     max: z.number(),
   }),
-  priceRange: z.object({
-    min: z.number(),
-    max: z.number(),
-  }),
+  priceRange: z
+    .object({
+      min: z.number(),
+      max: z.number(),
+    })
+    .optional(),
+  count: z.number().int().optional(),
   floorPlanImage: z.string().optional(),
   floorPlanPdf: z.string().optional(),
   description: z.string().optional(),
@@ -24,12 +27,13 @@ export const unitSchema = z.object({
   building: z.string(),
   number: z.string(),
   floor: z.number().int(),
-  type: z.string(),
-  bedrooms: z.number().int().min(0),
-  bathrooms: z.number().min(0),
-  sqft: z.number(),
-  price: z.number(),
+  type: z.string().optional(),
+  bedrooms: z.number().int().min(0).optional(),
+  bathrooms: z.number().min(0).optional(),
+  sqft: z.number().optional(),
+  price: z.number().optional(),
   status: z.enum(["available", "reserved", "under-contract", "sold"]),
+  designation: z.enum(["market", "affordable", "workforce"]).optional(),
   floorPlan: z.string().optional(),
   features: z.array(z.string()).optional(),
 });
@@ -44,6 +48,7 @@ export const buildingSchema = z.object({
   yearBuilt: z.number().int().optional(),
   amenities: z.array(z.string()),
   heroImage: z.string().optional(),
+  pricingMessage: z.string().optional(),
   unitTypes: z.array(unitTypeSchema),
 });
 
