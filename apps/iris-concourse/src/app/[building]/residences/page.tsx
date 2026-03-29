@@ -23,14 +23,18 @@ export async function generateMetadata({
 
 export default async function ResidencesPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ building: string }>;
+  searchParams: Promise<{ bedrooms?: string }>;
 }) {
   const { building: slug } = await params;
+  const { bedrooms } = await searchParams;
   const building = buildings.find((b) => b.slug === slug);
   if (!building) notFound();
 
   const buildingUnits = units.filter((u) => u.building === slug);
+  const initialFilter = bedrooms ? parseInt(bedrooms) : null;
 
   return (
     <section className="py-16 bg-white">
@@ -47,6 +51,7 @@ export default async function ResidencesPage({
         <ResidencesClient
           units={buildingUnits}
           building={{ slug: building.slug, name: building.name }}
+          initialFilter={initialFilter}
         />
       </div>
     </section>

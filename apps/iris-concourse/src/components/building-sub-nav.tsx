@@ -20,7 +20,7 @@ export default function BuildingSubNav({ slug, buildingName }: BuildingSubNavPro
   const isActive = (href: string) => pathname === href;
 
   return (
-    <div className="bg-gray-50 border-b border-gray-200">
+    <div className="sticky top-16 z-30 bg-gray-50 border-b border-gray-200">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-1 h-11">
           <span className="text-xs font-medium text-gray-400 mr-3 uppercase tracking-wider hidden sm:block">

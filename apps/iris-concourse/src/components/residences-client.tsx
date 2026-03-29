@@ -39,11 +39,13 @@ const designationStyles: Record<string, string> = {
 export default function ResidencesClient({
   units,
   building,
+  initialFilter = null,
 }: {
   units: Unit[];
   building: BuildingData;
+  initialFilter?: number | null;
 }) {
-  const [bedroomFilter, setBedroomFilter] = useState<number | null>(null);
+  const [bedroomFilter, setBedroomFilter] = useState<number | null>(initialFilter);
 
   const filterOptions = [
     { label: "All", value: null },
@@ -67,6 +69,16 @@ export default function ResidencesClient({
           onChange={setBedroomFilter}
         />
       </div>
+
+      {floors.length > 1 && (
+        <div className="flex gap-3 mb-8 text-sm text-gray-500">
+          {floors.map((f) => (
+            <span key={f} className="bg-gray-100 px-3 py-1 rounded-full">
+              Floor {f} · {filteredUnits.filter((u) => u.floor === f).length} units
+            </span>
+          ))}
+        </div>
+      )}
 
       {floors.map((floor) => {
         const floorUnits = filteredUnits.filter((u) => u.floor === floor);
@@ -122,7 +134,7 @@ export default function ResidencesClient({
                   <ImageWithLightbox
                     src={`/images/floor-plans/${unit.building}-${unit.number}.png`}
                     alt={`Floor plan for Unit ${unit.number}`}
-                    className="w-full aspect-square bg-gray-50 rounded-lg overflow-hidden mb-4"
+                    className="w-full aspect-[3/4] bg-gray-50 rounded-lg overflow-hidden mb-4"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
 

@@ -107,10 +107,8 @@ export default async function BuildingPage({
               <p className="text-gray-500 mt-1 text-sm">Stories</p>
             </div>
             <div className="text-center p-6 bg-gray-50 rounded-xl">
-              <p className="text-3xl font-bold text-gray-900">
-                {building.unitTypes.length}
-              </p>
-              <p className="text-gray-500 mt-1 text-sm">Floor Plan Types</p>
+              <p className="text-3xl font-bold text-gray-900">1 &amp; 2</p>
+              <p className="text-gray-500 mt-1 text-sm">Bedroom Options</p>
             </div>
           </div>
 
@@ -205,44 +203,43 @@ export default async function BuildingPage({
             </div>
           ))}
 
-          {/* Unit Types */}
+          {/* Residences */}
           <h2 className="text-2xl font-heading font-bold text-gray-900 mb-6">
             Residences
           </h2>
-          <div className="grid md:grid-cols-2 gap-6 mb-12">
-            {building.unitTypes.map((unitType) => (
-              <div
-                key={unitType.name}
-                className="border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow"
-              >
-                <h3 className="text-lg font-bold text-gray-900 mb-2">
-                  {unitType.name}
-                </h3>
-                <p className="text-sm text-gray-500 mb-4">
-                  {unitType.description}
-                </p>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-500">Bedrooms</span>
-                    <span className="font-medium">{unitType.bedrooms}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-500">Bathrooms</span>
-                    <span className="font-medium">{unitType.bathrooms}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-500">Size</span>
-                    <span className="font-medium">
-                      {unitType.sqftRange.min.toLocaleString()}
-                      {unitType.sqftRange.min !== unitType.sqftRange.max
-                        ? ` – ${unitType.sqftRange.max.toLocaleString()}`
-                        : ""}{" "}
-                      sq ft
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="grid sm:grid-cols-3 gap-4 mb-12">
+            <Link
+              href={`/${building.slug}/residences`}
+              className="group block p-6 border border-gray-200 rounded-xl hover:shadow-md hover:border-gray-300 transition-all"
+            >
+              <p className="text-2xl font-bold text-gray-900 mb-1">
+                {building.totalUnits}
+              </p>
+              <p className="font-medium text-gray-700 mb-3">All Residences</p>
+              <p className="text-sm text-brand-600 group-hover:text-brand-700">
+                View floor plans →
+              </p>
+            </Link>
+            <Link
+              href={`/${building.slug}/residences?bedrooms=1`}
+              className="group block p-6 border border-gray-200 rounded-xl hover:shadow-md hover:border-gray-300 transition-all"
+            >
+              <p className="text-2xl font-bold text-gray-900 mb-1">1 Bed</p>
+              <p className="font-medium text-gray-700 mb-3">One Bedrooms</p>
+              <p className="text-sm text-brand-600 group-hover:text-brand-700">
+                View floor plans →
+              </p>
+            </Link>
+            <Link
+              href={`/${building.slug}/residences?bedrooms=2`}
+              className="group block p-6 border border-gray-200 rounded-xl hover:shadow-md hover:border-gray-300 transition-all"
+            >
+              <p className="text-2xl font-bold text-gray-900 mb-1">2 Bed</p>
+              <p className="font-medium text-gray-700 mb-3">Two Bedrooms</p>
+              <p className="text-sm text-brand-600 group-hover:text-brand-700">
+                View floor plans →
+              </p>
+            </Link>
           </div>
 
           {/* Map */}
