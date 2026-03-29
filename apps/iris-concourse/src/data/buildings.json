@@ -3,10 +3,12 @@
     "name": "Iris",
     "slug": "iris",
     "address": "5025 Mueller Blvd, Austin, TX 78723",
+    "tagline": "Modern condominiums designed for contemporary Austin living",
     "description": "Iris offers a curated collection of modern condominiums designed for contemporary Austin living. Each residence features thoughtful layouts, quality finishes, and private balconies throughout.",
     "totalUnits": 31,
     "stories": 4,
     "pricingMessage": "Residences starting in the $200s",
+    "coordinates": { "lat": 30.2988, "lng": -97.7050 },
     "amenities": [
       "Secured entry with fob access",
       "Elevator",
@@ -14,7 +16,30 @@
       "Package lockers",
       "Private balconies on all units"
     ],
+    "amenityImages": [],
     "heroImage": "/images/hero/iris-rendering.jpg",
+    "featureCategories": [
+      {
+        "title": "Interior Finishes",
+        "image": null,
+        "items": [
+          "Quality finishes throughout",
+          "Open-concept floor plans",
+          "Private balconies on every unit",
+          "Modern fixtures and hardware"
+        ]
+      },
+      {
+        "title": "Kitchen",
+        "image": null,
+        "items": [
+          "Modern appliance package",
+          "Quality countertops",
+          "Ample cabinet storage"
+        ]
+      }
+    ],
+    "specialFeatures": [],
     "unitTypes": [
       {
         "name": "One Bedroom",
@@ -38,10 +63,12 @@
     "name": "Concourse",
     "slug": "concourse",
     "address": "3900 Berkman Dr, Austin, TX 78723",
+    "tagline": "Boutique residences beside the iconic Mueller control tower",
     "description": "Concourse is a boutique collection of 34 residences rising beside the iconic Mueller airport control tower in Austin's Mueller neighborhood. Featuring 10-foot ceilings, private balconies with glass enclosures, and premium finishes throughout, these homes combine timeless architecture with modern design across two residential floors above ground-floor retail.",
     "totalUnits": 34,
     "stories": 3,
     "pricingMessage": "Residences starting in the $200s",
+    "coordinates": { "lat": 30.2955, "lng": -97.7025 },
     "amenities": [
       "Key fob access with 24/7 surveillance",
       "Elevator access every floor",
@@ -49,14 +76,68 @@
       "Private mailroom with package lockers",
       "Dedicated resident parking",
       "Ground-floor retail",
-      "\"The Flight Deck\" mezzanine lounge & BBQ area",
       "Trash chutes on every floor",
       "Additional storage available for purchase",
       "Open-air corridors",
       "In-unit washer and dryer",
       "Tankless hot water heaters"
     ],
+    "amenityImages": [
+      "/images/gallery/exterior-aerial-1.jpg",
+      "/images/gallery/exterior-mccurdy-1.jpg"
+    ],
     "heroImage": "/images/hero/concourse-exterior.jpg",
+    "featureCategories": [
+      {
+        "title": "Interior Finishes",
+        "image": "/images/gallery/living-303-2.jpg",
+        "items": [
+          "Luxury vinyl plank & designer tile flooring throughout",
+          "Soaring 10-foot ceilings with recessed lighting",
+          "Paneled interior doors with premium fixtures",
+          "Double-paned, low-emission windows",
+          "Modern bathroom fixtures with elegant tile surrounds"
+        ]
+      },
+      {
+        "title": "Kitchen Excellence",
+        "image": "/images/gallery/kitchen-208-1.jpg",
+        "items": [
+          "Elegant natural stone countertops",
+          "Complete stainless steel appliance suite",
+          "Shaker-style cabinetry with designer tile backsplashes",
+          "Undermounted sink with gooseneck faucets",
+          "Kitchen islands designed for gathering and entertaining"
+        ]
+      },
+      {
+        "title": "Outdoor Living",
+        "image": "/images/gallery/balcony-208-1.jpg",
+        "items": [
+          "Private residence balconies with sleek glass enclosures",
+          "Glass patio doors for seamless indoor-outdoor flow",
+          "Views of the iconic Mueller control tower or city skyline",
+          "Open-air corridors with fresh-air access"
+        ]
+      },
+      {
+        "title": "Every Home Includes",
+        "image": "/images/gallery/laundry-208-1.jpg",
+        "items": [
+          "In-unit washer and dryer",
+          "Stainless steel refrigerator",
+          "Tankless hot water heater",
+          "Individually sub-metered water and gas service",
+          "Ample storage thoughtfully integrated throughout"
+        ]
+      }
+    ],
+    "specialFeatures": [
+      {
+        "title": "The Flight Deck",
+        "description": "An expansive resident mezzanine lounge with views of the iconic Mueller airport control tower. The Flight Deck offers a comfortable relaxation area with BBQ facilities for gathering with neighbors and guests."
+      }
+    ],
     "unitTypes": [
       {
         "name": "One Bedroom",

@@ -1,7 +1,10 @@
 import projectData from "@/data/project.json";
+import LandingNav from "@/components/landing-nav";
 
 export default function ContactPage() {
   return (
+    <>
+    <LandingNav />
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto">
@@ -147,5 +150,6 @@ export default function ContactPage() {
         </div>
       </div>
     </section>
+    </>
   );
 }

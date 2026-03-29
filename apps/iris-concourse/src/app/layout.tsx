@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import projectData from "@/data/project.json";
-import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
 
 const inter = Inter({
@@ -28,7 +27,6 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <body className="font-sans antialiased">
-        <Navigation />
         <main>{children}</main>
         <Footer />
       </body>

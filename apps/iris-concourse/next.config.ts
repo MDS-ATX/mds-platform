@@ -8,7 +8,27 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/pricing",
-        destination: "/residences",
+        destination: "/concourse/residences",
+        permanent: true,
+      },
+      {
+        source: "/residences",
+        destination: "/concourse/residences",
+        permanent: false,
+      },
+      {
+        source: "/gallery",
+        destination: "/concourse/gallery",
+        permanent: false,
+      },
+      {
+        source: "/iris/floor-plans",
+        destination: "/iris/residences",
+        permanent: true,
+      },
+      {
+        source: "/concourse/floor-plans",
+        destination: "/concourse/residences",
         permanent: true,
       },
     ];

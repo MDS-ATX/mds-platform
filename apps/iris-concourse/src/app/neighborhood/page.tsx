@@ -1,4 +1,5 @@
 import neighborhoodData from "@/data/neighborhood.json";
+import LandingNav from "@/components/landing-nav";
 
 export default function NeighborhoodPage() {
   // Group POIs by category
@@ -13,6 +14,7 @@ export default function NeighborhoodPage() {
 
   return (
     <>
+      <LandingNav />
       {/* Hero */}
       <section className="py-20 bg-gradient-to-br from-gray-900 to-gray-800">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">

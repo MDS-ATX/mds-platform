@@ -2,121 +2,151 @@
   {
     "src": "/images/hero/concourse-exterior.jpg",
     "alt": "Concourse at Mueller exterior view",
-    "category": "exterior"
+    "category": "exterior",
+    "building": "concourse"
   },
   {
     "src": "/images/gallery/exterior-mccurdy-1.jpg",
     "alt": "Building exterior from McCurdy",
-    "category": "exterior"
+    "category": "exterior",
+    "building": "concourse"
   },
   {
     "src": "/images/gallery/exterior-mccurdy-2.jpg",
     "alt": "Building exterior street view",
-    "category": "exterior"
+    "category": "exterior",
+    "building": "concourse"
   },
   {
     "src": "/images/gallery/exterior-mccurdy-3.jpg",
     "alt": "Building exterior with landscaping",
-    "category": "exterior"
+    "category": "exterior",
+    "building": "concourse"
   },
   {
     "src": "/images/gallery/kitchen-208-1.jpg",
     "alt": "Modern kitchen with quartz countertops in Unit 208",
-    "category": "interior"
+    "category": "interior",
+    "building": "concourse"
   },
   {
     "src": "/images/gallery/kitchen-208-2.jpg",
     "alt": "Kitchen with stainless steel appliances",
-    "category": "interior"
+    "category": "interior",
+    "building": "concourse"
   },
   {
     "src": "/images/gallery/living-208-1.jpg",
     "alt": "Open-concept living area in Unit 208",
-    "category": "interior"
+    "category": "interior",
+    "building": "concourse"
   },
   {
     "src": "/images/gallery/living-211-1.jpg",
     "alt": "Living room with natural light in Unit 211",
-    "category": "interior"
+    "category": "interior",
+    "building": "concourse"
   },
   {
     "src": "/images/gallery/bedroom-208-1.jpg",
     "alt": "Primary bedroom with modern finishes",
-    "category": "interior"
+    "category": "interior",
+    "building": "concourse"
   },
   {
     "src": "/images/gallery/bedroom-303-1.jpg",
     "alt": "Spacious bedroom in Unit 303",
-    "category": "interior"
+    "category": "interior",
+    "building": "concourse"
   },
   {
     "src": "/images/gallery/bathroom-208-1.jpg",
     "alt": "Contemporary bathroom with tile finishes",
-    "category": "interior"
+    "category": "interior",
+    "building": "concourse"
   },
   {
     "src": "/images/gallery/bathroom-303-1.jpg",
     "alt": "Modern bathroom with vanity",
-    "category": "interior"
+    "category": "interior",
+    "building": "concourse"
   },
   {
     "src": "/images/gallery/living-303-1.jpg",
     "alt": "Two-story living area in Unit 303",
-    "category": "interior"
+    "category": "interior",
+    "building": "concourse"
   },
   {
     "src": "/images/gallery/kitchen-303-1.jpg",
     "alt": "Kitchen with island seating in Unit 303",
-    "category": "interior"
+    "category": "interior",
+    "building": "concourse"
   },
   {
     "src": "/images/gallery/detail-211-1.jpg",
     "alt": "Interior details and finishes",
-    "category": "interior"
+    "category": "interior",
+    "building": "concourse"
   },
   {
     "src": "/images/gallery/exterior-mccurdy-4.jpg",
     "alt": "Building entrance and lobby",
-    "category": "exterior"
+    "category": "exterior",
+    "building": "concourse"
   },
   {
     "src": "/images/gallery/balcony-208-1.jpg",
     "alt": "Private balcony with glass doors in Unit 208",
-    "category": "interior"
+    "category": "interior",
+    "building": "concourse"
   },
   {
     "src": "/images/gallery/laundry-208-1.jpg",
     "alt": "In-unit stacked washer and dryer",
-    "category": "interior"
+    "category": "interior",
+    "building": "concourse"
   },
   {
     "src": "/images/gallery/living-208-2.jpg",
     "alt": "Open-concept kitchen and living area in Unit 208",
-    "category": "interior"
+    "category": "interior",
+    "building": "concourse"
   },
   {
     "src": "/images/gallery/living-303-2.jpg",
     "alt": "Living room with accent wall in Unit 303",
-    "category": "interior"
+    "category": "interior",
+    "building": "concourse"
   },
   {
     "src": "/images/gallery/living-303-3.jpg",
     "alt": "Spacious living area with balcony access in Unit 303",
-    "category": "interior"
+    "category": "interior",
+    "building": "concourse"
   },
   {
     "src": "/images/gallery/kitchen-303-2.jpg",
     "alt": "Kitchen with island seating and entry in Unit 303",
-    "category": "interior"
+    "category": "interior",
+    "building": "concourse"
   },
   {
     "src": "/images/gallery/kitchen-211-1.jpg",
     "alt": "Kitchen island with tile backsplash in Unit 211",
-    "category": "interior"
+    "category": "interior",
+    "building": "concourse"
   },
   {
     "src": "/images/gallery/exterior-aerial-1.jpg",
     "alt": "Aerial view of Concourse and Mueller control tower",
-    "category": "exterior"
+    "category": "exterior",
+    "building": "concourse"
+  },
+  {
+    "src": "/images/hero/iris-rendering.jpg",
+    "alt": "Iris at Mueller architectural rendering",
+    "category": "exterior",
+    "building": "iris"
   }
 ]
