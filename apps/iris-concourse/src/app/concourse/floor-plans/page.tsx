@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import buildings from "@/data/buildings.json";
 import units from "@/data/units.json";
 
@@ -83,6 +84,16 @@ export default function ConcourseFloorPlansPage() {
                         Floor plan details coming soon
                       </p>
                     )}
+
+                    <div className="mt-4 relative w-full aspect-square bg-gray-50 rounded-lg overflow-hidden">
+                      <Image
+                        src={`/images/floor-plans/concourse-${unit.number}.png`}
+                        alt={`Floor plan for Unit ${unit.number}`}
+                        fill
+                        className="object-contain"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      />
+                    </div>
 
                     <Link
                       href={`/contact?unit=${unit.number}&building=concourse`}

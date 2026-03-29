@@ -38,16 +38,23 @@
     "name": "Concourse",
     "slug": "concourse",
     "address": "3900 Berkman Dr, Austin, TX 78723",
-    "description": "Concourse brings a fresh perspective to Mueller living with modern residences that embrace both privacy and community. Steps from the Mueller town center with ground-floor retail.",
+    "description": "Concourse is a boutique collection of 34 residences rising beside the iconic Mueller airport control tower in Austin's Mueller neighborhood. Featuring 10-foot ceilings, private balconies with glass enclosures, and premium finishes throughout, these homes combine timeless architecture with modern design across two residential floors above ground-floor retail.",
     "totalUnits": 34,
     "stories": 3,
     "pricingMessage": "Residences starting in the $200s",
     "amenities": [
-      "Secured entry with fob access",
-      "Bike storage",
-      "Package lockers",
+      "Key fob access with 24/7 surveillance",
+      "Elevator access every floor",
+      "Secure bike storage",
+      "Private mailroom with package lockers",
+      "Dedicated resident parking",
       "Ground-floor retail",
-      "Covered & uncovered parking"
+      "\"The Flight Deck\" mezzanine lounge & BBQ area",
+      "Trash chutes on every floor",
+      "Additional storage available for purchase",
+      "Open-air corridors",
+      "In-unit washer and dryer",
+      "Tankless hot water heaters"
     ],
     "heroImage": "/images/hero/concourse-exterior.jpg",
     "unitTypes": [
@@ -55,15 +62,25 @@
         "name": "One Bedroom",
         "bedrooms": 1,
         "bathrooms": 1,
-        "sqftRange": { "min": 625, "max": 800 },
-        "description": "Open-concept layouts with premium finishes and modern design"
+        "sqftRange": { "min": 497, "max": 763 },
+        "count": 28,
+        "description": "Open-concept layouts with 10-foot ceilings, private balconies, and in-unit laundry"
       },
       {
-        "name": "Two Bedroom",
+        "name": "Two Bedroom / One Bath",
+        "bedrooms": 2,
+        "bathrooms": 1,
+        "sqftRange": { "min": 910, "max": 910 },
+        "count": 2,
+        "description": "Spacious two-bedroom residences with flexible second bedroom and generous living areas"
+      },
+      {
+        "name": "Two Bedroom / Two Bath",
         "bedrooms": 2,
         "bathrooms": 2,
-        "sqftRange": { "min": 950, "max": 1200 },
-        "description": "Generous floor plans with flexible living spaces and ample storage"
+        "sqftRange": { "min": 910, "max": 933 },
+        "count": 4,
+        "description": "Premium two-bedroom homes with dual baths, kitchen islands, and expansive living space"
       }
     ]
   }

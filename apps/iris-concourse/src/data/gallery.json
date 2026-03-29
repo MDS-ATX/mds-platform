@@ -78,5 +78,45 @@
     "src": "/images/gallery/exterior-mccurdy-4.jpg",
     "alt": "Building entrance and lobby",
     "category": "exterior"
+  },
+  {
+    "src": "/images/gallery/balcony-208-1.jpg",
+    "alt": "Private balcony with glass doors in Unit 208",
+    "category": "interior"
+  },
+  {
+    "src": "/images/gallery/laundry-208-1.jpg",
+    "alt": "In-unit stacked washer and dryer",
+    "category": "interior"
+  },
+  {
+    "src": "/images/gallery/living-208-2.jpg",
+    "alt": "Open-concept kitchen and living area in Unit 208",
+    "category": "interior"
+  },
+  {
+    "src": "/images/gallery/living-303-2.jpg",
+    "alt": "Living room with accent wall in Unit 303",
+    "category": "interior"
+  },
+  {
+    "src": "/images/gallery/living-303-3.jpg",
+    "alt": "Spacious living area with balcony access in Unit 303",
+    "category": "interior"
+  },
+  {
+    "src": "/images/gallery/kitchen-303-2.jpg",
+    "alt": "Kitchen with island seating and entry in Unit 303",
+    "category": "interior"
+  },
+  {
+    "src": "/images/gallery/kitchen-211-1.jpg",
+    "alt": "Kitchen island with tile backsplash in Unit 211",
+    "category": "interior"
+  },
+  {
+    "src": "/images/gallery/exterior-aerial-1.jpg",
+    "alt": "Aerial view of Concourse and Mueller control tower",
+    "category": "exterior"
   }
 ]

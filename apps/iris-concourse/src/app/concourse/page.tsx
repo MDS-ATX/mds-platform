@@ -4,6 +4,48 @@ import buildings from "@/data/buildings.json";
 
 const building = buildings.find((b) => b.slug === "concourse")!;
 
+const featureCategories = [
+  {
+    title: "Interior Finishes",
+    items: [
+      "Luxury vinyl plank & designer tile flooring throughout",
+      "Soaring 10-foot ceilings with recessed lighting",
+      "Paneled interior doors with premium fixtures",
+      "Double-paned, low-emission windows",
+      "Modern bathroom fixtures with elegant tile surrounds",
+    ],
+  },
+  {
+    title: "Kitchen Excellence",
+    items: [
+      "Elegant natural stone countertops",
+      "Complete stainless steel appliance suite",
+      "Shaker-style cabinetry with designer tile backsplashes",
+      "Undermounted sink with gooseneck faucets",
+      "Kitchen islands designed for gathering and entertaining",
+    ],
+  },
+  {
+    title: "Outdoor Living",
+    items: [
+      "Private residence balconies with sleek glass enclosures",
+      "Glass patio doors for seamless indoor-outdoor flow",
+      "Views of the iconic Mueller control tower or city skyline",
+      "Open-air corridors with fresh-air access",
+    ],
+  },
+  {
+    title: "Every Home Includes",
+    items: [
+      "In-unit washer and dryer",
+      "Stainless steel refrigerator",
+      "Tankless hot water heater",
+      "Individually sub-metered water and gas service",
+      "Ample storage thoughtfully integrated throughout",
+    ],
+  },
+];
+
 export default function ConcoursePage() {
   return (
     <>
@@ -67,6 +109,42 @@ export default function ConcoursePage() {
                 <span className="text-gray-700">{amenity}</span>
               </div>
             ))}
+          </div>
+
+          {/* Residence Features */}
+          <h2 className="text-2xl font-heading font-bold text-gray-900 mb-6">
+            Residence Features
+          </h2>
+          <div className="grid md:grid-cols-2 gap-6 mb-12">
+            {featureCategories.map((cat) => (
+              <div key={cat.title} className="bg-gray-50 rounded-xl p-6">
+                <h3 className="font-bold text-gray-900 mb-3">{cat.title}</h3>
+                <ul className="space-y-2">
+                  {cat.items.map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-start gap-2 text-sm text-gray-700"
+                    >
+                      <div className="w-1.5 h-1.5 bg-brand-500 rounded-full mt-1.5 shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          {/* The Flight Deck */}
+          <div className="bg-gray-900 rounded-xl p-8 mb-16 text-white">
+            <h3 className="text-xl font-heading font-bold mb-3">
+              The Flight Deck
+            </h3>
+            <p className="text-gray-300 mb-4">
+              An expansive resident mezzanine lounge with views of the iconic
+              Mueller airport control tower. The Flight Deck offers a
+              comfortable relaxation area with BBQ facilities for gathering with
+              neighbors and guests.
+            </p>
           </div>
 
           {/* Unit Types */}
