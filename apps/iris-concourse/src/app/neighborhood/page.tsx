@@ -15,13 +15,16 @@ export default function NeighborhoodPage() {
   return (
     <>
       <LandingNav />
-      {/* Hero */}
-      <section className="py-20 bg-gradient-to-br from-gray-900 to-gray-800">
+      {/* Header */}
+      <section className="py-12 bg-white border-b border-gray-100">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-5xl md:text-6xl font-heading font-bold text-white mb-4">
+          <p className="text-xs font-medium text-gray-400 uppercase tracking-widest mb-3">
+            Mueller, Austin
+          </p>
+          <h1 className="text-4xl md:text-5xl font-heading font-bold text-gray-900 mb-3">
             {neighborhoodData.name}
           </h1>
-          <p className="text-xl text-gray-300 max-w-2xl">
+          <p className="text-gray-600 max-w-2xl leading-relaxed">
             {neighborhoodData.description}
           </p>
         </div>

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import buildings from "@/data/buildings.json";
 import MapSection from "@/components/map-section";
+import PhotoCarousel from "@/components/photo-carousel";
 
 export function generateStaticParams() {
   return buildings.map((b) => ({ building: b.slug }));
@@ -38,62 +39,89 @@ export default async function BuildingPage({
     href: `/${b.slug}`,
   }));
 
+  const amenityCarouselImages = building.amenityImages.map((src) => ({
+    src,
+    alt: `${building.name} amenities`,
+  }));
+
   return (
     <>
-      {/* Hero */}
-      <section className="relative py-24 bg-gradient-to-br from-gray-900 to-gray-800 overflow-hidden">
-        {building.heroImage && (
-          <Image
-            src={building.heroImage}
-            alt={`${building.name} at Mueller`}
-            fill
-            className="object-cover opacity-30"
-            priority
-          />
-        )}
-        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-5xl md:text-6xl font-heading font-bold text-white mb-4">
-            {building.name}
-          </h1>
-          <p className="text-xl text-gray-300 max-w-2xl mb-2">
-            {building.description}
-          </p>
-          <p className="text-gray-400">{building.address}</p>
+      {/* Page header — photo left, title right */}
+      <section className="py-12 bg-white border-b border-gray-100">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 order-2 md:order-1">
+              <Image
+                src={building.heroImage}
+                alt={`${building.name} at Mueller`}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority
+              />
+            </div>
+            <div className="order-1 md:order-2">
+              <p className="text-xs font-medium text-gray-400 uppercase tracking-widest mb-3">
+                Mueller, Austin
+              </p>
+              <h1 className="text-4xl md:text-5xl font-heading font-bold text-gray-900 mb-3">
+                {building.name}
+              </h1>
+              <p className="text-gray-400 text-sm mb-4">{building.address}</p>
+              <p className="text-gray-600 leading-relaxed mb-6">
+                {building.description}
+              </p>
+              <div className="flex gap-3 flex-wrap">
+                <Link
+                  href={`/${building.slug}/residences`}
+                  className="px-5 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors"
+                >
+                  View Residences
+                </Link>
+                <Link
+                  href={`/contact?building=${building.slug}`}
+                  className="px-5 py-2.5 border border-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  Inquire
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Stats */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
+          {/* Stats */}
+          <div className="grid md:grid-cols-3 gap-6 mb-16">
             <div className="text-center p-6 bg-gray-50 rounded-xl">
               <p className="text-3xl font-bold text-gray-900">
                 {building.totalUnits}
               </p>
-              <p className="text-gray-600 mt-1">Residences</p>
+              <p className="text-gray-500 mt-1 text-sm">Residences</p>
             </div>
             <div className="text-center p-6 bg-gray-50 rounded-xl">
               <p className="text-3xl font-bold text-gray-900">
                 {building.stories}
               </p>
-              <p className="text-gray-600 mt-1">Stories</p>
+              <p className="text-gray-500 mt-1 text-sm">Stories</p>
             </div>
             <div className="text-center p-6 bg-gray-50 rounded-xl">
               <p className="text-3xl font-bold text-gray-900">
                 {building.unitTypes.length}
               </p>
-              <p className="text-gray-600 mt-1">Floor Plan Types</p>
+              <p className="text-gray-500 mt-1 text-sm">Floor Plan Types</p>
             </div>
           </div>
 
-          {/* Amenities with photos */}
+          {/* Amenities */}
           <h2 className="text-2xl font-heading font-bold text-gray-900 mb-6">
             Building Amenities
           </h2>
           <div
-            className={`mb-16 ${building.amenityImages.length > 0 ? "grid md:grid-cols-2 gap-8 items-start" : ""}`}
+            className={`mb-16 ${amenityCarouselImages.length > 0 ? "grid md:grid-cols-2 gap-10 items-start" : ""}`}
           >
-            <div className="grid sm:grid-cols-2 gap-4">
+            <div className="grid sm:grid-cols-2 gap-3">
               {building.amenities.map((amenity) => (
                 <div
                   key={amenity}
@@ -104,27 +132,12 @@ export default async function BuildingPage({
                 </div>
               ))}
             </div>
-            {building.amenityImages.length > 0 && (
-              <div className="space-y-4 mt-6 md:mt-0">
-                {building.amenityImages.slice(0, 2).map((img) => (
-                  <div
-                    key={img}
-                    className="relative aspect-[16/10] rounded-xl overflow-hidden"
-                  >
-                    <Image
-                      src={img}
-                      alt={`${building.name} amenities`}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                    />
-                  </div>
-                ))}
-              </div>
+            {amenityCarouselImages.length > 0 && (
+              <PhotoCarousel images={amenityCarouselImages} />
             )}
           </div>
 
-          {/* Residence Features with photos */}
+          {/* Residence Features */}
           {building.featureCategories.length > 0 && (
             <>
               <h2 className="text-2xl font-heading font-bold text-gray-900 mb-6">
@@ -134,9 +147,7 @@ export default async function BuildingPage({
                 {building.featureCategories.map((cat, i) => (
                   <div
                     key={cat.title}
-                    className={`grid md:grid-cols-2 gap-8 items-center ${
-                      i % 2 === 1 ? "md:direction-rtl" : ""
-                    }`}
+                    className="grid md:grid-cols-2 gap-8 items-center"
                   >
                     <div className={i % 2 === 1 ? "md:order-2" : ""}>
                       <div className="bg-gray-50 rounded-xl p-6">
@@ -189,9 +200,7 @@ export default async function BuildingPage({
               key={sf.title}
               className="bg-gray-900 rounded-xl p-8 mb-16 text-white"
             >
-              <h3 className="text-xl font-heading font-bold mb-3">
-                {sf.title}
-              </h3>
+              <h3 className="text-xl font-heading font-bold mb-3">{sf.title}</h3>
               <p className="text-gray-300">{sf.description}</p>
             </div>
           ))}
@@ -204,7 +213,7 @@ export default async function BuildingPage({
             {building.unitTypes.map((unitType) => (
               <div
                 key={unitType.name}
-                className="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-shadow"
+                className="border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow"
               >
                 <h3 className="text-lg font-bold text-gray-900 mb-2">
                   {unitType.name}
@@ -226,7 +235,7 @@ export default async function BuildingPage({
                     <span className="font-medium">
                       {unitType.sqftRange.min.toLocaleString()}
                       {unitType.sqftRange.min !== unitType.sqftRange.max
-                        ? ` - ${unitType.sqftRange.max.toLocaleString()}`
+                        ? ` – ${unitType.sqftRange.max.toLocaleString()}`
                         : ""}{" "}
                       sq ft
                     </span>
@@ -240,28 +249,12 @@ export default async function BuildingPage({
           <h2 className="text-2xl font-heading font-bold text-gray-900 mb-6">
             Location
           </h2>
-          <div className="mb-12">
+          <div className="mb-4">
             <MapSection
               center={building.coordinates}
               zoom={16}
               buildings={mapBuildings}
             />
-          </div>
-
-          {/* CTAs */}
-          <div className="flex gap-4">
-            <Link
-              href={`/${building.slug}/residences`}
-              className="px-6 py-3 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 transition-colors"
-            >
-              View Residences
-            </Link>
-            <Link
-              href={`/contact?building=${building.slug}`}
-              className="px-6 py-3 border-2 border-gray-900 text-gray-900 font-medium rounded-lg hover:bg-gray-50 transition-colors"
-            >
-              Inquire
-            </Link>
           </div>
         </div>
       </section>

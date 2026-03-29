@@ -12,30 +12,58 @@
     "amenities": [
       "Secured entry with fob access",
       "Elevator",
-      "Bike storage",
+      "Secure bike storage",
       "Package lockers",
-      "Private balconies on all units"
+      "Private balconies on all units",
+      "In-unit washer and dryer",
+      "Covered parking available",
+      "Dedicated storage units"
     ],
-    "amenityImages": [],
-    "heroImage": "/images/hero/iris-rendering.jpg",
+    "amenityImages": [
+      "/images/hero/iris-exterior.jpg"
+    ],
+    "heroImage": "/images/hero/iris-exterior.jpg",
     "featureCategories": [
       {
         "title": "Interior Finishes",
         "image": null,
         "items": [
-          "Quality finishes throughout",
-          "Open-concept floor plans",
-          "Private balconies on every unit",
-          "Modern fixtures and hardware"
+          "Luxury vinyl plank flooring throughout",
+          "9-foot ceilings with recessed lighting",
+          "Paneled interior doors with modern hardware",
+          "Double-paned, low-emission windows",
+          "Designer tile in bathrooms"
         ]
       },
       {
         "title": "Kitchen",
         "image": null,
         "items": [
-          "Modern appliance package",
-          "Quality countertops",
-          "Ample cabinet storage"
+          "Stone countertops throughout",
+          "Stainless steel appliance package",
+          "Shaker-style cabinetry",
+          "Tile backsplash",
+          "Undermounted sink with modern faucet"
+        ]
+      },
+      {
+        "title": "Outdoor Living",
+        "image": null,
+        "items": [
+          "Private balcony on every residence",
+          "Glass railing for open views",
+          "Seamless indoor-outdoor connection",
+          "Views of Mueller and surrounding neighborhood"
+        ]
+      },
+      {
+        "title": "Every Home Includes",
+        "image": null,
+        "items": [
+          "In-unit washer and dryer",
+          "Stainless steel refrigerator",
+          "Individually metered utilities",
+          "Ample integrated storage throughout"
         ]
       }
     ],

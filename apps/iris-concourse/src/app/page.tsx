@@ -16,57 +16,59 @@ export default function HomePage() {
     <>
       <LandingNav />
 
-      {/* Split-screen hero */}
-      <section className="relative">
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-          <div className="text-center">
-            <p className="text-white/90 text-sm font-medium tracking-widest uppercase mb-1 drop-shadow-lg">
-              Mueller&apos;s Two Newest
-            </p>
-            <h1 className="text-4xl md:text-5xl font-heading font-bold text-white drop-shadow-lg">
-              Condominiums
-            </h1>
-          </div>
+      {/* Intro heading */}
+      <section className="py-14 bg-white border-b border-gray-100">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-xs font-medium text-gray-400 uppercase tracking-widest mb-3">
+            Mueller, Austin
+          </p>
+          <h1 className="text-4xl md:text-5xl font-heading font-bold text-gray-900">
+            Mueller&apos;s Two Newest Condominiums
+          </h1>
         </div>
+      </section>
 
-        <div className="grid md:grid-cols-2 min-h-[80vh]">
-          {buildings.map((building) => (
-            <Link
-              key={building.slug}
-              href={`/${building.slug}`}
-              className="relative min-h-[50vh] md:min-h-[80vh] flex items-end group overflow-hidden"
-            >
-              <Image
-                src={building.heroImage}
-                alt={`${building.name} at Mueller`}
-                fill
-                className="object-cover transition-all duration-500 group-hover:scale-105 group-hover:brightness-75 brightness-[0.6]"
-                sizes="(max-width: 768px) 100vw, 50vw"
-                priority
-              />
-              <div className="relative z-10 p-8 md:p-12 w-full">
-                <h2 className="text-3xl md:text-4xl font-heading font-bold text-white mb-2">
+      {/* Two building tiles */}
+      <section className="py-12 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-8">
+            {buildings.map((building) => (
+              <div key={building.slug} className="group">
+                <Link href={`/${building.slug}`} className="block">
+                  <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 mb-5">
+                    <Image
+                      src={building.heroImage}
+                      alt={`${building.name} at Mueller`}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      priority
+                    />
+                  </div>
+                </Link>
+                <h2 className="text-2xl font-heading font-bold text-gray-900 mb-1">
                   {building.name}
                 </h2>
-                <p className="text-white/80 text-sm mb-4 max-w-sm">
-                  {building.tagline}
-                </p>
-                <span className="inline-block px-6 py-2.5 bg-white text-gray-900 text-sm font-medium rounded-lg group-hover:bg-gray-100 transition-colors">
+                <p className="text-gray-500 text-sm mb-4">{building.tagline}</p>
+                <Link
+                  href={`/${building.slug}`}
+                  className="inline-block px-5 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors"
+                >
                   Explore {building.name}
-                </span>
+                </Link>
               </div>
-            </Link>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Map */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-gray-50 border-t border-gray-100">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-heading font-bold text-gray-900 mb-2 text-center">
+          <h2 className="text-2xl font-heading font-bold text-gray-900 mb-2">
             Mueller, Austin
           </h2>
-          <p className="text-gray-600 text-center mb-8 max-w-xl mx-auto">
+          <p className="text-gray-500 text-sm mb-8 max-w-xl">
             Two distinctive residences in one of Austin&apos;s most walkable
             and vibrant neighborhoods.
           </p>

@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import buildings from "@/data/buildings.json";
-import BuildingNav from "@/components/building-nav";
+import LandingNav from "@/components/landing-nav";
+import BuildingSubNav from "@/components/building-sub-nav";
 
 const validSlugs = buildings.map((b) => b.slug);
 
@@ -22,17 +23,11 @@ export default async function BuildingLayout({
   }
 
   const building = buildings.find((b) => b.slug === slug)!;
-  const otherBuilding = buildings.find((b) => b.slug !== slug)!;
 
   return (
     <>
-      <BuildingNav
-        building={{ name: building.name, slug: building.slug }}
-        otherBuilding={{
-          name: otherBuilding.name,
-          slug: otherBuilding.slug,
-        }}
-      />
+      <LandingNav />
+      <BuildingSubNav slug={building.slug} buildingName={building.name} />
       {children}
     </>
   );

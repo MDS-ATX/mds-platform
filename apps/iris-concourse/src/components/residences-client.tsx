@@ -119,14 +119,12 @@ export default function ResidencesClient({
                     </p>
                   )}
 
-                  {unit.building === "concourse" && (
-                    <ImageWithLightbox
-                      src={`/images/floor-plans/concourse-${unit.number}.png`}
-                      alt={`Floor plan for Unit ${unit.number}`}
-                      className="w-full aspect-square bg-gray-50 rounded-lg overflow-hidden mb-4"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                  )}
+                  <ImageWithLightbox
+                    src={`/images/floor-plans/${unit.building}-${unit.number}.png`}
+                    alt={`Floor plan for Unit ${unit.number}`}
+                    className="w-full aspect-square bg-gray-50 rounded-lg overflow-hidden mb-4"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
 
                   {unit.features && unit.features.length > 0 && (
                     <div className="flex flex-wrap gap-1.5 mb-4">
