@@ -9,6 +9,8 @@ interface MapPin {
   lng: number;
   label: string;
   href?: string;
+  description?: string;
+  distance?: string;
 }
 
 interface MapSectionProps {
@@ -88,8 +90,25 @@ export default function MapSection({
             <AdvancedMarker
               key={poi.label}
               position={{ lat: poi.lat, lng: poi.lng }}
+              onClick={() => setActivePin(activePin === poi.label ? null : poi.label)}
             >
-              <div className="w-3 h-3 bg-brand-500 rounded-full border-2 border-white shadow" />
+              <div className="w-3 h-3 bg-brand-500 rounded-full border-2 border-white shadow cursor-pointer" />
+              {activePin === poi.label && (
+                <InfoWindow
+                  position={{ lat: poi.lat, lng: poi.lng }}
+                  onCloseClick={() => setActivePin(null)}
+                >
+                  <div className="p-1">
+                    <p className="font-bold text-sm">{poi.label}</p>
+                    {poi.description && (
+                      <p className="text-xs text-gray-500 mt-0.5">{poi.description}</p>
+                    )}
+                    {poi.distance && (
+                      <p className="text-xs text-blue-600 mt-1">{poi.distance}</p>
+                    )}
+                  </div>
+                </InfoWindow>
+              )}
             </AdvancedMarker>
           ))}
         </Map>

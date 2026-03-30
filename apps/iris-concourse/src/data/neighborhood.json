@@ -1,59 +1,197 @@
 {
   "name": "Mueller",
-  "description": "Mueller is Austin's premier mixed-use community, built on the former Robert Mueller Municipal Airport site. This walkable, bike-friendly neighborhood features tree-lined streets, abundant green spaces, and a vibrant town center.",
-  "highlights": [
-    "Walkable mixed-use community",
-    "Mueller Lake Park & trails",
-    "Thinkery children's museum",
-    "H-E-B & Alamo Drafthouse Cinema",
-    "Minutes from downtown Austin",
-    "Top-rated schools nearby"
-  ],
+  "description": "Mueller is Austin's premier mixed-use community, built on the former Robert Mueller Municipal Airport site. This walkable, bike-friendly neighborhood features tree-lined streets, abundant green spaces, and a vibrant town center. As part of the Mueller master HOA, residents enjoy access to community amenities including a public pool, parks, and year-round community events.",
+  "heroImage": "/images/hero/concourse-exterior.jpg",
+  "heroImageAlt": "Mueller neighborhood in Austin, Texas",
   "walkScore": 72,
   "bikeScore": 85,
   "transitScore": 45,
+  "highlights": [
+    { "text": "Walkable mixed-use community", "icon": "walking" },
+    { "text": "Mueller Lake Park & trails", "icon": "tree" },
+    { "text": "Thinkery children's museum", "icon": "building" },
+    { "text": "H-E-B & Alamo Drafthouse Cinema", "icon": "shopping" },
+    { "text": "Minutes from downtown Austin", "icon": "map" },
+    { "text": "Top-rated schools nearby", "icon": "school" },
+    { "text": "Mueller HOA community pool", "icon": "water" },
+    { "text": "Sunday farmers market", "icon": "market" }
+  ],
+  "hoaAmenities": {
+    "title": "Mueller HOA Community Amenities",
+    "description": "As part of the Mueller master-planned community, all residents enjoy access to shared amenities maintained by the Mueller HOA — from a resort-style pool to miles of trails and year-round community events.",
+    "items": [
+      {
+        "name": "Community Pool & Splash Pad",
+        "description": "Resort-style community swimming pool with splash pad, lounge seating, and seasonal hours for all Mueller residents.",
+        "icon": "water",
+        "image": "/images/neighborhood/mueller-pool.jpg",
+        "imageAlt": "Mueller community pool"
+      },
+      {
+        "name": "Mueller Lake Park",
+        "description": "30-acre centerpiece park featuring a 6-acre lake, walking trails, open meadows, playgrounds, and public art installations.",
+        "icon": "tree",
+        "image": "/images/neighborhood/mueller-lake-park.jpg",
+        "imageAlt": "Mueller Lake Park with trails and lake"
+      },
+      {
+        "name": "Hike & Bike Trails",
+        "description": "Miles of interconnected trails for walking, running, and cycling throughout the Mueller community connecting to the citywide trail network.",
+        "icon": "path",
+        "image": "/images/neighborhood/mueller-trails.jpg",
+        "imageAlt": "Mueller hike and bike trails"
+      },
+      {
+        "name": "Community Events",
+        "description": "Year-round programming including movie nights, holiday celebrations, fitness classes, and neighborhood gatherings at community spaces.",
+        "icon": "calendar",
+        "image": "/images/neighborhood/mueller-events.jpg",
+        "imageAlt": "Mueller community event"
+      },
+      {
+        "name": "Parks & Playgrounds",
+        "description": "Multiple pocket parks and playgrounds throughout the neighborhood, including John Gaines Park and the Southwest Greenway.",
+        "icon": "playground",
+        "image": "/images/neighborhood/mueller-playground.jpg",
+        "imageAlt": "Mueller neighborhood playground"
+      },
+      {
+        "name": "Dog-Friendly Spaces",
+        "description": "Dedicated off-leash dog areas and pet-friendly trails throughout the Mueller community for four-legged residents.",
+        "icon": "dog",
+        "image": "/images/neighborhood/mueller-parks-aerial.jpg",
+        "imageAlt": "Mueller dog-friendly park area"
+      }
+    ]
+  },
+  "lifestyle": {
+    "title": "The Mueller Lifestyle",
+    "description": "More than a neighborhood — Mueller is a community designed around how you want to live.",
+    "features": [
+      {
+        "title": "Mueller Farmers Market",
+        "description": "Every Sunday, the Mueller Farmers Market brings together local farmers, artisan food vendors, live music, and community spirit. One of Austin's most popular markets, it's a weekly tradition for Mueller residents — just steps from your front door.",
+        "image": "/images/neighborhood/mueller-control-tower.jpg",
+        "imageAlt": "Mueller Sunday Farmers Market area"
+      },
+      {
+        "title": "Walkable Town Center",
+        "description": "Mueller's town center puts everyday essentials and entertainment within walking distance. From a full-service H-E-B grocery to Alamo Drafthouse Cinema, local restaurants, and specialty shops — daily life doesn't require a car.",
+        "image": "/images/neighborhood/mueller-town-center-street.jpg",
+        "imageAlt": "Mueller town center with shops and restaurants"
+      },
+      {
+        "title": "Minutes from Downtown",
+        "description": "Located just 3 miles from downtown Austin, Mueller offers the best of both worlds — a quiet residential community with fast access to the city center, UT campus, the Capitol, and Austin's vibrant food and music scene.",
+        "image": "/images/neighborhood/mueller-pool-aerial.jpg",
+        "imageAlt": "Mueller aerial view with downtown Austin skyline"
+      }
+    ]
+  },
+  "gallery": [
+    { "src": "/images/neighborhood/mueller-lake-park.jpg", "alt": "Mueller Lake Park aerial" },
+    { "src": "/images/neighborhood/mueller-pool.jpg", "alt": "Mueller community pool aerial" },
+    { "src": "/images/neighborhood/mueller-town-center-street.jpg", "alt": "Mueller town center" },
+    { "src": "/images/neighborhood/mueller-playground.jpg", "alt": "Thinkery sculpture at Mueller" },
+    { "src": "/images/neighborhood/mueller-pool-aerial.jpg", "alt": "Mueller community with downtown skyline" },
+    { "src": "/images/neighborhood/mueller-lake-park-wide.jpg", "alt": "Mueller Lake Park panoramic" },
+    { "src": "/images/neighborhood/mueller-town-center-aerial.jpg", "alt": "Mueller town center aerial" },
+    { "src": "/images/neighborhood/mueller-control-tower.jpg", "alt": "Mueller control tower park" },
+    { "src": "/images/neighborhood/mueller-trails.jpg", "alt": "Mueller trails and walkways" },
+    { "src": "/images/neighborhood/mueller-courtyard.jpg", "alt": "Mueller courtyard and greenspace" },
+    { "src": "/images/neighborhood/mueller-parks-aerial.jpg", "alt": "Mueller parks aerial view" },
+    { "src": "/images/neighborhood/mueller-storefront.jpg", "alt": "Mueller retail storefront" }
+  ],
+  "mapCenter": { "lat": 30.2970, "lng": -97.7038 },
+  "mapZoom": 15,
   "pointsOfInterest": [
     {
       "name": "Mueller Lake Park",
       "category": "parks",
       "distance": "0.3 mi",
-      "description": "30-acre park with lake, trails, and playgrounds"
+      "walkTime": "6 min",
+      "description": "30-acre park with lake, trails, and playgrounds",
+      "coordinates": { "lat": 30.2985, "lng": -97.7055 }
+    },
+    {
+      "name": "John Gaines Park",
+      "category": "parks",
+      "distance": "0.2 mi",
+      "walkTime": "4 min",
+      "description": "Community pocket park with open green space",
+      "coordinates": { "lat": 30.2955, "lng": -97.7025 }
     },
     {
       "name": "H-E-B Mueller",
       "category": "grocery",
       "distance": "0.4 mi",
-      "description": "Full-service grocery store"
+      "walkTime": "8 min",
+      "description": "Full-service grocery store with deli, bakery, and pharmacy",
+      "coordinates": { "lat": 30.2988, "lng": -97.7005 }
     },
     {
       "name": "Alamo Drafthouse Cinema",
       "category": "entertainment",
       "distance": "0.5 mi",
-      "description": "Dine-in movie theater"
+      "walkTime": "10 min",
+      "description": "Dine-in movie theater with full bar and restaurant",
+      "coordinates": { "lat": 30.2995, "lng": -97.7008 }
     },
     {
       "name": "Thinkery",
       "category": "entertainment",
       "distance": "0.4 mi",
-      "description": "Interactive children's museum"
+      "walkTime": "8 min",
+      "description": "Interactive children's museum with outdoor play spaces",
+      "coordinates": { "lat": 30.2978, "lng": -97.7068 }
     },
     {
       "name": "Mueller Farmers Market",
       "category": "shopping",
       "distance": "0.3 mi",
-      "description": "Weekly Sunday farmers market"
+      "walkTime": "6 min",
+      "description": "Weekly Sunday farmers market with local vendors and live music",
+      "coordinates": { "lat": 30.2968, "lng": -97.7050 }
     },
     {
       "name": "Torchy's Tacos",
       "category": "dining",
       "distance": "0.4 mi",
-      "description": "Austin-born taco chain"
+      "walkTime": "8 min",
+      "description": "Austin-born taco restaurant with signature flavors",
+      "coordinates": { "lat": 30.2992, "lng": -97.7010 }
+    },
+    {
+      "name": "Colleen's Kitchen",
+      "category": "dining",
+      "distance": "0.3 mi",
+      "walkTime": "6 min",
+      "description": "Neighborhood American bistro with craft cocktails",
+      "coordinates": { "lat": 30.2975, "lng": -97.7012 }
+    },
+    {
+      "name": "Kerbey Lane Cafe",
+      "category": "dining",
+      "distance": "0.5 mi",
+      "walkTime": "10 min",
+      "description": "Austin classic — breakfast, lunch, and dinner",
+      "coordinates": { "lat": 30.2998, "lng": -97.7002 }
     },
     {
       "name": "Capital Metro Bus Stop",
       "category": "transit",
       "distance": "0.2 mi",
-      "description": "Route 37 to downtown"
+      "walkTime": "4 min",
+      "description": "Route 37 to downtown Austin and UT campus",
+      "coordinates": { "lat": 30.2960, "lng": -97.7035 }
+    },
+    {
+      "name": "Mueller Greenway",
+      "category": "parks",
+      "distance": "0.1 mi",
+      "walkTime": "2 min",
+      "description": "Linear park and green belt connecting Mueller neighborhoods",
+      "coordinates": { "lat": 30.2962, "lng": -97.7040 }
     }
   ]
 }
