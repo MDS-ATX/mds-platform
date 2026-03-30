@@ -59,6 +59,9 @@ export function Footer() {
               <Link href="/neighborhood" className="text-sm hover:text-white transition-colors">
                 Neighborhood
               </Link>
+              <Link href="/team" className="text-sm hover:text-white transition-colors">
+                Team
+              </Link>
               <Link href="/contact" className="text-sm hover:text-white transition-colors">
                 Contact
               </Link>
