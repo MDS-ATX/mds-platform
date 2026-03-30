@@ -15,6 +15,7 @@ export default function BuildingSubNav({ slug, buildingName }: BuildingSubNavPro
     { label: "Overview", href: `/${slug}` },
     { label: "Residences", href: `/${slug}/residences` },
     { label: "Gallery", href: `/${slug}/gallery` },
+    { label: "Map", href: `/${slug}#map` },
   ];
 
   const isActive = (href: string) => pathname === href;
