@@ -25,6 +25,7 @@ export default function PhotoCarousel({ images, className = "" }: PhotoCarouselP
           fill
           className="object-cover"
           sizes="(max-width: 768px) 100vw, 50vw"
+          quality={100}
         />
 
         {images.length > 1 && (

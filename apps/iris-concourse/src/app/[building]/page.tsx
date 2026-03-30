@@ -2,8 +2,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import buildings from "@/data/buildings.json";
+import units from "@/data/units.json";
 import MapSection from "@/components/map-section";
 import PhotoCarousel from "@/components/photo-carousel";
+import ModelUnitCard from "@/components/model-unit-card";
 
 export function generateStaticParams() {
   return buildings.map((b) => ({ building: b.slug }));
@@ -43,6 +45,10 @@ export default async function BuildingPage({
     src,
     alt: `${building.name} amenities`,
   }));
+
+  const modelUnits = units
+    .filter((u) => u.building === slug && u.photos && u.photos.length > 0)
+    .map((u) => ({ ...u, photos: u.photos as string[] }));
 
   return (
     <>
@@ -207,6 +213,24 @@ export default async function BuildingPage({
           <h2 className="text-2xl font-heading font-bold text-gray-900 mb-6">
             Residences
           </h2>
+
+          {modelUnits.length > 0 && (
+            <>
+              <h3 className="text-sm font-medium text-gray-400 uppercase tracking-widest mb-4">
+                Model Units — Available to Tour
+              </h3>
+              <div className="grid sm:grid-cols-3 gap-6 mb-10">
+                {modelUnits.map((unit) => (
+                  <ModelUnitCard
+                    key={unit.id}
+                    unit={unit}
+                    href={`/${building.slug}/residences`}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+
           <div className="grid sm:grid-cols-3 gap-4 mb-12">
             <Link
               href={`/${building.slug}/residences`}

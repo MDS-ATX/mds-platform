@@ -25,7 +25,7 @@ export default function ImageWithLightbox({
         onClick={() => setIsOpen(true)}
         className={`relative cursor-pointer ${className}`}
       >
-        <Image src={src} alt={alt} fill className="object-contain" sizes={sizes} quality={95} />
+        <Image src={src} alt={alt} fill className="object-contain" sizes={sizes} quality={100} />
       </button>
 
       {isOpen && (
