@@ -102,96 +102,96 @@
     { "src": "/images/neighborhood/mueller-parks-aerial.jpg", "alt": "Mueller parks aerial view" },
     { "src": "/images/neighborhood/mueller-storefront.jpg", "alt": "Mueller retail storefront" }
   ],
-  "mapCenter": { "lat": 30.2970, "lng": -97.7038 },
-  "mapZoom": 15,
+  "mapCenter": { "lat": 30.2980, "lng": -97.7000 },
+  "mapZoom": 14,
   "pointsOfInterest": [
     {
       "name": "Mueller Lake Park",
       "category": "parks",
-      "distance": "0.3 mi",
-      "walkTime": "6 min",
+      "iris": { "distance": "0.8 mi", "walkTime": "16 min" },
+      "concourse": { "distance": "0.9 mi", "walkTime": "18 min" },
       "description": "30-acre park with lake, trails, and playgrounds",
-      "coordinates": { "lat": 30.2985, "lng": -97.7055 }
+      "coordinates": { "lat": 30.2962, "lng": -97.7054 }
     },
     {
       "name": "John Gaines Park",
       "category": "parks",
-      "distance": "0.2 mi",
-      "walkTime": "4 min",
+      "iris": { "distance": "1.1 mi", "walkTime": "22 min" },
+      "concourse": { "distance": "0.4 mi", "walkTime": "8 min" },
       "description": "Community pocket park with open green space",
-      "coordinates": { "lat": 30.2955, "lng": -97.7025 }
+      "coordinates": { "lat": 30.2935, "lng": -97.7010 }
     },
     {
       "name": "H-E-B Mueller",
       "category": "grocery",
-      "distance": "0.4 mi",
-      "walkTime": "8 min",
+      "iris": { "distance": "0.4 mi", "walkTime": "8 min" },
+      "concourse": { "distance": "1.2 mi", "walkTime": "24 min" },
       "description": "Full-service grocery store with deli, bakery, and pharmacy",
-      "coordinates": { "lat": 30.2988, "lng": -97.7005 }
+      "coordinates": { "lat": 30.3028, "lng": -97.6981 }
     },
     {
       "name": "Alamo Drafthouse Cinema",
       "category": "entertainment",
-      "distance": "0.5 mi",
-      "walkTime": "10 min",
+      "iris": { "distance": "0.7 mi", "walkTime": "14 min" },
+      "concourse": { "distance": "1.0 mi", "walkTime": "20 min" },
       "description": "Dine-in movie theater with full bar and restaurant",
-      "coordinates": { "lat": 30.2995, "lng": -97.7008 }
+      "coordinates": { "lat": 30.2986, "lng": -97.7044 }
     },
     {
       "name": "Thinkery",
       "category": "entertainment",
-      "distance": "0.4 mi",
-      "walkTime": "8 min",
+      "iris": { "distance": "0.8 mi", "walkTime": "16 min" },
+      "concourse": { "distance": "0.9 mi", "walkTime": "18 min" },
       "description": "Interactive children's museum with outdoor play spaces",
-      "coordinates": { "lat": 30.2978, "lng": -97.7068 }
+      "coordinates": { "lat": 30.2976, "lng": -97.7048 }
     },
     {
       "name": "Mueller Farmers Market",
       "category": "shopping",
-      "distance": "0.3 mi",
-      "walkTime": "6 min",
+      "iris": { "distance": "0.6 mi", "walkTime": "12 min" },
+      "concourse": { "distance": "1.0 mi", "walkTime": "20 min" },
       "description": "Weekly Sunday farmers market with local vendors and live music",
-      "coordinates": { "lat": 30.2968, "lng": -97.7050 }
+      "coordinates": { "lat": 30.3003, "lng": -97.7034 }
     },
     {
       "name": "Torchy's Tacos",
       "category": "dining",
-      "distance": "0.4 mi",
-      "walkTime": "8 min",
+      "iris": { "distance": "0.6 mi", "walkTime": "12 min" },
+      "concourse": { "distance": "1.0 mi", "walkTime": "20 min" },
       "description": "Austin-born taco restaurant with signature flavors",
-      "coordinates": { "lat": 30.2992, "lng": -97.7010 }
+      "coordinates": { "lat": 30.3009, "lng": -97.6986 }
     },
     {
       "name": "Colleen's Kitchen",
       "category": "dining",
-      "distance": "0.3 mi",
-      "walkTime": "6 min",
+      "iris": { "distance": "0.7 mi", "walkTime": "14 min" },
+      "concourse": { "distance": "1.0 mi", "walkTime": "20 min" },
       "description": "Neighborhood American bistro with craft cocktails",
-      "coordinates": { "lat": 30.2975, "lng": -97.7012 }
+      "coordinates": { "lat": 30.2990, "lng": -97.7048 }
     },
     {
       "name": "Kerbey Lane Cafe",
       "category": "dining",
-      "distance": "0.5 mi",
-      "walkTime": "10 min",
+      "iris": { "distance": "0.6 mi", "walkTime": "12 min" },
+      "concourse": { "distance": "1.0 mi", "walkTime": "20 min" },
       "description": "Austin classic — breakfast, lunch, and dinner",
-      "coordinates": { "lat": 30.2998, "lng": -97.7002 }
+      "coordinates": { "lat": 30.3009, "lng": -97.6985 }
     },
     {
       "name": "Capital Metro Bus Stop",
       "category": "transit",
-      "distance": "0.2 mi",
-      "walkTime": "4 min",
+      "iris": { "distance": "1.1 mi", "walkTime": "22 min" },
+      "concourse": { "distance": "0.5 mi", "walkTime": "10 min" },
       "description": "Route 37 to downtown Austin and UT campus",
-      "coordinates": { "lat": 30.2960, "lng": -97.7035 }
+      "coordinates": { "lat": 30.2945, "lng": -97.7020 }
     },
     {
       "name": "Mueller Greenway",
       "category": "parks",
-      "distance": "0.1 mi",
-      "walkTime": "2 min",
+      "iris": { "distance": "1.2 mi", "walkTime": "24 min" },
+      "concourse": { "distance": "0.6 mi", "walkTime": "12 min" },
       "description": "Linear park and green belt connecting Mueller neighborhoods",
-      "coordinates": { "lat": 30.2962, "lng": -97.7040 }
+      "coordinates": { "lat": 30.2940, "lng": -97.7035 }
     }
   ]
 }

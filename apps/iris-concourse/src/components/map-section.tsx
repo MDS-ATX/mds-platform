@@ -1,8 +1,6 @@
 "use client";
 
-import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow } from "@vis.gl/react-google-maps";
-import { useState } from "react";
-import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 
 interface MapPin {
   lat: number;
@@ -20,7 +18,7 @@ interface MapSectionProps {
   pois?: MapPin[];
 }
 
-const DEFAULT_CENTER = { lat: 30.2970, lng: -97.7038 };
+const DEFAULT_CENTER = { lat: 30.297, lng: -97.7038 };
 const DEFAULT_ZOOM = 15;
 
 export default function MapSection({
@@ -29,90 +27,105 @@ export default function MapSection({
   buildings,
   pois = [],
 }: MapSectionProps) {
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-  const [activePin, setActivePin] = useState<string | null>(null);
+  const mapRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
 
-  if (!apiKey) {
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted || !mapRef.current) return;
+
+    let map: L.Map | null = null;
+
+    const init = async () => {
+      const L = (await import("leaflet")).default;
+      await import("leaflet/dist/leaflet.css");
+
+      if (!mapRef.current) return;
+
+      map = L.map(mapRef.current, {
+        center: [center.lat, center.lng],
+        zoom,
+        scrollWheelZoom: false,
+        zoomControl: true,
+      });
+
+      L.tileLayer(
+        "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}{r}.png",
+        {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
+          maxZoom: 20,
+          subdomains: "abcd",
+        }
+      ).addTo(map);
+
+      // Building markers (dark pins)
+      const buildingIcon = L.divIcon({
+        className: "",
+        html: `<div style="width:28px;height:28px;background:#1f2937;border:2px solid #1f2937;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.3)"><div style="width:8px;height:8px;background:white;border-radius:50%;transform:rotate(45deg)"></div></div>`,
+        iconSize: [28, 28],
+        iconAnchor: [14, 28],
+        popupAnchor: [0, -28],
+      });
+
+      buildings.forEach((b) => {
+        const marker = L.marker([b.lat, b.lng], { icon: buildingIcon }).addTo(
+          map!
+        );
+        const popupContent = b.href
+          ? `<div style="padding:4px"><p style="font-weight:700;font-size:13px;margin:0">${b.label}</p><a href="${b.href}" style="font-size:11px;color:#2563eb">View project</a></div>`
+          : `<div style="padding:4px"><p style="font-weight:700;font-size:13px;margin:0">${b.label}</p></div>`;
+        marker.bindPopup(popupContent);
+      });
+
+      // POI markers (brand-colored dots)
+      const poiIcon = L.divIcon({
+        className: "",
+        html: `<div style="width:12px;height:12px;background:#6366f1;border:2px solid white;border-radius:50%;box-shadow:0 1px 4px rgba(0,0,0,0.3)"></div>`,
+        iconSize: [12, 12],
+        iconAnchor: [6, 6],
+        popupAnchor: [0, -8],
+      });
+
+      pois.forEach((poi) => {
+        const marker = L.marker([poi.lat, poi.lng], { icon: poiIcon }).addTo(
+          map!
+        );
+        let popupContent = `<div style="padding:4px"><p style="font-weight:700;font-size:13px;margin:0">${poi.label}</p>`;
+        if (poi.description)
+          popupContent += `<p style="font-size:11px;color:#6b7280;margin:2px 0 0">${poi.description}</p>`;
+        if (poi.distance)
+          popupContent += `<p style="font-size:11px;color:#2563eb;margin:4px 0 0">${poi.distance}</p>`;
+        popupContent += `</div>`;
+        marker.bindPopup(popupContent);
+      });
+    };
+
+    init();
+
+    return () => {
+      if (map) {
+        map.remove();
+        map = null;
+      }
+    };
+  }, [mounted, center, zoom, buildings, pois]);
+
+  if (!mounted) {
     return (
       <div className="w-full h-[400px] bg-gray-100 rounded-xl flex items-center justify-center">
-        <p className="text-gray-400 text-sm">Map coming soon</p>
+        <p className="text-gray-400 text-sm">Loading map...</p>
       </div>
     );
   }
 
   return (
-    <div className="w-full h-[400px] rounded-xl overflow-hidden">
-      <APIProvider apiKey={apiKey}>
-        <Map
-          defaultCenter={center}
-          defaultZoom={zoom}
-          mapId="iris-concourse-map"
-          gestureHandling="cooperative"
-          disableDefaultUI={false}
-          zoomControl={true}
-          streetViewControl={false}
-          mapTypeControl={false}
-          fullscreenControl={false}
-        >
-          {buildings.map((b) => (
-            <AdvancedMarker
-              key={b.label}
-              position={{ lat: b.lat, lng: b.lng }}
-              onClick={() => setActivePin(activePin === b.label ? null : b.label)}
-            >
-              <Pin
-                background="#1f2937"
-                borderColor="#1f2937"
-                glyphColor="#ffffff"
-              />
-              {activePin === b.label && (
-                <InfoWindow
-                  position={{ lat: b.lat, lng: b.lng }}
-                  onCloseClick={() => setActivePin(null)}
-                >
-                  <div className="p-1">
-                    <p className="font-bold text-sm">{b.label}</p>
-                    {b.href && (
-                      <Link
-                        href={b.href}
-                        className="text-xs text-blue-600 hover:underline"
-                      >
-                        View project
-                      </Link>
-                    )}
-                  </div>
-                </InfoWindow>
-              )}
-            </AdvancedMarker>
-          ))}
-
-          {pois.map((poi) => (
-            <AdvancedMarker
-              key={poi.label}
-              position={{ lat: poi.lat, lng: poi.lng }}
-              onClick={() => setActivePin(activePin === poi.label ? null : poi.label)}
-            >
-              <div className="w-3 h-3 bg-brand-500 rounded-full border-2 border-white shadow cursor-pointer" />
-              {activePin === poi.label && (
-                <InfoWindow
-                  position={{ lat: poi.lat, lng: poi.lng }}
-                  onCloseClick={() => setActivePin(null)}
-                >
-                  <div className="p-1">
-                    <p className="font-bold text-sm">{poi.label}</p>
-                    {poi.description && (
-                      <p className="text-xs text-gray-500 mt-0.5">{poi.description}</p>
-                    )}
-                    {poi.distance && (
-                      <p className="text-xs text-blue-600 mt-1">{poi.distance}</p>
-                    )}
-                  </div>
-                </InfoWindow>
-              )}
-            </AdvancedMarker>
-          ))}
-        </Map>
-      </APIProvider>
-    </div>
+    <div
+      ref={mapRef}
+      className="w-full h-[400px] rounded-xl overflow-hidden"
+    />
   );
 }

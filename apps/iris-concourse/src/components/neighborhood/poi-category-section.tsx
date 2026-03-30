@@ -2,11 +2,16 @@
 
 import { useState, useMemo } from "react";
 
+interface WalkInfo {
+  distance: string;
+  walkTime: string;
+}
+
 interface PointOfInterest {
   name: string;
   category: string;
-  distance: string;
-  walkTime?: string;
+  iris?: WalkInfo;
+  concourse?: WalkInfo;
   description: string;
   coordinates?: { lat: number; lng: number };
 }
@@ -63,18 +68,24 @@ export default function PoiCategorySection({
             >
               <p className="font-medium text-gray-900">{poi.name}</p>
               {poi.description && (
-                <p className="text-sm text-gray-500 mt-1">{poi.description}</p>
+                <p className="text-sm text-gray-500 mt-1 mb-3">{poi.description}</p>
               )}
-              <div className="flex items-center gap-3 mt-3">
-                {poi.distance && (
-                  <span className="text-xs font-medium text-brand-600">
-                    {poi.distance}
-                  </span>
+              <div className="space-y-1.5">
+                {poi.iris && (
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-gray-400 font-medium">Iris</span>
+                    <span className="text-gray-600">
+                      {poi.iris.distance} · {poi.iris.walkTime} walk
+                    </span>
+                  </div>
                 )}
-                {poi.walkTime && (
-                  <span className="text-xs text-gray-400">
-                    {poi.walkTime} walk
-                  </span>
+                {poi.concourse && (
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-gray-400 font-medium">Concourse</span>
+                    <span className="text-gray-600">
+                      {poi.concourse.distance} · {poi.concourse.walkTime} walk
+                    </span>
+                  </div>
                 )}
               </div>
             </div>

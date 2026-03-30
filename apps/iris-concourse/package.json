@@ -14,13 +14,16 @@
     "@mds/data-schemas": "workspace:*",
     "@mds/ui": "workspace:*",
     "@vis.gl/react-google-maps": "^1.8.1",
+    "leaflet": "^1.9.4",
     "next": "^15.3",
     "react": "^19",
-    "react-dom": "^19"
+    "react-dom": "^19",
+    "react-leaflet": "^5.0.0"
   },
   "devDependencies": {
     "@mds/config": "workspace:*",
     "@tailwindcss/postcss": "^4",
+    "@types/leaflet": "^1.9.21",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",

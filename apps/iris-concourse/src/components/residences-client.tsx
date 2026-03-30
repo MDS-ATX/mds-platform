@@ -245,18 +245,6 @@ export default function ResidencesClient({
                       />
                     </button>
 
-                    {unit.features && unit.features.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 mb-4">
-                        {unit.features.map((f) => (
-                          <span
-                            key={f}
-                            className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full"
-                          >
-                            {f}
-                          </span>
-                        ))}
-                      </div>
-                    )}
 
                     <Link
                       href={`/contact?unit=${unit.number}&building=${building.slug}`}

@@ -31,7 +31,6 @@ export default function NeighborhoodPage() {
       lng: poi.coordinates.lng,
       label: poi.name,
       description: poi.description,
-      distance: poi.distance,
     }));
 
   return (
@@ -65,7 +64,13 @@ export default function NeighborhoodPage() {
                   href="/iris/residences"
                   className="px-5 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors"
                 >
-                  Explore Residences
+                  Iris Residences
+                </Link>
+                <Link
+                  href="/concourse/residences"
+                  className="px-5 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors"
+                >
+                  Concourse Residences
                 </Link>
                 <Link
                   href="/contact"

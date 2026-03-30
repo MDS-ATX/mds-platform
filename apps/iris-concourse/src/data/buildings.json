@@ -2,13 +2,13 @@
   {
     "name": "Iris",
     "slug": "iris",
-    "address": "5025 Mueller Blvd, Austin, TX 78723",
+    "address": "5015 1/2 Mueller Blvd, Austin, TX 78723",
     "tagline": "Modern condominiums designed for contemporary Austin living",
     "description": "Iris offers a curated collection of modern condominiums designed for contemporary Austin living. Each residence features thoughtful layouts, quality finishes, and private balconies throughout.",
     "totalUnits": 31,
     "stories": 4,
     "pricingMessage": "Residences starting in the $200s",
-    "coordinates": { "lat": 30.2988, "lng": -97.7050 },
+    "coordinates": { "lat": 30.3050, "lng": -97.7032 },
     "amenities": [
       "Secured entry with fob access",
       "Elevator",
@@ -90,13 +90,13 @@
   {
     "name": "Concourse",
     "slug": "concourse",
-    "address": "3900 Berkman Dr, Austin, TX 78723",
+    "address": "3900 McCurdy St, Austin, TX 78723",
     "tagline": "Boutique residences beside the iconic Mueller control tower",
     "description": "Concourse is a boutique collection of 34 residences rising beside the iconic Mueller airport control tower in Austin's Mueller neighborhood. Featuring 10-foot ceilings, private balconies with glass enclosures, and premium finishes throughout, these homes combine timeless architecture with modern design across two residential floors above ground-floor retail.",
     "totalUnits": 34,
     "stories": 3,
     "pricingMessage": "Residences starting in the $200s",
-    "coordinates": { "lat": 30.2955, "lng": -97.7025 },
+    "coordinates": { "lat": 30.2914, "lng": -97.6963 },
     "amenities": [
       "Key fob access with 24/7 surveillance",
       "Elevator access every floor",
