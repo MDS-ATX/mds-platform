@@ -1,4 +1,3 @@
-import projectData from "@/data/project.json";
 import LandingNav from "@/components/landing-nav";
 
 export default function ContactPage() {
@@ -121,33 +120,7 @@ export default function ContactPage() {
             >
               Send Inquiry
             </button>
-          </form>
-
-          {/* Sales Team */}
-          <div className="mt-16 pt-10 border-t border-gray-200">
-            <h2 className="text-xl font-heading font-bold text-gray-900 mb-6">
-              Sales Team
-            </h2>
-            <div className="space-y-4">
-              {projectData.salesTeam.map((member) => (
-                <div key={member.email} className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
-                    <span className="text-gray-500 text-sm font-medium">
-                      {member.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
-                    </span>
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900">{member.name}</p>
-                    <p className="text-sm text-gray-500">{member.title}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+          </form>        </div>
       </div>
     </section>
     </>
