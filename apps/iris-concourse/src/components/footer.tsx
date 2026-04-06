@@ -1,5 +1,6 @@
 import Link from "next/link";
 import projectData from "@/data/project.json";
+import buildings from "@/data/buildings.json";
 
 export function Footer() {
   return (
@@ -20,37 +21,24 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Iris links */}
-          <div>
-            <h4 className="text-white font-medium mb-4">Iris</h4>
-            <div className="flex flex-col gap-2">
-              <Link href="/iris" className="text-sm hover:text-white transition-colors">
-                Overview
-              </Link>
-              <Link href="/iris/residences" className="text-sm hover:text-white transition-colors">
-                Residences
-              </Link>
-              <Link href="/iris/gallery" className="text-sm hover:text-white transition-colors">
-                Gallery
-              </Link>
+          {/* Building links */}
+          {buildings.map((b) => (
+            <div key={b.slug}>
+              <h4 className="text-white font-medium mb-2">{b.name}</h4>
+              <p className="text-xs text-gray-500 mb-4">{b.address}</p>
+              <div className="flex flex-col gap-2">
+                <Link href={`/${b.slug}`} className="text-sm hover:text-white transition-colors">
+                  Overview
+                </Link>
+                <Link href={`/${b.slug}/residences`} className="text-sm hover:text-white transition-colors">
+                  Residences
+                </Link>
+                <Link href={`/${b.slug}/gallery`} className="text-sm hover:text-white transition-colors">
+                  Gallery
+                </Link>
+              </div>
             </div>
-          </div>
-
-          {/* Concourse links */}
-          <div>
-            <h4 className="text-white font-medium mb-4">Concourse</h4>
-            <div className="flex flex-col gap-2">
-              <Link href="/concourse" className="text-sm hover:text-white transition-colors">
-                Overview
-              </Link>
-              <Link href="/concourse/residences" className="text-sm hover:text-white transition-colors">
-                Residences
-              </Link>
-              <Link href="/concourse/gallery" className="text-sm hover:text-white transition-colors">
-                Gallery
-              </Link>
-            </div>
-          </div>
+          ))}
 
           {/* Shared + Contact */}
           <div>

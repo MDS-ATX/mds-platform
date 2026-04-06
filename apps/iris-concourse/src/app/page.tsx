@@ -49,7 +49,8 @@ export default function HomePage() {
                 <h2 className="text-2xl font-heading font-bold text-gray-900 mb-1">
                   {building.name}
                 </h2>
-                <p className="text-gray-500 text-sm mb-4">{building.tagline}</p>
+                <p className="text-gray-500 text-sm mb-1">{building.tagline}</p>
+                <p className="text-gray-400 text-xs mb-4">{building.address}</p>
                 <Link
                   href={`/${building.slug}`}
                   className="inline-block px-5 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors"

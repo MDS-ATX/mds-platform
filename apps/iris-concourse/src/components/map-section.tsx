@@ -18,8 +18,8 @@ interface MapSectionProps {
   pois?: MapPin[];
 }
 
-const DEFAULT_CENTER = { lat: 30.297, lng: -97.7038 };
-const DEFAULT_ZOOM = 15;
+const DEFAULT_CENTER = { lat: 30.2983, lng: -97.7012 };
+const DEFAULT_ZOOM = 14;
 
 export default function MapSection({
   center = DEFAULT_CENTER,

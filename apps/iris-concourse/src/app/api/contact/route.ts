@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { contactFormSchema } from "@mds/crm";
-import { createLeadEvent } from "@mds/crm";
+import { contactFormSchema } from "@/lib/crm";
+import { createLeadEvent } from "@/lib/crm";
 
 export async function POST(request: Request) {
   try {

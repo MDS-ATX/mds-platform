@@ -3,6 +3,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import projectData from "@/data/project.json";
 import { Footer } from "@/components/footer";
+import { FUBPixel } from "@/lib/crm/pixel";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -29,6 +30,7 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         <main>{children}</main>
         <Footer />
+        <FUBPixel />
       </body>
     </html>
   );
