@@ -81,7 +81,7 @@ export default function ContactPage() {
               Get in Touch
             </h1>
             <p className="text-gray-600 mb-6">
-              Interested in learning more about Iris & Concourse? Fill out the
+              Interested in learning more about Concourse & Iris? Fill out the
               form below and a member of our sales team will be in touch.
             </p>
 
@@ -285,7 +285,7 @@ export default function ContactPage() {
                 />
                 <label htmlFor="consent" className="text-sm text-gray-600">
                   By selecting &ldquo;Stay Informed&rdquo;, you agree to be
-                  contacted by the Iris & Concourse Sales Team via call, email,
+                  contacted by the Concourse & Iris Sales Team via call, email,
                   and text. To opt-out, you can reply &lsquo;stop&rsquo; at any
                   time or click the unsubscribe link in the emails. Message and
                   data rates may apply. Please refer to our{" "}

@@ -11,7 +11,7 @@ import PoiCategorySection from "@/components/neighborhood/poi-category-section";
 import LifestyleSection from "@/components/neighborhood/lifestyle-section";
 
 export const metadata: Metadata = {
-  title: "Mueller Neighborhood | Iris & Concourse, Austin",
+  title: "Mueller Neighborhood | Concourse & Iris, Austin",
   description:
     "Explore Mueller — Austin's walkable, master-planned community with parks, trails, dining, and vibrant community amenities.",
 };
@@ -185,7 +185,7 @@ export default function NeighborhoodPage() {
             Interested in Mueller?
           </h2>
           <p className="text-gray-400 mb-8 max-w-xl mx-auto">
-            Discover modern living at Iris and Concourse — new condominiums in
+            Discover modern living at Concourse and Iris — new condominiums in
             the heart of Mueller, Austin.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">

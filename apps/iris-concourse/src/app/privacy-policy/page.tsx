@@ -1,9 +1,9 @@
 import LandingNav from "@/components/landing-nav";
 
 export const metadata = {
-  title: "Privacy Policy | Iris & Concourse",
+  title: "Privacy Policy | Concourse & Iris",
   description:
-    "Privacy Policy for the Iris & Concourse condominium communities in Mueller, Austin, TX.",
+    "Privacy Policy for the Concourse & Iris condominium communities in Mueller, Austin, TX.",
 };
 
 export default function PrivacyPolicyPage() {
@@ -22,8 +22,8 @@ export default function PrivacyPolicyPage() {
 
             <p>
               This Privacy Policy describes how information is collected, used,
-              and shared when you visit or interact with the Iris & Concourse
-              website (the &ldquo;Site&rdquo;). Iris & Concourse is a
+              and shared when you visit or interact with the Concourse & Iris
+              website (the &ldquo;Site&rdquo;). Concourse & Iris is a
               residential condominium development by InTown Homes, marketed by
               MODUS Real Estate.
             </p>
@@ -57,7 +57,7 @@ export default function PrivacyPolicyPage() {
               </li>
               <li>
                 Send marketing communications, including emails, calls, and text
-                messages, about the Iris & Concourse communities (with your
+                messages, about the Concourse & Iris communities (with your
                 consent).
               </li>
               <li>Improve our Site and marketing efforts.</li>

@@ -3,9 +3,9 @@ import Image from "next/image";
 import LandingNav from "@/components/landing-nav";
 
 export const metadata: Metadata = {
-  title: "Team | Iris & Concourse, Austin",
+  title: "Team | Concourse & Iris, Austin",
   description:
-    "Meet the team behind Iris & Concourse — developed by InTown Homes and sold by MODUS Development Services in Austin's Mueller neighborhood.",
+    "Meet the team behind Concourse & Iris — developed by InTown Homes and sold by MODUS Development Services in Austin's Mueller neighborhood.",
 };
 
 export default function TeamPage() {
@@ -20,7 +20,7 @@ export default function TeamPage() {
             The Team
           </h1>
           <p className="text-gray-600 max-w-2xl">
-            Iris &amp; Concourse is brought to life by an experienced team of
+            Concourse &amp; Iris is brought to life by an experienced team of
             developers and real estate professionals dedicated to creating
             exceptional urban living in Mueller.
           </p>
@@ -158,7 +158,7 @@ export default function TeamPage() {
               Get in Touch
             </h2>
             <p className="text-gray-600 mb-10">
-              Interested in learning more about Iris &amp; Concourse? Fill out
+              Interested in learning more about Concourse &amp; Iris? Fill out
               the form below and a member of our team will be in touch.
             </p>
 

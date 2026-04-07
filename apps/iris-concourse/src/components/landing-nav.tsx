@@ -9,8 +9,8 @@ export default function LandingNav() {
   const pathname = usePathname();
 
   const links = [
-    { label: "Iris", href: "/iris" },
     { label: "Concourse", href: "/concourse" },
+    { label: "Iris", href: "/iris" },
     { label: "Neighborhood", href: "/neighborhood" },
     { label: "Team", href: "/team" },
     { label: "Contact", href: "/contact" },
@@ -25,7 +25,7 @@ export default function LandingNav() {
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex flex-col">
             <span className="text-xl font-heading font-bold text-white">
-              Iris &amp; Concourse
+              Concourse &amp; Iris
             </span>
             <span className="text-xs text-gray-500 -mt-0.5">by InTown Homes</span>
           </Link>

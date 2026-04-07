@@ -1,93 +1,5 @@
 [
   {
-    "name": "Iris",
-    "slug": "iris",
-    "address": "5025 Mueller Blvd, Austin, TX 78723",
-    "tagline": "Modern condominiums designed for contemporary Austin living",
-    "description": "Iris offers a curated collection of modern condominiums designed for contemporary Austin living. Each residence features thoughtful layouts, quality finishes, and private balconies throughout.",
-    "totalUnits": 31,
-    "stories": 4,
-    "pricingMessage": "Residences starting in the $200s",
-    "coordinates": { "lat": 30.3053, "lng": -97.7032 },
-    "amenities": [
-      "Secured entry with fob access",
-      "Elevator",
-      "Secure bike storage",
-      "Package lockers",
-      "Private balconies on all units",
-      "In-unit washer and dryer",
-      "Covered parking available",
-      "Dedicated storage units"
-    ],
-    "amenityImages": [
-      "/images/hero/iris-exterior.jpg"
-    ],
-    "heroImage": "/images/hero/iris-exterior.jpg",
-    "featureCategories": [
-      {
-        "title": "Interior Finishes",
-        "image": null,
-        "items": [
-          "Luxury vinyl plank flooring throughout",
-          "9-foot ceilings with recessed lighting",
-          "Paneled interior doors with modern hardware",
-          "Double-paned, low-emission windows",
-          "Designer tile in bathrooms"
-        ]
-      },
-      {
-        "title": "Kitchen",
-        "image": null,
-        "items": [
-          "Stone countertops throughout",
-          "Stainless steel appliance package",
-          "Shaker-style cabinetry",
-          "Tile backsplash",
-          "Undermounted sink with modern faucet"
-        ]
-      },
-      {
-        "title": "Outdoor Living",
-        "image": null,
-        "items": [
-          "Private balcony on every residence",
-          "Glass railing for open views",
-          "Seamless indoor-outdoor connection",
-          "Views of Mueller and surrounding neighborhood"
-        ]
-      },
-      {
-        "title": "Every Home Includes",
-        "image": null,
-        "items": [
-          "In-unit washer and dryer",
-          "Stainless steel refrigerator",
-          "Individually metered utilities",
-          "Ample integrated storage throughout"
-        ]
-      }
-    ],
-    "specialFeatures": [],
-    "unitTypes": [
-      {
-        "name": "One Bedroom",
-        "bedrooms": 1,
-        "bathrooms": 1,
-        "sqftRange": { "min": 655, "max": 990 },
-        "count": 22,
-        "description": "Thoughtfully designed one-bedroom residences with open layouts and private balconies"
-      },
-      {
-        "name": "Two Bedroom",
-        "bedrooms": 2,
-        "bathrooms": 2,
-        "sqftRange": { "min": 889, "max": 1677 },
-        "count": 9,
-        "description": "Spacious two-bedroom homes with dual baths and generous living areas"
-      }
-    ]
-  },
-  {
     "name": "Concourse",
     "slug": "concourse",
     "address": "3900 Berkman Dr, Austin, TX 78723",
@@ -190,6 +102,94 @@
         "sqftRange": { "min": 910, "max": 933 },
         "count": 4,
         "description": "Premium two-bedroom homes with dual baths, kitchen islands, and expansive living space"
+      }
+    ]
+  },
+  {
+    "name": "Iris",
+    "slug": "iris",
+    "address": "5025 Mueller Blvd, Austin, TX 78723",
+    "tagline": "Modern condominiums designed for contemporary Austin living",
+    "description": "Iris offers a curated collection of modern condominiums designed for contemporary Austin living. Each residence features thoughtful layouts, quality finishes, and private balconies throughout.",
+    "totalUnits": 31,
+    "stories": 4,
+    "pricingMessage": "Residences starting in the $200s",
+    "coordinates": { "lat": 30.3053, "lng": -97.7032 },
+    "amenities": [
+      "Secured entry with fob access",
+      "Elevator",
+      "Secure bike storage",
+      "Package lockers",
+      "Private balconies on all units",
+      "In-unit washer and dryer",
+      "Covered parking available",
+      "Dedicated storage units"
+    ],
+    "amenityImages": [
+      "/images/hero/iris-exterior.jpg"
+    ],
+    "heroImage": "/images/hero/iris-exterior.jpg",
+    "featureCategories": [
+      {
+        "title": "Interior Finishes",
+        "image": null,
+        "items": [
+          "Luxury vinyl plank flooring throughout",
+          "9-foot ceilings with recessed lighting",
+          "Paneled interior doors with modern hardware",
+          "Double-paned, low-emission windows",
+          "Designer tile in bathrooms"
+        ]
+      },
+      {
+        "title": "Kitchen",
+        "image": null,
+        "items": [
+          "Stone countertops throughout",
+          "Stainless steel appliance package",
+          "Shaker-style cabinetry",
+          "Tile backsplash",
+          "Undermounted sink with modern faucet"
+        ]
+      },
+      {
+        "title": "Outdoor Living",
+        "image": null,
+        "items": [
+          "Private balcony on every residence",
+          "Glass railing for open views",
+          "Seamless indoor-outdoor connection",
+          "Views of Mueller and surrounding neighborhood"
+        ]
+      },
+      {
+        "title": "Every Home Includes",
+        "image": null,
+        "items": [
+          "In-unit washer and dryer",
+          "Stainless steel refrigerator",
+          "Individually metered utilities",
+          "Ample integrated storage throughout"
+        ]
+      }
+    ],
+    "specialFeatures": [],
+    "unitTypes": [
+      {
+        "name": "One Bedroom",
+        "bedrooms": 1,
+        "bathrooms": 1,
+        "sqftRange": { "min": 655, "max": 990 },
+        "count": 22,
+        "description": "Thoughtfully designed one-bedroom residences with open layouts and private balconies"
+      },
+      {
+        "name": "Two Bedroom",
+        "bedrooms": 2,
+        "bathrooms": 2,
+        "sqftRange": { "min": 889, "max": 1677 },
+        "count": 9,
+        "description": "Spacious two-bedroom homes with dual baths and generous living areas"
       }
     ]
   }

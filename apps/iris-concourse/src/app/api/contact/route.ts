@@ -17,7 +17,7 @@ export async function POST(request: Request) {
 
     // Send to Follow Up Boss
     const fubResponse = await createLeadEvent(result.data, {
-      projectName: "Iris & Concourse",
+      projectName: "Concourse & Iris",
       projectSlug: "iris-concourse",
       eventType:
         result.data.interestedIn !== "general"
