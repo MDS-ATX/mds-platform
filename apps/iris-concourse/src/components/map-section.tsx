@@ -65,7 +65,7 @@ export default function MapSection({
       // Building markers (dark pins)
       const buildingIcon = L.divIcon({
         className: "",
-        html: `<div style="width:28px;height:28px;background:#1f2937;border:2px solid #1f2937;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.3)"><div style="width:8px;height:8px;background:white;border-radius:50%;transform:rotate(45deg)"></div></div>`,
+        html: `<div style="width:28px;height:28px;background:#000000;border:2px solid #000000;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.3)"><div style="width:8px;height:8px;background:white;border-radius:50%;transform:rotate(45deg)"></div></div>`,
         iconSize: [28, 28],
         iconAnchor: [14, 28],
         popupAnchor: [0, -28],
@@ -76,7 +76,7 @@ export default function MapSection({
           map!
         );
         const popupContent = b.href
-          ? `<div style="padding:4px"><p style="font-weight:700;font-size:13px;margin:0">${b.label}</p><a href="${b.href}" style="font-size:11px;color:#2563eb">View project</a></div>`
+          ? `<div style="padding:4px"><p style="font-weight:700;font-size:13px;margin:0">${b.label}</p><a href="${b.href}" style="font-size:11px;color:#5e5f5e;font-weight:600">View project</a></div>`
           : `<div style="padding:4px"><p style="font-weight:700;font-size:13px;margin:0">${b.label}</p></div>`;
         marker.bindPopup(popupContent);
       });
@@ -84,7 +84,7 @@ export default function MapSection({
       // POI markers (brand-colored dots)
       const poiIcon = L.divIcon({
         className: "",
-        html: `<div style="width:12px;height:12px;background:#6366f1;border:2px solid white;border-radius:50%;box-shadow:0 1px 4px rgba(0,0,0,0.3)"></div>`,
+        html: `<div style="width:12px;height:12px;background:#5e5f5e;border:2px solid white;border-radius:50%;box-shadow:0 1px 4px rgba(0,0,0,0.3)"></div>`,
         iconSize: [12, 12],
         iconAnchor: [6, 6],
         popupAnchor: [0, -8],
@@ -98,7 +98,7 @@ export default function MapSection({
         if (poi.description)
           popupContent += `<p style="font-size:11px;color:#6b7280;margin:2px 0 0">${poi.description}</p>`;
         if (poi.distance)
-          popupContent += `<p style="font-size:11px;color:#2563eb;margin:4px 0 0">${poi.distance}</p>`;
+          popupContent += `<p style="font-size:11px;color:#5e5f5e;font-weight:600;margin:4px 0 0">${poi.distance}</p>`;
         popupContent += `</div>`;
         marker.bindPopup(popupContent);
       });
@@ -116,7 +116,7 @@ export default function MapSection({
 
   if (!mounted) {
     return (
-      <div className="w-full h-[400px] bg-gray-100 rounded-xl flex items-center justify-center">
+      <div className="w-full h-[400px] bg-gray-100  flex items-center justify-center">
         <p className="text-gray-400 text-sm">Loading map...</p>
       </div>
     );
@@ -125,7 +125,7 @@ export default function MapSection({
   return (
     <div
       ref={mapRef}
-      className="w-full h-[400px] rounded-xl overflow-hidden"
+      className="w-full h-[400px]  overflow-hidden"
     />
   );
 }

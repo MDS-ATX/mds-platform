@@ -18,7 +18,7 @@ export default function PhotoCarousel({ images, className = "" }: PhotoCarouselP
 
   return (
     <div className={className}>
-      <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-100">
+      <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
         <Image
           src={images[index].src}
           alt={images[index].alt}

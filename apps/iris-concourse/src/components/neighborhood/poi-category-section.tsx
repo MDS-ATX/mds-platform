@@ -40,7 +40,7 @@ export default function PoiCategorySection({
   return (
     <section id="nearby" className="py-16 bg-gray-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-2xl font-heading font-bold text-gray-900 mb-6">
+        <h2 className="text-2xl font-heading font-bold text-black mb-6">
           Nearby
         </h2>
 
@@ -49,9 +49,9 @@ export default function PoiCategorySection({
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors capitalize ${
+              className={`px-4 py-2 text-sm font-medium transition-colors capitalize ${
                 activeCategory === cat
-                  ? "bg-gray-900 text-white"
+                  ? "bg-black text-white"
                   : "bg-white text-gray-600 border border-gray-200 hover:bg-gray-100"
               }`}
             >
@@ -64,9 +64,9 @@ export default function PoiCategorySection({
           {filtered.map((poi) => (
             <div
               key={poi.name}
-              className="p-5 bg-white border border-gray-200 rounded-xl"
+              className="p-5 bg-white border border-gray-200 "
             >
-              <p className="font-medium text-gray-900">{poi.name}</p>
+              <p className="font-medium text-black">{poi.name}</p>
               {poi.description && (
                 <p className="text-sm text-gray-500 mt-1 mb-3">{poi.description}</p>
               )}

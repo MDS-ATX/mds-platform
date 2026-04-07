@@ -39,7 +39,7 @@ export default async function ResidencesPage({
   return (
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-4xl font-heading font-bold text-gray-900 mb-2">
+        <h1 className="text-4xl font-heading font-bold text-black mb-2">
           {building.name} Residences
         </h1>
         <p className="text-gray-600 mb-2">

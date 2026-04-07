@@ -24,7 +24,7 @@ export default function ModelUnitCard({
   const [photoIndex, setPhotoIndex] = useState(0);
 
   return (
-    <div className="border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow">
+    <div className="border border-gray-200  overflow-hidden hover:shadow-md transition-shadow">
       {/* Photo carousel */}
       <div className="relative aspect-[4/3] bg-gray-100 group">
         <Image
@@ -36,7 +36,7 @@ export default function ModelUnitCard({
           quality={100}
         />
         <div className="absolute top-3 left-3">
-          <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-gray-900 text-white">
+          <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-black text-white">
             Model Unit
           </span>
         </div>
@@ -73,7 +73,7 @@ export default function ModelUnitCard({
 
       {/* Info */}
       <div className="p-5">
-        <h3 className="text-lg font-bold text-gray-900 mb-1">Unit {unit.number}</h3>
+        <h3 className="text-lg font-bold text-black mb-1">Unit {unit.number}</h3>
         {unit.bedrooms != null && unit.sqft && (
           <p className="text-sm text-gray-500 mb-4">
             {unit.bedrooms} Bed · {unit.bathrooms} Bath · {unit.sqft.toLocaleString()} sq ft
@@ -81,7 +81,7 @@ export default function ModelUnitCard({
         )}
         <Link
           href={href}
-          className="block text-center text-sm text-brand-600 hover:text-brand-700 font-medium py-2 border border-brand-200 rounded-lg hover:bg-brand-50 transition-colors"
+          className="block text-center text-sm text-brand-600 hover:text-brand-700 font-medium py-2 border border-brand-200  hover:bg-brand-50 transition-colors"
         >
           View Floor Plan & Inquire →
         </Link>

@@ -21,7 +21,7 @@ export default function LifestyleSection({
   return (
     <section id="lifestyle" className="py-16 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-2xl font-heading font-bold text-gray-900 mb-2">
+        <h2 className="text-2xl font-heading font-bold text-black mb-2">
           {title}
         </h2>
         <p className="text-gray-600 mb-10 max-w-2xl">{description}</p>
@@ -33,8 +33,8 @@ export default function LifestyleSection({
               className="grid md:grid-cols-2 gap-8 items-center"
             >
               <div className={i % 2 === 1 ? "md:order-2" : ""}>
-                <div className="bg-gray-50 rounded-xl p-6">
-                  <h3 className="font-bold text-gray-900 mb-3">
+                <div className="bg-gray-50  p-6">
+                  <h3 className="font-bold text-black mb-3">
                     {feature.title}
                   </h3>
                   <p className="text-sm text-gray-700 leading-relaxed">
@@ -43,7 +43,7 @@ export default function LifestyleSection({
                 </div>
               </div>
               <div
-                className={`relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 ${
+                className={`relative aspect-[4/3]  overflow-hidden bg-gray-100 ${
                   i % 2 === 1 ? "md:order-1" : ""
                 }`}
               >

@@ -36,7 +36,7 @@ export default async function GalleryPage({
   return (
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-4xl font-heading font-bold text-gray-900 mb-2">
+        <h1 className="text-4xl font-heading font-bold text-black mb-2">
           {building.name} Gallery
         </h1>
         <p className="text-gray-600 mb-10">
@@ -47,7 +47,7 @@ export default async function GalleryPage({
           <GalleryGrid images={photos} />
         ) : (
           <div className="text-center py-16">
-            <div className="relative w-full max-w-lg mx-auto aspect-[16/9] rounded-xl overflow-hidden mb-6">
+            <div className="relative w-full max-w-lg mx-auto aspect-[16/9]  overflow-hidden mb-6">
               <Image
                 src={building.heroImage}
                 alt={`${building.name} rendering`}

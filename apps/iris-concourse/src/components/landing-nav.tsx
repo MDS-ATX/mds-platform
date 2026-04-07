@@ -20,14 +20,14 @@ export default function LandingNav() {
     pathname === href || pathname.startsWith(href + "/");
 
   return (
-    <header className="sticky top-0 z-40 bg-white border-b border-gray-200">
+    <header className="sticky top-0 z-40 bg-black border-b border-gray-800">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex flex-col">
-            <span className="text-xl font-heading font-bold text-gray-900">
+            <span className="text-xl font-heading font-bold text-white">
               Iris &amp; Concourse
             </span>
-            <span className="text-xs text-gray-400 -mt-0.5">by InTown Homes</span>
+            <span className="text-xs text-gray-500 -mt-0.5">by InTown Homes</span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-6">
@@ -37,8 +37,8 @@ export default function LandingNav() {
                 href={link.href}
                 className={`text-sm font-medium transition-colors ${
                   isActive(link.href)
-                    ? "text-gray-900"
-                    : "text-gray-500 hover:text-gray-900"
+                    ? "text-white"
+                    : "text-gray-400 hover:text-white"
                 }`}
               >
                 {link.label}
@@ -77,14 +77,14 @@ export default function LandingNav() {
         </div>
 
         {menuOpen && (
-          <nav className="md:hidden pb-4 border-t border-gray-100 pt-3 space-y-1">
+          <nav className="md:hidden pb-4 border-t border-gray-800 pt-3 space-y-1">
             {links.map((link) => (
               <Link
                 key={link.label}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
                 className={`block py-2 text-sm font-medium ${
-                  isActive(link.href) ? "text-gray-900" : "text-gray-500"
+                  isActive(link.href) ? "text-white" : "text-gray-400"
                 }`}
               >
                 {link.label}

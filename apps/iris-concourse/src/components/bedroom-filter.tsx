@@ -17,9 +17,9 @@ export default function BedroomFilter({
         <button
           key={opt.label}
           onClick={() => onChange(opt.value)}
-          className={`px-5 py-2.5 rounded-full text-sm font-medium transition-colors ${
+          className={`px-5 py-2.5 text-sm font-medium transition-colors ${
             selected === opt.value
-              ? "bg-gray-900 text-white"
+              ? "bg-black text-white"
               : "border border-gray-300 text-gray-600 hover:bg-gray-50"
           }`}
         >

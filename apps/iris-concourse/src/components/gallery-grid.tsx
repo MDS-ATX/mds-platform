@@ -19,7 +19,7 @@ export default function GalleryGrid({ images }: { images: GalleryImage[] }) {
           <button
             key={image.src}
             onClick={() => setLightboxIndex(i)}
-            className="relative aspect-[4/3] rounded-lg overflow-hidden group cursor-pointer"
+            className="relative aspect-[4/3]  overflow-hidden group cursor-pointer"
           >
             <Image
               src={image.src}

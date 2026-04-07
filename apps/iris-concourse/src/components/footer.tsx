@@ -4,7 +4,7 @@ import buildings from "@/data/buildings.json";
 
 export function Footer() {
   return (
-    <footer className="bg-gray-900 text-gray-300">
+    <footer className="bg-black text-gray-300">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Project info */}
@@ -56,7 +56,7 @@ export function Footer() {
             </div>
             <Link
               href="/contact"
-              className="inline-block px-6 py-2 bg-white text-gray-900 text-sm font-medium rounded-lg hover:bg-gray-100 transition-colors"
+              className="inline-block px-6 py-2 bg-white text-black text-sm font-medium  hover:bg-gray-100 transition-colors"
             >
               Schedule a Tour
             </Link>

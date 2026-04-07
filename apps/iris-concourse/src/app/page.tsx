@@ -22,7 +22,7 @@ export default function HomePage() {
           <p className="text-xs font-medium text-gray-400 uppercase tracking-widest mb-3">
             Mueller, Austin
           </p>
-          <h1 className="text-4xl md:text-5xl font-heading font-bold text-gray-900">
+          <h1 className="text-4xl md:text-5xl font-heading font-bold text-black">
             Mueller&apos;s Two Newest Condominiums
           </h1>
         </div>
@@ -35,7 +35,7 @@ export default function HomePage() {
             {buildings.map((building) => (
               <div key={building.slug} className="group">
                 <Link href={`/${building.slug}`} className="block">
-                  <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 mb-5">
+                  <div className="relative aspect-[4/3] overflow-hidden bg-gray-100 mb-5">
                     <Image
                       src={building.heroImage}
                       alt={`${building.name} at Mueller`}
@@ -46,14 +46,14 @@ export default function HomePage() {
                     />
                   </div>
                 </Link>
-                <h2 className="text-2xl font-heading font-bold text-gray-900 mb-1">
+                <h2 className="text-2xl font-heading font-bold text-black mb-1">
                   {building.name}
                 </h2>
                 <p className="text-gray-500 text-sm mb-1">{building.tagline}</p>
                 <p className="text-gray-400 text-xs mb-4">{building.address}</p>
                 <Link
                   href={`/${building.slug}`}
-                  className="inline-block px-5 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors"
+                  className="inline-block px-5 py-2.5 bg-black text-white text-sm font-medium hover:bg-gray-800 transition-colors"
                 >
                   Explore {building.name}
                 </Link>
@@ -66,7 +66,7 @@ export default function HomePage() {
       {/* Map */}
       <section className="py-16 bg-gray-50 border-t border-gray-100">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-heading font-bold text-gray-900 mb-2">
+          <h2 className="text-2xl font-heading font-bold text-black mb-2">
             Mueller, Austin
           </h2>
           <p className="text-gray-500 text-sm mb-8 max-w-xl">
@@ -78,7 +78,7 @@ export default function HomePage() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 bg-gray-900">
+      <section className="py-16 bg-black">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-heading font-bold text-white mb-4">
             Interested?
@@ -89,7 +89,7 @@ export default function HomePage() {
           </p>
           <Link
             href="/contact"
-            className="inline-block px-8 py-4 bg-white text-gray-900 font-medium rounded-lg hover:bg-gray-100 transition-colors"
+            className="inline-block px-8 py-4 bg-white text-black font-medium hover:bg-gray-100 transition-colors"
           >
             Get in Touch
           </Link>

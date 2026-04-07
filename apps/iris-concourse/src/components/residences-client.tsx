@@ -123,7 +123,7 @@ export default function ResidencesClient({
         const floorUnits = filteredUnits.filter((u) => u.floor === floor);
         return (
           <div key={floor} className="mb-16">
-            <h2 className="text-xl font-heading font-bold text-gray-900 mb-6 pb-2 border-b border-gray-200">
+            <h2 className="text-xl font-heading font-bold text-black mb-6 pb-2 border-b border-gray-200">
               Floor {floor}
               <span className="text-sm font-normal text-gray-500 ml-3">
                 {floorUnits.length} unit{floorUnits.length !== 1 ? "s" : ""}
@@ -138,15 +138,15 @@ export default function ResidencesClient({
                 return (
                   <div
                     key={unit.id}
-                    className="border border-gray-200 rounded-xl p-5 hover:shadow-md transition-shadow"
+                    className="border border-gray-200  p-5 hover:shadow-md transition-shadow"
                   >
                     <div className="flex items-baseline justify-between mb-3">
-                      <h3 className="text-lg font-bold text-gray-900">
+                      <h3 className="text-lg font-bold text-black">
                         Unit {unit.number}
                       </h3>
                       <div className="flex items-center gap-2">
                         {hasPhotos && (
-                          <span className="text-xs font-medium px-2 py-1 rounded-full bg-gray-900 text-white">
+                          <span className="text-xs font-medium px-2 py-1 rounded-full bg-black text-white">
                             Model Unit
                           </span>
                         )}
@@ -164,13 +164,13 @@ export default function ResidencesClient({
                       <div className="space-y-1.5 text-sm mb-4">
                         <div className="flex justify-between">
                           <span className="text-gray-500">Layout</span>
-                          <span className="font-medium text-gray-900">
+                          <span className="font-medium text-black">
                             {unit.bedrooms} Bed / {unit.bathrooms} Bath
                           </span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-gray-500">Size</span>
-                          <span className="font-medium text-gray-900">
+                          <span className="font-medium text-black">
                             {unit.sqft.toLocaleString()} sq ft
                           </span>
                         </div>
@@ -183,7 +183,7 @@ export default function ResidencesClient({
 
                     {/* Model unit photo carousel */}
                     {hasPhotos && unit.photos && (
-                      <div className="relative aspect-[4/3] rounded-lg overflow-hidden mb-3 bg-gray-100 group">
+                      <div className="relative aspect-[4/3]  overflow-hidden mb-3 bg-gray-100 group">
                         <Image
                           src={unit.photos[photoIndex]}
                           alt={`Unit ${unit.number} photo ${photoIndex + 1}`}
@@ -233,7 +233,7 @@ export default function ResidencesClient({
                     {/* Floor plan — click opens shared lightbox */}
                     <button
                       onClick={() => setLightboxIndex(getUnitFloorPlanIndex(unit))}
-                      className="relative w-full aspect-[3/4] bg-gray-50 rounded-lg overflow-hidden mb-4 cursor-zoom-in"
+                      className="relative w-full aspect-[3/4] bg-gray-50  overflow-hidden mb-4 cursor-zoom-in"
                     >
                       <Image
                         src={`/images/floor-plans/${unit.building}-${unit.number}.png`}
@@ -248,7 +248,7 @@ export default function ResidencesClient({
 
                     <Link
                       href={`/contact?unit=${unit.number}&building=${building.slug}`}
-                      className="block text-center text-sm text-brand-600 hover:text-brand-700 font-medium py-2 border border-brand-200 rounded-lg hover:bg-brand-50 transition-colors"
+                      className="block text-center text-sm text-brand-600 hover:text-brand-700 font-medium py-2 border border-brand-200  hover:bg-brand-50 transition-colors"
                     >
                       Inquire About Unit {unit.number}
                     </Link>
