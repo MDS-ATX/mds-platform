@@ -116,7 +116,7 @@ export default function MapSection({
 
   if (!mounted) {
     return (
-      <div className="w-full h-[400px] bg-gray-100  flex items-center justify-center">
+      <div className="w-full h-[400px] bg-gray-100 relative z-0 flex items-center justify-center">
         <p className="text-gray-400 text-sm">Loading map...</p>
       </div>
     );
@@ -125,7 +125,7 @@ export default function MapSection({
   return (
     <div
       ref={mapRef}
-      className="w-full h-[400px]  overflow-hidden"
+      className="w-full h-[400px] relative z-0 overflow-hidden"
     />
   );
 }

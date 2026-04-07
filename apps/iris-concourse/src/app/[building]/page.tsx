@@ -267,7 +267,7 @@ export default async function BuildingPage({
           </div>
 
           {/* Map */}
-          <h2 id="map" className="text-2xl font-heading font-bold text-black mb-6">
+          <h2 id="map" className="text-2xl font-heading font-bold text-black mb-6 scroll-mt-32">
             Location
           </h2>
           <div className="mb-4">

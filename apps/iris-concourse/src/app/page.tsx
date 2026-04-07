@@ -69,10 +69,17 @@ export default function HomePage() {
           <h2 className="text-2xl font-heading font-bold text-black mb-2">
             Mueller, Austin
           </h2>
-          <p className="text-gray-500 text-sm mb-8 max-w-xl">
+          <p className="text-gray-500 text-sm mb-4 max-w-xl">
             Two distinctive residences in one of Austin&apos;s most walkable
             and vibrant neighborhoods.
           </p>
+          <Link
+            href="/neighborhood"
+            className="inline-flex items-center gap-1 text-sm font-medium text-gray-600 hover:text-black transition-colors mb-8"
+          >
+            Explore the Neighborhood
+            <span aria-hidden="true">&rarr;</span>
+          </Link>
           <MapSection buildings={mapBuildings} />
         </div>
       </section>
