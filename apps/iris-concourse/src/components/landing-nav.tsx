@@ -48,7 +48,7 @@ export default function LandingNav() {
 
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden p-2"
+            className="md:hidden p-2 text-white"
             aria-label="Toggle menu"
           >
             <svg
