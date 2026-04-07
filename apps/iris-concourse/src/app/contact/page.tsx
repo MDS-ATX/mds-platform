@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { Suspense, useState, type FormEvent } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import LandingNav from "@/components/landing-nav";
 import buildings from "@/data/buildings.json";
@@ -8,6 +9,28 @@ import buildings from "@/data/buildings.json";
 type FormStatus = "idle" | "submitting" | "success" | "error";
 
 export default function ContactPage() {
+  return (
+    <Suspense>
+      <ContactPageInner />
+    </Suspense>
+  );
+}
+
+function ContactPageInner() {
+  const searchParams = useSearchParams();
+  const unitParam = searchParams.get("unit");
+  const buildingParam = searchParams.get("building");
+
+  const buildingName = buildingParam
+    ? buildingParam.charAt(0).toUpperCase() + buildingParam.slice(1)
+    : null;
+
+  const defaultMessage = unitParam && buildingName
+    ? `Interested in ${buildingName} unit ${unitParam}`
+    : "";
+
+  const defaultInterestedIn = buildingParam || "general";
+
   const [status, setStatus] = useState<FormStatus>("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -170,6 +193,7 @@ export default function ContactPage() {
                 <select
                   id="interestedIn"
                   name="interestedIn"
+                  defaultValue={defaultInterestedIn}
                   className="w-full px-4 py-3 border border-gray-300  focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-colors"
                 >
                   <option value="general">General Information</option>
@@ -272,6 +296,7 @@ export default function ContactPage() {
                   id="message"
                   name="message"
                   rows={4}
+                  defaultValue={defaultMessage}
                   className="w-full px-4 py-3 border border-gray-300  focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-colors resize-none"
                 />
               </div>

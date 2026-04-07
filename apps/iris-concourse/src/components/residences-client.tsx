@@ -51,6 +51,7 @@ export default function ResidencesClient({
   const [bedroomFilter, setBedroomFilter] = useState<number | null>(initialFilter);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [unitPhotoIndices, setUnitPhotoIndices] = useState<Record<string, number>>({});
+  const [photoLightbox, setPhotoLightbox] = useState<{ photos: { src: string; alt: string }[]; index: number } | null>(null);
 
   const filterOptions = [
     { label: "All", value: null },
@@ -184,6 +185,19 @@ export default function ResidencesClient({
                     {/* Model unit photo carousel */}
                     {hasPhotos && unit.photos && (
                       <div className="relative aspect-[4/3]  overflow-hidden mb-3 bg-gray-100 group">
+                        <button
+                          onClick={() =>
+                            setPhotoLightbox({
+                              photos: unit.photos!.map((src, i) => ({
+                                src,
+                                alt: `Unit ${unit.number} photo ${i + 1}`,
+                              })),
+                              index: photoIndex,
+                            })
+                          }
+                          className="absolute inset-0 z-[1] cursor-zoom-in"
+                          aria-label="View photo fullscreen"
+                        />
                         <Image
                           src={unit.photos[photoIndex]}
                           alt={`Unit ${unit.number} photo ${photoIndex + 1}`}
@@ -195,13 +209,14 @@ export default function ResidencesClient({
                         {unit.photos.length > 1 && (
                           <>
                             <button
-                              onClick={() =>
+                              onClick={(e) => {
+                                e.stopPropagation();
                                 setUnitPhoto(
                                   unit.id,
                                   (photoIndex - 1 + unit.photos!.length) % unit.photos!.length
-                                )
-                              }
-                              className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                                );
+                              }}
+                              className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full w-8 h-8 flex items-center justify-center z-[2] opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity"
                               aria-label="Previous photo"
                             >
                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4">
@@ -209,20 +224,21 @@ export default function ResidencesClient({
                               </svg>
                             </button>
                             <button
-                              onClick={() =>
+                              onClick={(e) => {
+                                e.stopPropagation();
                                 setUnitPhoto(
                                   unit.id,
                                   (photoIndex + 1) % unit.photos!.length
-                                )
-                              }
-                              className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                                );
+                              }}
+                              className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full w-8 h-8 flex items-center justify-center z-[2] opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity"
                               aria-label="Next photo"
                             >
                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                               </svg>
                             </button>
-                            <div className="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-0.5 rounded-full">
+                            <div className="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-0.5 rounded-full z-[2]">
                               {photoIndex + 1} / {unit.photos.length}
                             </div>
                           </>
@@ -274,6 +290,17 @@ export default function ResidencesClient({
           currentIndex={lightboxIndex}
           onIndexChange={setLightboxIndex}
           onClose={() => setLightboxIndex(null)}
+        />
+      )}
+
+      {/* Photo lightbox for model units */}
+      {photoLightbox && (
+        <Lightbox
+          images={photoLightbox.photos}
+          initialIndex={photoLightbox.index}
+          currentIndex={photoLightbox.index}
+          onIndexChange={(i) => setPhotoLightbox((prev) => prev ? { ...prev, index: i } : null)}
+          onClose={() => setPhotoLightbox(null)}
         />
       )}
     </div>
