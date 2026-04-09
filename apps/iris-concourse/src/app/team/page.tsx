@@ -1,12 +1,41 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import LandingNav from "@/components/landing-nav";
+import projectData from "@/data/project.json";
 
 export const metadata: Metadata = {
   title: "Team | Concourse & Iris, Austin",
   description:
     "Meet the team behind Concourse & Iris — developed by InTown Homes and sold by MODUS Development Services in Austin's Mueller neighborhood.",
 };
+
+function TeamHeadshot({ name, image, objectPosition = "center" }: { name: string; image?: string; objectPosition?: string }) {
+  if (image) {
+    return (
+      <div className="w-28 h-28 rounded-full overflow-hidden bg-brand-200">
+        <Image
+          src={image}
+          alt={name}
+          width={224}
+          height={224}
+          className="w-full h-full object-cover"
+          style={{ objectPosition }}
+        />
+      </div>
+    );
+  }
+  const initials = name
+    .split(" ")
+    .map((n) => n[0])
+    .join("");
+  return (
+    <div className="w-28 h-28 rounded-full bg-brand-200 flex items-center justify-center">
+      <span className="text-2xl font-heading font-bold text-brand-700">
+        {initials}
+      </span>
+    </div>
+  );
+}
 
 export default function TeamPage() {
   return (
@@ -20,9 +49,9 @@ export default function TeamPage() {
             The Team
           </h1>
           <p className="text-gray-600 max-w-2xl">
-            Concourse &amp; Iris is brought to life by an experienced team of
-            developers and real estate professionals dedicated to creating
-            exceptional urban living in Mueller.
+            Concourse &amp; Iris is brought to you by an experienced team of
+            builders and new-home specialists dedicated to connecting buyers
+            with exceptional urban living in Mueller.
           </p>
         </div>
       </section>
@@ -68,7 +97,7 @@ export default function TeamPage() {
                 href="https://www.intownhomes.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 mt-8 px-6 py-3 bg-black text-white text-sm font-medium  hover:bg-gray-800 transition-colors"
+                className="inline-flex items-center gap-2 mt-8 px-6 py-3 bg-black text-white text-sm font-medium hover:bg-gray-800 transition-colors"
               >
                 Visit InTown Homes
                 <svg
@@ -113,21 +142,29 @@ export default function TeamPage() {
               </h2>
               <div className="space-y-4 text-gray-600 leading-relaxed">
                 <p>
-                  The MODUS Development Services (MDS) Sales Team is a
-                  specialized, full-service sales and marketing arm that acts as
-                  a strategic partner for developers throughout every stage of a
-                  residential project&apos;s lifecycle. From early acquisition
-                and market positioning to high-impact branding and data-driven
-                sales execution, MDS provides a unified, in-house ecosystem
-                designed to bridge the gap between architectural vision and
-                market success.
-              </p>
-            </div>
+                  <a href="https://modusdevelopmentservices.com" target="_blank" rel="noopener noreferrer" className="text-brand-600 hover:text-brand-700 transition-colors">MODUS Development Services</a>{" "}
+                  (MDS) is Austin&apos;s new home infill source &mdash;
+                  connecting homebuyers with the most vibrant new construction
+                  infill communities coming to market. From first-time buyers to
+                  seasoned homeowners, MDS guides every step of the new-home
+                  journey with deep local expertise and a hands-on, concierge
+                  approach.
+                </p>
+                <p>
+                  As a dedicated division of{" "}
+                  <a href="https://modusdevelopmentservices.com" target="_blank" rel="noopener noreferrer" className="text-brand-600 hover:text-brand-700 transition-colors">MODUS Real Estate</a>,
+                  MDS brings the full resources of a leading Austin brokerage to
+                  every new residential development it represents &mdash;
+                  bringing the most vibrant infill communities to market and
+                  ensuring buyers feel informed, supported, and confident from
+                  first visit to closing day.
+                </p>
+              </div>
               <a
                 href="https://modusdevelopmentservices.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 mt-8 px-6 py-3 bg-black text-white text-sm font-medium  hover:bg-gray-800 transition-colors"
+                className="inline-flex items-center gap-2 mt-8 px-6 py-3 bg-black text-white text-sm font-medium hover:bg-gray-800 transition-colors"
               >
                 Visit MODUS Development Services
                 <svg
@@ -150,105 +187,43 @@ export default function TeamPage() {
         </div>
       </section>
 
-      {/* Contact Form */}
+      {/* Sales Team */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl">
-            <h2 className="text-3xl font-heading font-bold text-black mb-2">
-              Get in Touch
-            </h2>
-            <p className="text-gray-600 mb-10">
-              Interested in learning more about Concourse &amp; Iris? Fill out
-              the form below and a member of our team will be in touch.
-            </p>
+          <h2 className="text-3xl font-heading font-bold text-black mb-2">
+            Your Sales Team
+          </h2>
+          <p className="text-gray-600 mb-10">
+            Have questions or ready to schedule a tour? Our on-site team is here
+            to help.
+          </p>
 
-            <form className="space-y-6">
-              <div className="grid sm:grid-cols-2 gap-6">
-                <div>
-                  <label
-                    htmlFor="firstName"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    First Name *
-                  </label>
-                  <input
-                    type="text"
-                    id="firstName"
-                    name="firstName"
-                    required
-                    className="w-full px-4 py-3 border border-gray-300  focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-colors"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="lastName"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Last Name *
-                  </label>
-                  <input
-                    type="text"
-                    id="lastName"
-                    name="lastName"
-                    required
-                    className="w-full px-4 py-3 border border-gray-300  focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-colors"
-                  />
-                </div>
+          <div className="grid sm:grid-cols-3 gap-8 mb-10">
+            {projectData.salesTeam.map((member) => (
+              <div key={member.name} className="flex flex-col items-center text-center">
+                <TeamHeadshot name={member.name} image={member.image} objectPosition={(member as Record<string, string>).imagePosition} />
+                <h3 className="mt-4 text-lg font-semibold text-black">
+                  {member.name}
+                </h3>
+                <p className="text-sm text-gray-500">{member.title}</p>
               </div>
+            ))}
+          </div>
 
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  Email *
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  required
-                  className="w-full px-4 py-3 border border-gray-300  focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-colors"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="phone"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  Phone
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  className="w-full px-4 py-3 border border-gray-300  focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-colors"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={4}
-                  className="w-full px-4 py-3 border border-gray-300  focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-colors resize-none"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full px-8 py-4 bg-brand-600 text-white font-medium  hover:bg-brand-700 transition-colors"
-              >
-                Send Inquiry
-              </button>
-            </form>
+          <div className="flex flex-col sm:flex-row items-center gap-4 text-sm text-gray-600">
+            <a
+              href="mailto:IRISCC@modusrealestate.com"
+              className="hover:text-black transition-colors"
+            >
+              IRISCC@modusrealestate.com
+            </a>
+            <span className="hidden sm:inline text-gray-300">|</span>
+            <a
+              href="tel:+17373992309"
+              className="hover:text-black transition-colors"
+            >
+              (737) 399-2309
+            </a>
           </div>
         </div>
       </section>

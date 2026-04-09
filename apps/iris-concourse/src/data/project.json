@@ -25,10 +25,26 @@
   "status": "pre-launch",
   "salesTeam": [
     {
+      "name": "Christy Neikirk",
+      "title": "Sales Lead",
+      "email": "IRISCC@modusrealestate.com",
+      "phone": "",
+      "image": "/images/team/christy-neikirk.webp",
+      "imagePosition": "center 20%"
+    },
+    {
       "name": "Jacob Hannusch",
       "title": "Sales Associate",
-      "email": "jacob@modusrealestate.com",
-      "phone": ""
+      "email": "IRISCC@modusrealestate.com",
+      "phone": "",
+      "image": "/images/team/jacob-hannusch.webp"
+    },
+    {
+      "name": "Carson Haney",
+      "title": "Sales Associate",
+      "email": "IRISCC@modusrealestate.com",
+      "phone": "",
+      "image": "/images/team/carson-haney.webp"
     }
   ]
 }

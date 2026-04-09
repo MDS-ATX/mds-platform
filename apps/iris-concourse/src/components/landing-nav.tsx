@@ -12,6 +12,7 @@ export default function LandingNav() {
     { label: "Concourse", href: "/concourse" },
     { label: "Iris", href: "/iris" },
     { label: "Neighborhood", href: "/neighborhood" },
+    { label: "Info", href: "/info" },
     { label: "Team", href: "/team" },
     { label: "Contact", href: "/contact" },
   ];

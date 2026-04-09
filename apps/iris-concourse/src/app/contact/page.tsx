@@ -336,6 +336,7 @@ function ContactPageInner() {
                 {status === "submitting" ? "Submitting..." : "Stay Informed"}
               </button>
             </form>
+
           </div>
         </div>
       </section>
