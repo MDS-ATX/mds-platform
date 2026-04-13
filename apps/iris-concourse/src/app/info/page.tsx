@@ -49,10 +49,33 @@ export default function InfoPage() {
       {/* Management Company */}
       <section className="py-12 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-heading font-bold text-black mb-4">
+          <h2 className="text-2xl font-heading font-bold text-black mb-6">
             Management Company
           </h2>
-          <p className="text-gray-500">Details coming soon</p>
+          <div className="space-y-3">
+            <p className="font-semibold text-black">Goodwin &amp; Company</p>
+            <p className="text-gray-700">
+              At Goodwin &amp; Company, we specialize in providing comprehensive
+              condominium property management in Texas, Louisiana, and Colorado.
+              Our goal is to ensure that every condo thrives by offering
+              customized solutions designed to meet the unique needs of each
+              association.
+            </p>
+            <p className="text-gray-700">
+              With over 45 years of experience and a dedicated team of
+              condominium association property managers, we strive to enhance the
+              quality of life for all residents while ensuring the efficient
+              operation of the association.
+            </p>
+            <a
+              href="https://goodwin-co.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block text-brand-600 underline hover:text-brand-700 text-sm"
+            >
+              goodwin-co.com
+            </a>
+          </div>
         </div>
       </section>
 
