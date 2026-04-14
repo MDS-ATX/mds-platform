@@ -247,19 +247,32 @@ export default function ResidencesClient({
                     )}
 
                     {/* Floor plan — click opens shared lightbox */}
-                    <button
-                      onClick={() => setLightboxIndex(getUnitFloorPlanIndex(unit))}
-                      className="relative w-full aspect-[3/4] bg-gray-50  overflow-hidden mb-4 cursor-zoom-in"
-                    >
-                      <Image
-                        src={`/images/floor-plans/${unit.building}-${unit.number}.png`}
-                        alt={`Floor plan for Unit ${unit.number}`}
-                        fill
-                        className="object-contain"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        unoptimized
-                      />
-                    </button>
+                    <div className="relative mb-4">
+                      <button
+                        onClick={() => setLightboxIndex(getUnitFloorPlanIndex(unit))}
+                        className="relative w-full aspect-[3/4] bg-gray-50 overflow-hidden cursor-zoom-in"
+                      >
+                        <Image
+                          src={`/images/floor-plans/${unit.building}-${unit.number}.png`}
+                          alt={`Floor plan for Unit ${unit.number}`}
+                          fill
+                          className="object-contain"
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          unoptimized
+                        />
+                      </button>
+                      <a
+                        href={`/images/floor-plans/${unit.building}-${unit.number}.png`}
+                        download={`${unit.building}-unit-${unit.number}-floor-plan.png`}
+                        onClick={(e) => e.stopPropagation()}
+                        className="absolute top-2 right-2 z-10 bg-white/80 hover:bg-white rounded-full p-1.5 shadow transition-colors"
+                        title="Download floor plan"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 text-gray-700">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                        </svg>
+                      </a>
+                    </div>
 
 
                     <Link
