@@ -310,7 +310,7 @@ function ContactPageInner() {
                   className="mt-1 h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500"
                 />
                 <label htmlFor="consent" className="text-sm text-gray-600">
-                  By selecting &ldquo;Stay Informed&rdquo;, you agree to be
+                  * By selecting &ldquo;Stay Informed&rdquo;, you agree to be
                   contacted by the Concourse & Iris Sales Team via call, email,
                   and text. To opt-out, you can reply &lsquo;stop&rsquo; at any
                   time or click the unsubscribe link in the emails. Message and
