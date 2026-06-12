@@ -4,7 +4,8 @@
     "FUB_API_KEY",
     "NEXT_PUBLIC_FUB_PIXEL_ID",
     "NEXT_PUBLIC_SITE_URL",
-    "NEXT_PUBLIC_MAPBOX_TOKEN"
+    "NEXT_PUBLIC_MAPBOX_TOKEN",
+    "ADMIN_PASSWORD"
   ],
   "tasks": {
     "build": {
