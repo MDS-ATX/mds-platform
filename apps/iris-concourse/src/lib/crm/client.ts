@@ -1,4 +1,11 @@
-import type { FUBEvent, FUBEventResponse, FUBEventType } from "./types";
+import type {
+  FUBEvent,
+  FUBEventResponse,
+  FUBEventType,
+  FUBPeopleResponse,
+  FUBPersonRecord,
+  FUBNoteResponse,
+} from "./types";
 import type { ContactFormData } from "./schemas";
 
 // ─── Follow Up Boss API Client ───────────────────────────────────────────────
@@ -84,5 +91,52 @@ export async function createLeadEvent(
   return fubFetch<FUBEventResponse>("/events", {
     method: "POST",
     body: JSON.stringify(event),
+  });
+}
+
+/**
+ * Search existing leads in Follow Up Boss by name, email, or phone.
+ * Used by the agent tour sheet to attach a tour to an existing lead.
+ */
+export async function searchPeople(
+  query: string,
+  limit = 10
+): Promise<FUBPersonRecord[]> {
+  const q = query.trim();
+  if (!q) return [];
+
+  const params = new URLSearchParams({
+    q,
+    limit: String(limit),
+    sort: "updated",
+    fields: "id,name,firstName,lastName,emails,phones,stage,source,tags,created,updated",
+  });
+
+  const data = await fubFetch<FUBPeopleResponse>(`/people?${params.toString()}`);
+  return data.people ?? [];
+}
+
+/**
+ * Fetch a single lead by FUB person id.
+ */
+export async function getPerson(id: number): Promise<FUBPersonRecord> {
+  const params = new URLSearchParams({
+    fields: "id,name,firstName,lastName,emails,phones,stage,source,tags,created,updated",
+  });
+  return fubFetch<FUBPersonRecord>(`/people/${id}?${params.toString()}`);
+}
+
+/**
+ * Write a note to a lead's timeline in Follow Up Boss.
+ * The agent tour sheet pushes its intel + toured-unit feedback here.
+ */
+export async function createNote(
+  personId: number,
+  body: string,
+  subject = "Tour Notes"
+): Promise<FUBNoteResponse> {
+  return fubFetch<FUBNoteResponse>("/notes", {
+    method: "POST",
+    body: JSON.stringify({ personId, subject, body }),
   });
 }

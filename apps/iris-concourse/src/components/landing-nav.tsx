@@ -13,6 +13,7 @@ export default function LandingNav() {
     { label: "Iris", href: "/iris" },
     { label: "Neighborhood", href: "/neighborhood" },
     { label: "Info", href: "/info" },
+    { label: "Lenders", href: "/preferred-lenders" },
     { label: "Team", href: "/team" },
     { label: "Contact", href: "/contact" },
   ];

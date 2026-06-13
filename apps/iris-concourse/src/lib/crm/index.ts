@@ -1,7 +1,12 @@
 // ─── MDS CRM Integration ─────────────────────────────────────────────────────
 // Follow Up Boss API client and form validation schemas.
 
-export { createLeadEvent } from "./client";
+export {
+  createLeadEvent,
+  searchPeople,
+  getPerson,
+  createNote,
+} from "./client";
 export { contactFormSchema, type ContactFormData } from "./schemas";
 export type {
   FUBEvent,
@@ -9,4 +14,8 @@ export type {
   FUBEventResponse,
   FUBPerson,
   FUBProperty,
+  FUBPersonRecord,
+  FUBPeopleResponse,
+  FUBNote,
+  FUBNoteResponse,
 } from "./types";
