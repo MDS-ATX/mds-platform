@@ -23,63 +23,42 @@ function fmtHoa(u: ResidentialUnit): string {
 function bedBath(u: ResidentialUnit): string {
   return `${u.beds} / ${u.baths}`;
 }
-
-const BUILDING_LABEL: Record<string, string> = {
-  concourse: "Concourse — 3900 Berkman",
-  iris: "Iris — 5025 Mueller Blvd",
-};
+function pricesAsOf(): string {
+  return new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+}
 
 function buildPlainText(units: ResidentialUnit[]): string {
   const lines: string[] = [];
-  for (const [building, list] of groupByBuilding(units)) {
-    lines.push(BUILDING_LABEL[building] ?? building);
-    lines.push("");
-    lines.push(["Unit", "Bed/Bath", "SqFt", "Price", "HOA"].join("\t"));
-    for (const u of list) {
-      lines.push(
-        [u.unitNumber, bedBath(u), fmtNum(u.sqft), fmtPrice(u.price), fmtHoa(u)].join("\t")
-      );
-    }
-    lines.push("");
+  lines.push(`Prices as of ${pricesAsOf()}`);
+  lines.push("");
+  lines.push(["Unit", "Bed/Bath", "SqFt", "Price", "HOA"].join("\t"));
+  for (const u of units) {
+    lines.push([u.unitNumber, bedBath(u), fmtNum(u.sqft), fmtPrice(u.price), fmtHoa(u)].join("\t"));
   }
   return lines.join("\n");
 }
 
 function buildHtml(units: ResidentialUnit[]): string {
   const parts: string[] = [];
-  for (const [building, list] of groupByBuilding(units)) {
-    parts.push(`<div style="font-family:Arial,sans-serif;font-size:14px;margin-bottom:24px;">`);
-    parts.push(
-      `<h3 style="color:#191919;margin:0 0 8px;font-size:16px;">${BUILDING_LABEL[building] ?? building}</h3>`
-    );
-    parts.push(`<table style="border-collapse:collapse;font-size:13px;">`);
-    const th = (label: string, align = "left") =>
-      `<th style="padding:6px 12px;text-align:${align};font-weight:600;border-bottom:2px solid #ddd;">${label}</th>`;
-    parts.push(
-      `<thead><tr style="background:#e8e8e8;">${th("Unit")}${th("Bed/Bath", "center")}${th("SqFt", "right")}${th("Price", "right")}${th("HOA", "right")}</tr></thead>`
-    );
-    parts.push(`<tbody>`);
-    for (const u of list) {
-      const td = (content: string, align = "left") =>
-        `<td style="padding:5px 12px;text-align:${align};">${content}</td>`;
-      const unitCell = `<td style="padding:5px 12px;"><a href="${unitUrl(u.building, u.unitNumber)}" style="color:#2563eb;text-decoration:none;">${u.unitNumber}</a></td>`;
-      parts.push(
-        `<tr style="border-bottom:1px solid #eee;">${unitCell}${td(bedBath(u), "center")}${td(fmtNum(u.sqft), "right")}${td(fmtPrice(u.price), "right")}${td(fmtHoa(u), "right")}</tr>`
-      );
-    }
-    parts.push(`</tbody></table>`);
-    parts.push(`</div>`);
-  }
-  return parts.join("");
-}
-
-function groupByBuilding(units: ResidentialUnit[]): [string, ResidentialUnit[]][] {
-  const map = new Map<string, ResidentialUnit[]>();
+  parts.push(`<div style="font-family:Arial,sans-serif;font-size:14px;">`);
+  parts.push(`<p style="margin:0 0 8px;font-size:14px;color:#191919;">Prices as of ${pricesAsOf()}</p>`);
+  parts.push(`<table style="border-collapse:collapse;font-size:13px;">`);
+  const th = (label: string, align = "left") =>
+    `<th style="padding:6px 12px;text-align:${align};font-weight:600;border-bottom:2px solid #ddd;">${label}</th>`;
+  parts.push(
+    `<thead><tr style="background:#e8e8e8;">${th("Unit")}${th("Bed/Bath", "center")}${th("SqFt", "right")}${th("Price", "right")}${th("HOA", "right")}</tr></thead>`
+  );
+  parts.push(`<tbody>`);
   for (const u of units) {
-    if (!map.has(u.building)) map.set(u.building, []);
-    map.get(u.building)!.push(u);
+    const td = (content: string, align = "left") =>
+      `<td style="padding:5px 12px;text-align:${align};">${content}</td>`;
+    const unitCell = `<td style="padding:5px 12px;"><a href="${unitUrl(u.building, u.unitNumber)}" style="color:#2563eb;text-decoration:none;">${u.unitNumber}</a></td>`;
+    parts.push(
+      `<tr style="border-bottom:1px solid #eee;">${unitCell}${td(bedBath(u), "center")}${td(fmtNum(u.sqft), "right")}${td(fmtPrice(u.price), "right")}${td(fmtHoa(u), "right")}</tr>`
+    );
   }
-  return Array.from(map.entries());
+  parts.push(`</tbody></table></div>`);
+  return parts.join("");
 }
 
 export function CopyControls({ selectedUnits }: { selectedUnits: ResidentialUnit[] }) {
