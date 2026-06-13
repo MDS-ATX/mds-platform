@@ -1,3 +1,4 @@
+// Sales inventory admin tool. Build marker: redeploy to pick up ADMIN_PASSWORD env.
 import { getFullInventory } from "@/lib/inventory/data";
 import { InventoryClient } from "./inventory-client";
 
