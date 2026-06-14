@@ -6,7 +6,12 @@ import type {
   FUBPersonRecord,
   FUBNoteResponse,
 } from "./types";
-import type { ContactFormData } from "./schemas";
+import type { ContactFormData, OpenHouseFormData } from "./schemas";
+
+const BUILDING_LABELS: Record<OpenHouseFormData["building"], string> = {
+  concourse: "Concourse",
+  iris: "Iris",
+};
 
 // ─── Follow Up Boss API Client ───────────────────────────────────────────────
 // Server-side only. Uses Basic Auth with API key.
@@ -86,6 +91,56 @@ export async function createLeadEvent(
       ],
     },
     property: options.property,
+  };
+
+  return fubFetch<FUBEventResponse>("/events", {
+    method: "POST",
+    body: JSON.stringify(event),
+  });
+}
+
+/**
+ * Create an open house sign-in lead in Follow Up Boss.
+ * Source is "Open House"; the team selects the building they're sitting at and
+ * whether the visitor is a buyer or a cooperating agent.
+ */
+export async function createOpenHouseLead(
+  formData: OpenHouseFormData
+): Promise<FUBEventResponse> {
+  const buildingLabel = BUILDING_LABELS[formData.building];
+  const isAgent = formData.visitorType === "agent";
+
+  const event: FUBEvent = {
+    source: "Open House",
+    system: "MDS Platform",
+    type: "Registration",
+    message: [
+      `Open House Sign-In — ${buildingLabel}`,
+      `Visitor type: ${isAgent ? "Agent" : "Buyer"}`,
+      !isAgent && formData.workingWithAgent
+        ? `Working with an agent: ${formData.workingWithAgent === "yes" ? "Yes" : "No"}`
+        : null,
+      `Name: ${formData.firstName} ${formData.lastName}`,
+      formData.email ? `Email: ${formData.email}` : null,
+      formData.phone ? `Phone: ${formData.phone}` : null,
+      formData.message ? `\nNotes:\n${formData.message}` : null,
+    ]
+      .filter(Boolean)
+      .join("\n"),
+    person: {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      emails: formData.email ? [{ value: formData.email }] : [],
+      phones: formData.phone ? [{ value: formData.phone }] : undefined,
+      tags: [
+        "mds:iris-concourse",
+        `building:${formData.building}`,
+        "source:open-house",
+        isAgent ? "type:agent" : "type:buyer",
+        ...(!isAgent && formData.workingWithAgent === "yes" ? ["buyer:has-agent"] : []),
+        ...(!isAgent && formData.workingWithAgent === "no" ? ["buyer:no-agent"] : []),
+      ],
+    },
   };
 
   return fubFetch<FUBEventResponse>("/events", {

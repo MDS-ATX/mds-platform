@@ -3,11 +3,17 @@
 
 export {
   createLeadEvent,
+  createOpenHouseLead,
   searchPeople,
   getPerson,
   createNote,
 } from "./client";
-export { contactFormSchema, type ContactFormData } from "./schemas";
+export {
+  contactFormSchema,
+  type ContactFormData,
+  openHouseFormSchema,
+  type OpenHouseFormData,
+} from "./schemas";
 export type {
   FUBEvent,
   FUBEventType,

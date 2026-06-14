@@ -29,3 +29,23 @@ export const contactFormSchema = z.object({
 });
 
 export type ContactFormData = z.infer<typeof contactFormSchema>;
+
+// ─── Open House Sign-In ──────────────────────────────────────────────────────
+// Used by the in-person open house form under /admin. The team picks which
+// building they're sitting at (Concourse vs Iris) and whether the visitor is a
+// buyer or a cooperating agent. Submitted to Follow Up Boss with source
+// "Open House".
+
+export const openHouseFormSchema = z.object({
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  email: z.string().email("Please enter a valid email address"),
+  phone: z.string().min(1, "Phone is required"),
+  building: z.enum(["concourse", "iris"]),
+  visitorType: z.enum(["buyer", "agent"]),
+  // Only meaningful when visitorType is "buyer".
+  workingWithAgent: z.enum(["no", "yes"]).optional(),
+  message: z.string().optional().default(""),
+});
+
+export type OpenHouseFormData = z.infer<typeof openHouseFormSchema>;

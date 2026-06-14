@@ -265,6 +265,12 @@ export function InventoryClient({
             <p className="text-xs uppercase tracking-widest text-brand-600">Concourse &amp; Iris — Admin</p>
           </div>
           <div className="flex items-center gap-2">
+            <a
+              href="/admin/open-house"
+              className="rounded-md border border-brand-200 px-3 py-1.5 text-sm font-medium text-brand-700 hover:bg-brand-50"
+            >
+              Open House Sign-In
+            </a>
             <button
               onClick={() => setEditMode((v) => !v)}
               className={`rounded-md border px-3 py-1.5 text-sm font-medium transition-colors ${
