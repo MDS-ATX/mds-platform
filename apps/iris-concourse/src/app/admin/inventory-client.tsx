@@ -411,11 +411,13 @@ export function InventoryClient({
                       <Fragment key={key as string}>
                         <SortHeader field={key as string} sortField={sortField} sortDir={sortDir} onSort={handleSort}>{label}</SortHeader>
                         {key === "views" && (
-                          <SortHeader field="notes" sortField={sortField} sortDir={sortDir} onSort={handleSort}>Notes</SortHeader>
+                          <>
+                            <SortHeader field="status" sortField={sortField} sortDir={sortDir} onSort={handleSort}>Status</SortHeader>
+                            <SortHeader field="notes" sortField={sortField} sortDir={sortDir} onSort={handleSort}>Notes</SortHeader>
+                          </>
                         )}
                       </Fragment>
                     ))}
-                    <SortHeader field="status" sortField={sortField} sortDir={sortDir} onSort={handleSort}>Status</SortHeader>
                   </tr>
                 </thead>
                 <tbody>
@@ -459,25 +461,27 @@ export function InventoryClient({
                           <Fragment key={fk as string}>
                             <td className={TD}>{(u[fk] as string | undefined) ?? "—"}</td>
                             {fk === "views" && (
-                              <td className="px-2 py-1.5">
-                                <input
-                                  type="text"
-                                  value={u.notes ?? ""}
-                                  onChange={(e) => updateUnit(u.unitNumber, { notes: e.target.value })}
-                                  placeholder="Add note…"
-                                  className="w-32 rounded border border-brand-200 px-1.5 py-0.5 text-[11px] outline-none focus:border-black"
-                                />
-                              </td>
+                              <>
+                                <td className={TD}>
+                                  {editMode ? (
+                                    <StatusSelect value={u.status} onChange={(s) => updateUnit(u.unitNumber, { status: s })} />
+                                  ) : (
+                                    <StatusBadge status={u.status} />
+                                  )}
+                                </td>
+                                <td className="px-2 py-1.5">
+                                  <input
+                                    type="text"
+                                    value={u.notes ?? ""}
+                                    onChange={(e) => updateUnit(u.unitNumber, { notes: e.target.value })}
+                                    placeholder="Add note…"
+                                    className="w-32 rounded border border-brand-200 px-1.5 py-0.5 text-[11px] outline-none focus:border-black"
+                                  />
+                                </td>
+                              </>
                             )}
                           </Fragment>
                         ))}
-                        <td className={TD}>
-                          {editMode ? (
-                            <StatusSelect value={u.status} onChange={(s) => updateUnit(u.unitNumber, { status: s })} />
-                          ) : (
-                            <StatusBadge status={u.status} />
-                          )}
-                        </td>
                       </tr>
                     );
                   })}
