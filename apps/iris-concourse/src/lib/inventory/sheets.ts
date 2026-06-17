@@ -89,7 +89,8 @@ function normalizeDesignation(raw: string | undefined): Designation {
 
 function statusFromSheet(raw: string | undefined): InventoryStatus {
   switch ((raw || "").trim().toLowerCase()) {
-    case "sold": return "sold";
+    case "sold":
+    case "closed": return "sold"; // standardize "Closed" → Sold
     case "pending": return "pending";
     case "hold": return "hold";
     default: return "active";
