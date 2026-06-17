@@ -237,6 +237,25 @@ export function InventoryClient({
     persist({ type: "storage", id: number, status });
   }
 
+  function debouncedNote(timerKey: string, fire: () => void) {
+    if (noteTimers.current[timerKey]) clearTimeout(noteTimers.current[timerKey]);
+    noteTimers.current[timerKey] = setTimeout(fire, 600);
+  }
+  function updateParkingNote(number: string, note: string) {
+    setParking((prev) => ({
+      ...prev,
+      [building]: prev[building].map((p) => (p.number === number ? { ...p, note } : p)),
+    }));
+    debouncedNote(`parking-${number}`, () => persist({ type: "parking", id: number, notes: note }));
+  }
+  function updateStorageNote(number: string, note: string) {
+    setStorage((prev) => ({
+      ...prev,
+      [building]: prev[building].map((s) => (s.number === number ? { ...s, note } : s)),
+    }));
+    debouncedNote(`storage-${number}`, () => persist({ type: "storage", id: number, notes: note }));
+  }
+
   function toggleSelect(unitNumber: string) {
     const key = `${building}-${unitNumber}`;
     setSelected((prev) => {
@@ -588,6 +607,7 @@ export function InventoryClient({
                     <th className={THP}>Type</th>
                     <th className={`${THP} text-right`}>Price</th>
                     <th className={THP}>Status</th>
+                    <th className={THP}>Notes</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -602,6 +622,15 @@ export function InventoryClient({
                         ) : (
                           <StatusBadge status={p.status} />
                         )}
+                      </td>
+                      <td className="px-5 py-1.5">
+                        <input
+                          type="text"
+                          value={p.note ?? ""}
+                          onChange={(e) => updateParkingNote(p.number, e.target.value)}
+                          placeholder="Add note…"
+                          className="w-40 rounded border border-brand-200 px-1.5 py-0.5 text-[11px] outline-none focus:border-black"
+                        />
                       </td>
                     </tr>
                   ))}
@@ -635,10 +664,10 @@ export function InventoryClient({
               <table className="w-auto">
                 <thead>
                   <tr className="border-b border-brand-200 bg-brand-50">
-                    <th className={THP}>Unit</th>
+                    <th className={THP}>Space</th>
                     <th className={`${THP} text-right`}>Price</th>
                     <th className={THP}>Status</th>
-                    <th className={THP}>Note</th>
+                    <th className={THP}>Notes</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -655,7 +684,15 @@ export function InventoryClient({
                           <StatusBadge status={s.status} />
                         )}
                       </td>
-                      <td className={TDP}>{s.note ?? ""}</td>
+                      <td className="px-5 py-1.5">
+                        <input
+                          type="text"
+                          value={s.note ?? ""}
+                          onChange={(e) => updateStorageNote(s.number, e.target.value)}
+                          placeholder="Add note…"
+                          className="w-40 rounded border border-brand-200 px-1.5 py-0.5 text-[11px] outline-none focus:border-black"
+                        />
+                      </td>
                     </tr>
                   ))}
                 </tbody>

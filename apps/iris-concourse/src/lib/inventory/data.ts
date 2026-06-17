@@ -8,7 +8,13 @@ import { concourseUnits } from "@/data/inventory-concourse";
 import { irisUnits } from "@/data/inventory-iris";
 import { concourseParking, irisParking } from "@/data/inventory-parking";
 import { concourseStorage, irisStorage } from "@/data/inventory-storage";
-import { readStatusOverrides, sheetsConfigured } from "@/lib/inventory/sheets";
+import {
+  readStatusOverrides,
+  sheetsConfigured,
+  readConcourseUnits,
+  readConcourseParking,
+  readConcourseStorage,
+} from "@/lib/inventory/sheets";
 
 // ─── Inventory Data Seam ─────────────────────────────────────────────────────
 // Single source of inventory data for the /admin tool. Today these return the
@@ -42,29 +48,40 @@ export async function getLiveInventory(): Promise<Record<Building, BuildingInven
   const seed = getFullInventory();
   if (!sheetsConfigured()) return seed;
 
-  let overrides;
+  // ── Concourse: source of truth is the official sheet (3 tabs). ──
   try {
-    overrides = await readStatusOverrides();
+    const [units, parking, storage] = await Promise.all([
+      readConcourseUnits(),
+      readConcourseParking(),
+      readConcourseStorage(),
+    ]);
+    if (units.length) seed.concourse.units = units;
+    if (parking.length) seed.concourse.parking = parking;
+    if (storage.length) seed.concourse.storage = storage;
   } catch {
-    return seed; // graceful fallback — never hard-fail the page
+    // leave Concourse on seed if the live read fails
   }
 
-  const key = (building: string, type: string, id: string) => `${building}:${type}:${id}`;
-
-  for (const building of ["concourse", "iris"] as Building[]) {
-    const inv = seed[building];
+  // ── Iris: still seed + the legacy "Admin Status" overlay. ──
+  try {
+    const overrides = await readStatusOverrides();
+    const key = (type: string, id: string) => `iris:${type}:${id}`;
+    const inv = seed.iris;
     inv.units = inv.units.map((u) => {
-      const o = overrides.get(key(building, "unit", u.unitNumber));
+      const o = overrides.get(key("unit", u.unitNumber));
       return o ? { ...u, ...(o.status ? { status: o.status } : {}), ...(o.notes !== undefined ? { notes: o.notes } : {}) } : u;
     });
     inv.parking = inv.parking.map((p) => {
-      const o = overrides.get(key(building, "parking", p.number));
+      const o = overrides.get(key("parking", p.number));
       return o && o.status ? { ...p, status: o.status } : p;
     });
     inv.storage = inv.storage.map((s) => {
-      const o = overrides.get(key(building, "storage", s.number));
+      const o = overrides.get(key("storage", s.number));
       return o && o.status ? { ...s, status: o.status } : s;
     });
+  } catch {
+    // leave Iris on seed
   }
+
   return seed;
 }

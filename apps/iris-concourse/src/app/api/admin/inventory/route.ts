@@ -1,13 +1,16 @@
 import { NextResponse } from "next/server";
 import {
   sheetsConfigured,
+  writeConcourseEdit,
   writeStatusOverride,
   type OverrideType,
 } from "@/lib/inventory/sheets";
 import type { InventoryStatus } from "@/lib/inventory/types";
 
-// POST { building, type, id, status?, notes? } → persist to the "Admin Status"
-// sheet tab. Protected by middleware (matcher covers /api/admin/:path*).
+// POST { building, type, id, status?, notes? }
+//  - Concourse → writes Status/Notes straight into the official sheet tabs.
+//  - Iris → legacy "Admin Status" overlay tab (until Iris tabs are wired).
+// Protected by middleware (matcher covers /api/admin/:path*).
 
 const VALID_TYPES: OverrideType[] = ["unit", "parking", "storage"];
 const VALID_STATUS: InventoryStatus[] = ["active", "sold", "pending", "hold"];
@@ -50,14 +53,23 @@ export async function POST(request: Request) {
   }
 
   try {
-    await writeStatusOverride({
-      building,
-      type: type as OverrideType,
-      id,
-      status: status as InventoryStatus | undefined,
-      notes: notes as string | undefined,
-      updatedAt: new Date().toISOString(),
-    });
+    if (building === "concourse") {
+      await writeConcourseEdit({
+        type: type as OverrideType,
+        id,
+        status: status as InventoryStatus | undefined,
+        notes: notes as string | undefined,
+      });
+    } else {
+      await writeStatusOverride({
+        building,
+        type: type as OverrideType,
+        id,
+        status: status as InventoryStatus | undefined,
+        notes: notes as string | undefined,
+        updatedAt: new Date().toISOString(),
+      });
+    }
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error("inventory write failed", err);
