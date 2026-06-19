@@ -21,7 +21,7 @@ function fmtHoa(u: ResidentialUnit): string {
   return `$${fmtNum(u.hoaFee)}/mo${u.hoaEstimated ? "*" : ""}`;
 }
 function bedBath(u: ResidentialUnit): string {
-  return `${u.beds} / ${u.baths}`;
+  return u.baths ? `${u.beds} / ${u.baths}` : `${u.beds}`;
 }
 function pricesAsOf(): string {
   return new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });

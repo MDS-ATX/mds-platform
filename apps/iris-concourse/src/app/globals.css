@@ -21,3 +21,22 @@
   --font-sans: var(--font-sans), system-ui, sans-serif;
   --font-heading: var(--font-heading), system-ui, sans-serif;
 }
+
+/* ─── Print: clean one-page reports (hide marketing chrome) ─────────────────── */
+@media print {
+  body {
+    background: #fff;
+  }
+  /* Marketing footer + any element opted out of print */
+  body > footer,
+  .print\:hidden {
+    display: none !important;
+  }
+  /* Avoid breaking report sections across pages where possible */
+  section {
+    break-inside: avoid;
+  }
+  @page {
+    margin: 1.5cm;
+  }
+}

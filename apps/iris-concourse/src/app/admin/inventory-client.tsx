@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useMemo, useRef, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import type { Building } from "@/lib/inventory/types";
 import {
   type ResidentialUnit,
@@ -177,83 +177,23 @@ export function InventoryClient({
     return c;
   }, [buildingUnits]);
 
-  // ─── Persistence ───────────────────────────────────────────────────────────
-  const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle");
-  const savedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const noteTimers = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
-
-  async function persist(payload: {
-    type: "unit" | "parking" | "storage";
-    id: string;
-    status?: InventoryStatus;
-    notes?: string;
-  }) {
-    setSaveState("saving");
-    try {
-      const res = await fetch("/api/admin/inventory", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ building, ...payload }),
-      });
-      if (!res.ok) throw new Error(String(res.status));
-      setSaveState("saved");
-      if (savedTimer.current) clearTimeout(savedTimer.current);
-      savedTimer.current = setTimeout(() => setSaveState("idle"), 1500);
-    } catch {
-      setSaveState("error");
-    }
-  }
-
   function updateUnit(unitNumber: string, patch: Partial<ResidentialUnit>) {
     setUnits((prev) => ({
       ...prev,
       [building]: prev[building].map((u) => (u.unitNumber === unitNumber ? { ...u, ...patch } : u)),
     }));
-    if (patch.status !== undefined) {
-      persist({ type: "unit", id: unitNumber, status: patch.status });
-    }
-    if (patch.notes !== undefined) {
-      // Debounce note saves so we don't POST per keystroke.
-      const key = `unit-${unitNumber}`;
-      if (noteTimers.current[key]) clearTimeout(noteTimers.current[key]);
-      const value = patch.notes;
-      noteTimers.current[key] = setTimeout(() => {
-        persist({ type: "unit", id: unitNumber, notes: value });
-      }, 600);
-    }
   }
   function updateParkingStatus(number: string, status: InventoryStatus) {
     setParking((prev) => ({
       ...prev,
       [building]: prev[building].map((p) => (p.number === number ? { ...p, status } : p)),
     }));
-    persist({ type: "parking", id: number, status });
   }
   function updateStorageStatus(number: string, status: InventoryStatus) {
     setStorage((prev) => ({
       ...prev,
       [building]: prev[building].map((s) => (s.number === number ? { ...s, status } : s)),
     }));
-    persist({ type: "storage", id: number, status });
-  }
-
-  function debouncedNote(timerKey: string, fire: () => void) {
-    if (noteTimers.current[timerKey]) clearTimeout(noteTimers.current[timerKey]);
-    noteTimers.current[timerKey] = setTimeout(fire, 600);
-  }
-  function updateParkingNote(number: string, note: string) {
-    setParking((prev) => ({
-      ...prev,
-      [building]: prev[building].map((p) => (p.number === number ? { ...p, note } : p)),
-    }));
-    debouncedNote(`parking-${number}`, () => persist({ type: "parking", id: number, notes: note }));
-  }
-  function updateStorageNote(number: string, note: string) {
-    setStorage((prev) => ({
-      ...prev,
-      [building]: prev[building].map((s) => (s.number === number ? { ...s, note } : s)),
-    }));
-    debouncedNote(`storage-${number}`, () => persist({ type: "storage", id: number, notes: note }));
   }
 
   function toggleSelect(unitNumber: string) {
@@ -325,15 +265,6 @@ export function InventoryClient({
             <p className="text-xs uppercase tracking-widest text-brand-600">Concourse &amp; Iris — Admin</p>
           </div>
           <div className="flex items-center gap-2">
-            {saveState !== "idle" && (
-              <span
-                className={`text-xs font-medium ${
-                  saveState === "error" ? "text-red-600" : saveState === "saved" ? "text-emerald-600" : "text-brand-500"
-                }`}
-              >
-                {saveState === "saving" ? "Saving…" : saveState === "saved" ? "Saved ✓" : "Save failed"}
-              </span>
-            )}
             <a
               href="/admin/open-house"
               className="rounded-md border border-brand-200 px-3 py-1.5 text-sm font-medium text-brand-700 hover:bg-brand-50"
@@ -607,7 +538,6 @@ export function InventoryClient({
                     <th className={THP}>Type</th>
                     <th className={`${THP} text-right`}>Price</th>
                     <th className={THP}>Status</th>
-                    <th className={THP}>Notes</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -622,15 +552,6 @@ export function InventoryClient({
                         ) : (
                           <StatusBadge status={p.status} />
                         )}
-                      </td>
-                      <td className="px-5 py-1.5">
-                        <input
-                          type="text"
-                          value={p.note ?? ""}
-                          onChange={(e) => updateParkingNote(p.number, e.target.value)}
-                          placeholder="Add note…"
-                          className="w-40 rounded border border-brand-200 px-1.5 py-0.5 text-[11px] outline-none focus:border-black"
-                        />
                       </td>
                     </tr>
                   ))}
@@ -664,10 +585,10 @@ export function InventoryClient({
               <table className="w-auto">
                 <thead>
                   <tr className="border-b border-brand-200 bg-brand-50">
-                    <th className={THP}>Space</th>
+                    <th className={THP}>Unit</th>
                     <th className={`${THP} text-right`}>Price</th>
                     <th className={THP}>Status</th>
-                    <th className={THP}>Notes</th>
+                    <th className={THP}>Note</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -684,15 +605,7 @@ export function InventoryClient({
                           <StatusBadge status={s.status} />
                         )}
                       </td>
-                      <td className="px-5 py-1.5">
-                        <input
-                          type="text"
-                          value={s.note ?? ""}
-                          onChange={(e) => updateStorageNote(s.number, e.target.value)}
-                          placeholder="Add note…"
-                          className="w-40 rounded border border-brand-200 px-1.5 py-0.5 text-[11px] outline-none focus:border-black"
-                        />
-                      </td>
+                      <td className={TDP}>{s.note ?? ""}</td>
                     </tr>
                   ))}
                 </tbody>

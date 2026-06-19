@@ -40,7 +40,7 @@ const lenders: Lender[] = [
     name: "The Medrano Team",
     contact: "David Medrano",
     phones: [{ label: "Phone", number: "512-593-1684" }],
-    email: "David.Medrano@53.com",
+    email: "TheMedranoTeam@53.com",
     website: { label: "MedranoTeam.com", href: "https://www.MedranoTeam.com" },
   },
 ];

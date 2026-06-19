@@ -2,9 +2,10 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { ADMIN_COOKIE, expectedSessionToken } from "@/lib/admin/auth";
 
-// Protect the admin tour tools. The login page and the login API are public so
-// agents can authenticate; everything else under /admin and /api/admin requires
-// a valid session cookie.
+// Protect the internal tools: the admin tour tools plus the FUB-connected
+// dashboard and weekly developer report (all expose lead PII). The login page
+// and login API are public so agents can authenticate; everything else under
+// /admin, /api/admin, /dashboard, and /reports requires a valid session cookie.
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -27,5 +28,10 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/api/admin/:path*"],
+  matcher: [
+    "/admin/:path*",
+    "/api/admin/:path*",
+    "/dashboard/:path*",
+    "/reports/:path*",
+  ],
 };

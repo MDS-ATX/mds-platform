@@ -1,18 +1,13 @@
 import { NextResponse } from "next/server";
-import {
-  sheetsConfigured,
-  writeConcourseEdit,
-  writeStatusOverride,
-  type OverrideType,
-} from "@/lib/inventory/sheets";
-import type { InventoryStatus } from "@/lib/inventory/types";
+import { sheetsConfigured, writeEdit } from "@/lib/inventory/sheets";
+import type { InventoryStatus, Building } from "@/lib/inventory/types";
 
-// POST { building, type, id, status?, notes? }
-//  - Concourse → writes Status/Notes straight into the official sheet tabs.
-//  - Iris → legacy "Admin Status" overlay tab (until Iris tabs are wired).
+// POST { building, type, id, status?, notes? } → writes Status/Notes straight
+// into the official sheet tab for that building/section.
 // Protected by middleware (matcher covers /api/admin/:path*).
 
-const VALID_TYPES: OverrideType[] = ["unit", "parking", "storage"];
+type SectionType = "unit" | "parking" | "storage";
+const VALID_TYPES: SectionType[] = ["unit", "parking", "storage"];
 const VALID_STATUS: InventoryStatus[] = ["active", "sold", "pending", "hold"];
 
 export async function POST(request: Request) {
@@ -39,7 +34,7 @@ export async function POST(request: Request) {
   if (
     (building !== "concourse" && building !== "iris") ||
     typeof type !== "string" ||
-    !VALID_TYPES.includes(type as OverrideType) ||
+    !VALID_TYPES.includes(type as SectionType) ||
     typeof id !== "string" ||
     !id
   ) {
@@ -53,23 +48,13 @@ export async function POST(request: Request) {
   }
 
   try {
-    if (building === "concourse") {
-      await writeConcourseEdit({
-        type: type as OverrideType,
-        id,
-        status: status as InventoryStatus | undefined,
-        notes: notes as string | undefined,
-      });
-    } else {
-      await writeStatusOverride({
-        building,
-        type: type as OverrideType,
-        id,
-        status: status as InventoryStatus | undefined,
-        notes: notes as string | undefined,
-        updatedAt: new Date().toISOString(),
-      });
-    }
+    await writeEdit({
+      building: building as Building,
+      type: type as SectionType,
+      id,
+      status: status as InventoryStatus | undefined,
+      notes: notes as string | undefined,
+    });
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error("inventory write failed", err);

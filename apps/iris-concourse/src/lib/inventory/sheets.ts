@@ -5,26 +5,62 @@ import type {
   ParkingSpace,
   StorageUnit,
   Designation,
+  Building,
 } from "@/lib/inventory/types";
 
 // ─── Google Sheets integration ───────────────────────────────────────────────
-// The "Iris & CC - Official Sales Sheet" is the source of truth. For Concourse
-// we read units/parking/storage live from three tabs and write Status/Notes
-// edits straight back into those tabs. Iris still uses the static seed + the
-// "Admin Status" overlay tab (handled lower down) until its tabs are ready.
-//
-// Column mapping is by HEADER NAME (not position), so adding/reordering columns
-// in the sheet won't break the tool.
+// The "Iris & CC - Official Sales Sheet" is the source of truth. Both buildings
+// read units/parking/storage live from their tabs, and panel edits to
+// Status/Notes write straight back. Column mapping is by HEADER NAME with
+// aliases (Iris uses slightly different header names than Concourse), so adding
+// or reordering columns won't break the tool.
 
-// Tab titles in the official sheet (overridable via env if ever renamed).
-const TAB_CONCOURSE_UNITS = process.env.SHEET_TAB_CONCOURSE_UNITS || "Concourse";
-const TAB_CC_PARKING = process.env.SHEET_TAB_CC_PARKING || "CC Parking";
-const TAB_CC_STORAGE = process.env.SHEET_TAB_CC_STORAGE || "CC Storage";
+type SectionType = "unit" | "parking" | "storage";
 
-// Header row number (1-based) per tab — units have a banner in row 1.
-const UNITS_HEADER_ROW = 2;
-const PARKING_HEADER_ROW = 1;
-const STORAGE_HEADER_ROW = 1;
+interface TabCfg {
+  title: string;
+  headerRow: number; // 1-based row containing the headers
+}
+
+const TABS: Record<Building, Record<SectionType, TabCfg>> = {
+  concourse: {
+    unit: { title: "Concourse", headerRow: 2 },
+    parking: { title: "CC Parking", headerRow: 1 },
+    storage: { title: "CC Storage", headerRow: 1 },
+  },
+  iris: {
+    unit: { title: "Iris", headerRow: 2 },
+    parking: { title: "Iris Parking", headerRow: 1 },
+    storage: { title: "Iris Storage", headerRow: 1 },
+  },
+};
+
+// Header aliases (first match wins, trimmed + case-insensitive).
+const H = {
+  unitNumber: ["Unit number", "Unit Number"],
+  beds: ["Bed", "Beds"],
+  baths: ["Bath", "Baths"],
+  designation: ["Market / AH", "Market / AH (NEW)", "Market/AH"],
+  sqft: ["SQFT"],
+  price: ["Approved Pricing - Apr 30", "Pricing - Apr 30"],
+  hoa: ["HOA Fee"],
+  notes: ["Notes"],
+  status: ["Status"],
+  views: ["Unit Views", "View"],
+  appliances: ["Appliances"],
+  cabinetSize: ["Cabinet Size"],
+  cabinetColor: ["Cabinet Color"],
+  kitchenBacksplash: ["Kitchen Backsplash"],
+  kitchenCountertop: ["Kitchen Countertop"],
+  bathroomTile: ["Bathroom Tile"],
+  bathroomCabinet: ["Bathroom cabinet", "Bathroom Cabinet"],
+  bathroomCountertop: ["Bathroom Countertop"],
+  // parking / storage
+  parkingSpot: ["Parking Spot"],
+  parkingType: ["Type"],
+  storageSpace: ["Storage Space"],
+  price2: ["Price"],
+};
 
 export function sheetsConfigured(): boolean {
   return Boolean(
@@ -52,7 +88,7 @@ function sheetId(): string {
   return id;
 }
 
-// ─── small parsers ───────────────────────────────────────────────────────────
+// ─── parsers ─────────────────────────────────────────────────────────────────
 
 function colLetter(index0: number): string {
   let n = index0 + 1;
@@ -64,7 +100,6 @@ function colLetter(index0: number): string {
   }
   return s;
 }
-
 function parseMoney(v: string | undefined): number {
   if (!v) return 0;
   const n = Number(String(v).replace(/[^0-9.]/g, ""));
@@ -79,14 +114,12 @@ function clean(v: string | undefined): string | undefined {
   const s = (v ?? "").trim();
   return s ? s : undefined;
 }
-
 function normalizeDesignation(raw: string | undefined): Designation {
   const s = (raw || "").trim().toUpperCase();
   if (s.startsWith("AH")) return "affordable";
   if (s.startsWith("WF")) return "workforce";
   return "market";
 }
-
 function statusFromSheet(raw: string | undefined): InventoryStatus {
   switch ((raw || "").trim().toLowerCase()) {
     case "sold":
@@ -97,158 +130,158 @@ function statusFromSheet(raw: string | undefined): InventoryStatus {
   }
 }
 export function statusToSheet(s: InventoryStatus): string {
-  return s.charAt(0).toUpperCase() + s.slice(1); // active→Active, etc.
+  return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-/** Build a trimmed/lowercased header→index lookup. */
-function headerIndex(headers: string[]): (name: string) => number {
+/** Resolve a header alias list to a column index (-1 if none present). */
+function resolver(headers: string[]) {
   const map = new Map<string, number>();
   headers.forEach((h, i) => map.set((h || "").trim().toLowerCase(), i));
-  return (name: string) => map.get(name.trim().toLowerCase()) ?? -1;
+  return (aliases: string[]) => {
+    for (const a of aliases) {
+      const i = map.get(a.trim().toLowerCase());
+      if (i !== undefined) return i;
+    }
+    return -1;
+  };
 }
 
-async function readTab(title: string, headerRow: number) {
+async function readTab(cfg: TabCfg) {
   const sheets = getSheets();
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId: sheetId(),
-    range: `${title}!A1:ZZ`,
+    range: `${cfg.title}!A1:ZZ`,
   });
   const values = res.data.values || [];
-  const headers = (values[headerRow - 1] || []).map((h) => String(h));
-  const rows = values.slice(headerRow); // data rows after the header
-  const firstDataRow = headerRow + 1; // 1-based sheet row of rows[0]
+  const headers = (values[cfg.headerRow - 1] || []).map((h) => String(h));
+  const rows = values.slice(cfg.headerRow);
+  const firstDataRow = cfg.headerRow + 1;
   return { headers, rows, firstDataRow };
 }
 
-// ─── Concourse live readers ──────────────────────────────────────────────────
+// ─── live readers (building-aware) ───────────────────────────────────────────
 
-export async function readConcourseUnits(): Promise<ResidentialUnit[]> {
-  const { headers, rows } = await readTab(TAB_CONCOURSE_UNITS, UNITS_HEADER_ROW);
-  const idx = headerIndex(headers);
-  const cUnit = idx("Unit number");
+export async function readUnits(building: Building): Promise<ResidentialUnit[]> {
+  const { headers, rows } = await readTab(TABS[building].unit);
+  const idx = resolver(headers);
+  const cUnit = idx(H.unitNumber);
   const out: ResidentialUnit[] = [];
   for (const r of rows) {
     const unitNumber = (r[cUnit] || "").trim();
-    if (!unitNumber || !/^\d/.test(unitNumber)) continue; // skip blanks/footers
+    if (!unitNumber || !/^\d/.test(unitNumber)) continue;
+    const at = (a: string[]) => { const i = idx(a); return i >= 0 ? r[i] : undefined; };
     out.push({
-      building: "concourse",
+      building,
       unitNumber,
       floor: Math.floor(Number(unitNumber) / 100) || 0,
-      beds: parseInt0(r[idx("Bed")]),
-      baths: parseInt0(r[idx("Bath")]),
-      designation: normalizeDesignation(r[idx("Market / AH")]),
-      sqft: parseInt0(r[idx("SQFT")]),
-      price: parseMoney(r[idx("Approved Pricing - Apr 30")]),
-      hoaFee: parseMoney(r[idx("HOA Fee")]) || undefined,
-      status: statusFromSheet(r[idx("Status")]),
-      notes: clean(r[idx("Notes")]),
-      views: clean(r[idx("Unit Views")]),
-      appliances: clean(r[idx("Appliances")]),
-      cabinetSize: clean(r[idx("Cabinet Size")]),
-      cabinetColor: clean(r[idx("Cabinet Color")]),
-      kitchenBacksplash: clean(r[idx("Kitchen Backsplash")]),
-      kitchenCountertop: clean(r[idx("Kitchen Countertop")]),
-      bathroomTile: clean(r[idx("Bathroom Tile")]),
-      bathroomCabinet: clean(r[idx("Bathroom cabinet")]),
-      bathroomCountertop: clean(r[idx("Bathroom Countertop")]),
+      beds: parseInt0(at(H.beds)),
+      baths: parseInt0(at(H.baths)),
+      designation: normalizeDesignation(at(H.designation)),
+      sqft: parseInt0(at(H.sqft)),
+      price: parseMoney(at(H.price)),
+      hoaFee: parseMoney(at(H.hoa)) || undefined,
+      status: statusFromSheet(at(H.status)),
+      notes: clean(at(H.notes)),
+      views: clean(at(H.views)),
+      appliances: clean(at(H.appliances)),
+      cabinetSize: clean(at(H.cabinetSize)),
+      cabinetColor: clean(at(H.cabinetColor)),
+      kitchenBacksplash: clean(at(H.kitchenBacksplash)),
+      kitchenCountertop: clean(at(H.kitchenCountertop)),
+      bathroomTile: clean(at(H.bathroomTile)),
+      bathroomCabinet: clean(at(H.bathroomCabinet)),
+      bathroomCountertop: clean(at(H.bathroomCountertop)),
     });
   }
   return out;
 }
 
-export async function readConcourseParking(): Promise<ParkingSpace[]> {
-  const { headers, rows } = await readTab(TAB_CC_PARKING, PARKING_HEADER_ROW);
-  const idx = headerIndex(headers);
-  const cSpot = idx("Parking Spot");
+export async function readParking(building: Building): Promise<ParkingSpace[]> {
+  const { headers, rows } = await readTab(TABS[building].parking);
+  const idx = resolver(headers);
+  const cSpot = idx(H.parkingSpot);
+  if (cSpot < 0) return [];
   const out: ParkingSpace[] = [];
   for (const r of rows) {
     const number = (r[cSpot] || "").trim();
     if (!number) continue;
-    const typeRaw = (r[idx("Type")] || "").trim().toLowerCase();
+    const at = (a: string[]) => { const i = idx(a); return i >= 0 ? r[i] : undefined; };
+    const typeRaw = (at(H.parkingType) || "").trim().toLowerCase();
     out.push({
-      building: "concourse",
+      building,
       number,
       type: typeRaw === "covered" ? "covered" : "uncovered",
-      price: parseMoney(r[idx("Price")]),
-      status: statusFromSheet(r[idx("Status")]),
-      note: clean(r[idx("Notes")]),
+      price: parseMoney(at(H.price2)),
+      status: statusFromSheet(at(H.status)),
+      note: clean(at(H.notes)),
     });
   }
   return out;
 }
 
-export async function readConcourseStorage(): Promise<StorageUnit[]> {
-  const { headers, rows } = await readTab(TAB_CC_STORAGE, STORAGE_HEADER_ROW);
-  const idx = headerIndex(headers);
-  const cSpace = idx("Storage Space");
+export async function readStorage(building: Building): Promise<StorageUnit[]> {
+  const { headers, rows } = await readTab(TABS[building].storage);
+  const idx = resolver(headers);
+  const cSpace = idx(H.storageSpace);
+  if (cSpace < 0) return [];
   const out: StorageUnit[] = [];
   for (const r of rows) {
     const number = (r[cSpace] || "").trim();
     if (!number) continue;
+    const at = (a: string[]) => { const i = idx(a); return i >= 0 ? r[i] : undefined; };
     out.push({
-      building: "concourse",
+      building,
       number,
-      price: parseMoney(r[idx("Price")]),
-      status: statusFromSheet(r[idx("Status")]),
-      note: clean(r[idx("Notes")]),
+      price: parseMoney(at(H.price2)),
+      status: statusFromSheet(at(H.status)),
+      note: clean(at(H.notes)),
     });
   }
   return out;
 }
 
-// ─── Concourse write-back ────────────────────────────────────────────────────
+// ─── write-back (building-aware) ─────────────────────────────────────────────
 
-type ConcourseType = "unit" | "parking" | "storage";
-
-const TAB_FOR: Record<ConcourseType, { title: string; headerRow: number; keyHeader: string }> = {
-  unit: { title: TAB_CONCOURSE_UNITS, headerRow: UNITS_HEADER_ROW, keyHeader: "Unit number" },
-  parking: { title: TAB_CC_PARKING, headerRow: PARKING_HEADER_ROW, keyHeader: "Parking Spot" },
-  storage: { title: TAB_CC_STORAGE, headerRow: STORAGE_HEADER_ROW, keyHeader: "Storage Space" },
+const KEY_HEADER: Record<SectionType, string[]> = {
+  unit: H.unitNumber,
+  parking: H.parkingSpot,
+  storage: H.storageSpace,
 };
 
-/** Update the Status and/or Notes cell for a Concourse item, by id. */
-export async function writeConcourseEdit(params: {
-  type: ConcourseType;
+export async function writeEdit(params: {
+  building: Building;
+  type: SectionType;
   id: string;
   status?: InventoryStatus;
   notes?: string;
 }): Promise<void> {
-  const { type, id } = params;
-  const cfg = TAB_FOR[type];
+  const { building, type, id } = params;
+  const cfg = TABS[building][type];
   const sheets = getSheets();
   const spreadsheetId = sheetId();
 
-  const { headers, rows, firstDataRow } = await readTab(cfg.title, cfg.headerRow);
-  const idx = headerIndex(headers);
-  const keyCol = idx(cfg.keyHeader);
-  if (keyCol < 0) throw new Error(`Key column "${cfg.keyHeader}" not found in "${cfg.title}"`);
+  const { headers, rows, firstDataRow } = await readTab(cfg);
+  const idx = resolver(headers);
+  const keyCol = idx(KEY_HEADER[type]);
+  if (keyCol < 0) throw new Error(`Key column not found in "${cfg.title}"`);
 
   let dataRow = -1;
   for (let i = 0; i < rows.length; i++) {
-    if ((rows[i][keyCol] || "").trim() === id) {
-      dataRow = i;
-      break;
-    }
+    if ((rows[i][keyCol] || "").trim() === id) { dataRow = i; break; }
   }
   if (dataRow < 0) throw new Error(`Row "${id}" not found in "${cfg.title}"`);
-  const sheetRow = firstDataRow + dataRow; // 1-based
+  const sheetRow = firstDataRow + dataRow;
 
   const updates: { range: string; values: string[][] }[] = [];
   if (params.status !== undefined) {
-    const c = idx("Status");
+    const c = idx(H.status);
     if (c < 0) throw new Error(`"Status" column not found in "${cfg.title}"`);
-    updates.push({
-      range: `${cfg.title}!${colLetter(c)}${sheetRow}`,
-      values: [[statusToSheet(params.status)]],
-    });
+    updates.push({ range: `${cfg.title}!${colLetter(c)}${sheetRow}`, values: [[statusToSheet(params.status)]] });
   }
   if (params.notes !== undefined) {
-    const c = idx("Notes");
+    const c = idx(H.notes);
     if (c < 0) throw new Error(`"Notes" column not found in "${cfg.title}"`);
-    updates.push({
-      range: `${cfg.title}!${colLetter(c)}${sheetRow}`,
-      values: [[params.notes]],
-    });
+    updates.push({ range: `${cfg.title}!${colLetter(c)}${sheetRow}`, values: [[params.notes]] });
   }
   if (updates.length === 0) return;
 
@@ -256,106 +289,4 @@ export async function writeConcourseEdit(params: {
     spreadsheetId,
     requestBody: { valueInputOption: "USER_ENTERED", data: updates },
   });
-}
-
-// ─── Iris "Admin Status" overlay (legacy; kept until Iris tabs are wired) ─────
-
-export type OverrideType = "unit" | "parking" | "storage";
-export interface StatusOverride {
-  status?: InventoryStatus;
-  notes?: string;
-}
-const HEADER = ["building", "type", "id", "status", "notes", "updatedAt"];
-function statusTabName(): string {
-  return process.env.INVENTORY_STATUS_TAB || "Admin Status";
-}
-function overrideKey(building: string, type: string, id: string): string {
-  return `${building}:${type}:${id}`;
-}
-
-export async function ensureStatusTab(): Promise<void> {
-  const sheets = getSheets();
-  const spreadsheetId = sheetId();
-  const meta = await sheets.spreadsheets.get({ spreadsheetId });
-  const exists = meta.data.sheets?.some((s) => s.properties?.title === statusTabName());
-  if (exists) return;
-  await sheets.spreadsheets.batchUpdate({
-    spreadsheetId,
-    requestBody: { requests: [{ addSheet: { properties: { title: statusTabName() } } }] },
-  });
-  await sheets.spreadsheets.values.update({
-    spreadsheetId,
-    range: `${statusTabName()}!A1:F1`,
-    valueInputOption: "RAW",
-    requestBody: { values: [HEADER] },
-  });
-}
-
-export async function readStatusOverrides(): Promise<Map<string, StatusOverride>> {
-  const sheets = getSheets();
-  const map = new Map<string, StatusOverride>();
-  let res;
-  try {
-    res = await sheets.spreadsheets.values.get({
-      spreadsheetId: sheetId(),
-      range: `${statusTabName()}!A2:F`,
-    });
-  } catch {
-    return map;
-  }
-  for (const row of res.data.values || []) {
-    const [building, type, id, status, notes] = row;
-    if (!building || !type || !id) continue;
-    map.set(overrideKey(building, type, id), {
-      status: (status as InventoryStatus) || undefined,
-      notes: notes || undefined,
-    });
-  }
-  return map;
-}
-
-export async function writeStatusOverride(params: {
-  building: string;
-  type: OverrideType;
-  id: string;
-  status?: InventoryStatus;
-  notes?: string;
-  updatedAt: string;
-}): Promise<void> {
-  const sheets = getSheets();
-  const spreadsheetId = sheetId();
-  await ensureStatusTab();
-  const { building, type, id, status = "", notes = "", updatedAt } = params;
-  const targetKey = overrideKey(building, type, id);
-  const newRow = [building, type, id, status, notes, updatedAt];
-  const existing = await sheets.spreadsheets.values.get({
-    spreadsheetId,
-    range: `${statusTabName()}!A2:C`,
-  });
-  const rows = existing.data.values || [];
-  let rowIndex = -1;
-  for (let i = 0; i < rows.length; i++) {
-    const [b, t, identifier] = rows[i];
-    if (b && t && identifier && overrideKey(b, t, identifier) === targetKey) {
-      rowIndex = i;
-      break;
-    }
-  }
-  if (rowIndex >= 0) {
-    const sheetRow = rowIndex + 2;
-    await sheets.spreadsheets.values.update({
-      spreadsheetId,
-      range: `${statusTabName()}!A${sheetRow}:F${sheetRow}`,
-      valueInputOption: "RAW",
-      requestBody: { values: [newRow] },
-    });
-  } else {
-    await sheets.spreadsheets.values.append({
-      spreadsheetId,
-      range: `${statusTabName()}!A:F`,
-      valueInputOption: "RAW",
-      insertDataOption: "INSERT_ROWS",
-      requestBody: { values: [newRow] },
-    });
-  }
 }

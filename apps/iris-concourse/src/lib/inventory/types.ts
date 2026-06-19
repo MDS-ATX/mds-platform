@@ -63,7 +63,6 @@ export interface ParkingSpace {
   type: ParkingType;
   price: number;
   status: InventoryStatus;
-  note?: string;
 }
 
 export interface StorageUnit {

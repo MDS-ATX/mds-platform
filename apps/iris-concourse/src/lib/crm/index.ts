@@ -7,6 +7,11 @@ export {
   searchPeople,
   getPerson,
   createNote,
+  listAllPeople,
+  listEvents,
+  listStages,
+  listUsers,
+  FUBNotConnectedError,
 } from "./client";
 export {
   contactFormSchema,
@@ -22,6 +27,13 @@ export type {
   FUBProperty,
   FUBPersonRecord,
   FUBPeopleResponse,
+  FUBMetadata,
   FUBNote,
   FUBNoteResponse,
+  FUBStage,
+  FUBStagesResponse,
+  FUBUser,
+  FUBUsersResponse,
+  FUBEventRecord,
+  FUBEventsResponse,
 } from "./types";

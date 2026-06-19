@@ -5,6 +5,12 @@ import type {
   FUBPeopleResponse,
   FUBPersonRecord,
   FUBNoteResponse,
+  FUBStage,
+  FUBStagesResponse,
+  FUBUser,
+  FUBUsersResponse,
+  FUBEventRecord,
+  FUBEventsResponse,
 } from "./types";
 import type { ContactFormData, OpenHouseFormData } from "./schemas";
 
@@ -194,4 +200,107 @@ export async function createNote(
     method: "POST",
     body: JSON.stringify({ personId, subject, body }),
   });
+}
+
+// ─── Dashboard reads (server-side) ───────────────────────────────────────────
+
+const PERSON_FIELDS =
+  "id,name,firstName,lastName,emails,phones,stage,source,tags,type,assignedUserId,assignedTo,timeframeStatus,timeframeDateRange,lastActivity,created,updated";
+
+const FUB_PAGE_LIMIT = 100; // FUB max page size for /people
+
+/**
+ * Thrown when FUB credentials are missing or rejected, so the dashboard can
+ * render a friendly "not connected" state instead of crashing.
+ */
+export class FUBNotConnectedError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "FUBNotConnectedError";
+  }
+}
+
+function isMissingKey(): boolean {
+  return !process.env.FUB_API_KEY;
+}
+
+/**
+ * Fetch every lead carrying a given tag (e.g. `mds:iris-concourse`),
+ * paging through the FUB collection until exhausted.
+ *
+ * Pages sequentially (offset-based) to stay well under FUB's rate limit.
+ * Throws {@link FUBNotConnectedError} if the key is missing or invalid.
+ */
+export async function listAllPeople(
+  opts: { tag: string; maxPages?: number } = { tag: "mds:iris-concourse" }
+): Promise<FUBPersonRecord[]> {
+  if (isMissingKey()) {
+    throw new FUBNotConnectedError("FUB_API_KEY environment variable is not set");
+  }
+
+  const maxPages = opts.maxPages ?? 50; // safety cap: 50 * 100 = 5,000 leads
+  const all: FUBPersonRecord[] = [];
+
+  try {
+    for (let page = 0; page < maxPages; page++) {
+      const params = new URLSearchParams({
+        tags: opts.tag,
+        limit: String(FUB_PAGE_LIMIT),
+        offset: String(page * FUB_PAGE_LIMIT),
+        sort: "created",
+        fields: PERSON_FIELDS,
+      });
+
+      const data = await fubFetch<FUBPeopleResponse>(`/people?${params.toString()}`);
+      const batch = data.people ?? [];
+      all.push(...batch);
+
+      const total = data._metadata?.total;
+      const noMore =
+        batch.length < FUB_PAGE_LIMIT ||
+        (typeof total === "number" && all.length >= total);
+      if (noMore) break;
+    }
+  } catch (err) {
+    if (err instanceof Error && /FUB API error 401/.test(err.message)) {
+      throw new FUBNotConnectedError("FUB API key was rejected (401)");
+    }
+    throw err;
+  }
+
+  return all;
+}
+
+/**
+ * List recent events (page visits, inquiries, registrations) for traffic
+ * reporting. Optionally filter by source and a created-after ISO date.
+ */
+export async function listEvents(
+  opts: { source?: string; since?: string; limit?: number } = {}
+): Promise<FUBEventRecord[]> {
+  if (isMissingKey()) {
+    throw new FUBNotConnectedError("FUB_API_KEY environment variable is not set");
+  }
+  const params = new URLSearchParams({ limit: String(opts.limit ?? 100), sort: "created" });
+  if (opts.source) params.set("source", opts.source);
+  const data = await fubFetch<FUBEventsResponse>(`/events?${params.toString()}`);
+  return data.events ?? [];
+}
+
+/** List configured pipeline stages, to map FUB stage names onto dashboard stages. */
+export async function listStages(): Promise<FUBStage[]> {
+  if (isMissingKey()) {
+    throw new FUBNotConnectedError("FUB_API_KEY environment variable is not set");
+  }
+  const data = await fubFetch<FUBStagesResponse>("/stages");
+  return data.stages ?? [];
+}
+
+/** List FUB users (agents), to resolve assignedUserId → agent name. */
+export async function listUsers(): Promise<FUBUser[]> {
+  if (isMissingKey()) {
+    throw new FUBNotConnectedError("FUB_API_KEY environment variable is not set");
+  }
+  const data = await fubFetch<FUBUsersResponse>("/users?limit=100");
+  return data.users ?? [];
 }
