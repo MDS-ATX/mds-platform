@@ -8,6 +8,7 @@ import { concourseUnits } from "@/data/inventory-concourse";
 import { irisUnits } from "@/data/inventory-iris";
 import { concourseParking, irisParking } from "@/data/inventory-parking";
 import { concourseStorage, irisStorage } from "@/data/inventory-storage";
+import { sheetsConfigured, readUnits, readParking, readStorage } from "@/lib/inventory/sheets";
 
 // ─── Inventory Data Seam ─────────────────────────────────────────────────────
 // Single source of inventory data for the /admin tool. Today these return the
@@ -32,4 +33,29 @@ export function getFullInventory(): Record<Building, BuildingInventory> {
     concourse: getBuildingInventory("concourse"),
     iris: getBuildingInventory("iris"),
   };
+}
+
+// ─── Live inventory (official sheet = source of truth) ───────────────────────
+// Both buildings read units/parking/storage live from the sheet. Each section
+// falls back to its seed if that tab read fails or is empty.
+export async function getLiveInventory(): Promise<Record<Building, BuildingInventory>> {
+  const seed = getFullInventory();
+  if (!sheetsConfigured()) return seed;
+
+  for (const building of ["concourse", "iris"] as Building[]) {
+    try {
+      const [units, parking, storage] = await Promise.all([
+        readUnits(building),
+        readParking(building),
+        readStorage(building),
+      ]);
+      if (units.length) seed[building].units = units;
+      if (parking.length) seed[building].parking = parking;
+      if (storage.length) seed[building].storage = storage;
+    } catch {
+      // leave this building on seed if the live read fails
+    }
+  }
+
+  return seed;
 }

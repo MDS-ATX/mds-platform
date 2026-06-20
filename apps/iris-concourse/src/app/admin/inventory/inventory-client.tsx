@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useMemo, useState } from "react";
+import { Fragment, useMemo, useRef, useState } from "react";
 import type { Building } from "@/lib/inventory/types";
 import {
   type ResidentialUnit,
@@ -177,23 +177,83 @@ export function InventoryClient({
     return c;
   }, [buildingUnits]);
 
+  // ─── Persistence ───────────────────────────────────────────────────────────
+  const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const savedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const noteTimers = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
+
+  async function persist(payload: {
+    type: "unit" | "parking" | "storage";
+    id: string;
+    status?: InventoryStatus;
+    notes?: string;
+  }) {
+    setSaveState("saving");
+    try {
+      const res = await fetch("/api/admin/inventory", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ building, ...payload }),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      setSaveState("saved");
+      if (savedTimer.current) clearTimeout(savedTimer.current);
+      savedTimer.current = setTimeout(() => setSaveState("idle"), 1500);
+    } catch {
+      setSaveState("error");
+    }
+  }
+
   function updateUnit(unitNumber: string, patch: Partial<ResidentialUnit>) {
     setUnits((prev) => ({
       ...prev,
       [building]: prev[building].map((u) => (u.unitNumber === unitNumber ? { ...u, ...patch } : u)),
     }));
+    if (patch.status !== undefined) {
+      persist({ type: "unit", id: unitNumber, status: patch.status });
+    }
+    if (patch.notes !== undefined) {
+      // Debounce note saves so we don't POST per keystroke.
+      const key = `unit-${unitNumber}`;
+      if (noteTimers.current[key]) clearTimeout(noteTimers.current[key]);
+      const value = patch.notes;
+      noteTimers.current[key] = setTimeout(() => {
+        persist({ type: "unit", id: unitNumber, notes: value });
+      }, 600);
+    }
   }
   function updateParkingStatus(number: string, status: InventoryStatus) {
     setParking((prev) => ({
       ...prev,
       [building]: prev[building].map((p) => (p.number === number ? { ...p, status } : p)),
     }));
+    persist({ type: "parking", id: number, status });
   }
   function updateStorageStatus(number: string, status: InventoryStatus) {
     setStorage((prev) => ({
       ...prev,
       [building]: prev[building].map((s) => (s.number === number ? { ...s, status } : s)),
     }));
+    persist({ type: "storage", id: number, status });
+  }
+
+  function debouncedNote(timerKey: string, fire: () => void) {
+    if (noteTimers.current[timerKey]) clearTimeout(noteTimers.current[timerKey]);
+    noteTimers.current[timerKey] = setTimeout(fire, 600);
+  }
+  function updateParkingNote(number: string, note: string) {
+    setParking((prev) => ({
+      ...prev,
+      [building]: prev[building].map((p) => (p.number === number ? { ...p, note } : p)),
+    }));
+    debouncedNote(`parking-${number}`, () => persist({ type: "parking", id: number, notes: note }));
+  }
+  function updateStorageNote(number: string, note: string) {
+    setStorage((prev) => ({
+      ...prev,
+      [building]: prev[building].map((s) => (s.number === number ? { ...s, note } : s)),
+    }));
+    debouncedNote(`storage-${number}`, () => persist({ type: "storage", id: number, notes: note }));
   }
 
   function toggleSelect(unitNumber: string) {
@@ -265,11 +325,20 @@ export function InventoryClient({
             <p className="text-xs uppercase tracking-widest text-brand-600">Concourse &amp; Iris — Admin</p>
           </div>
           <div className="flex items-center gap-2">
+            {saveState !== "idle" && (
+              <span
+                className={`text-xs font-medium ${
+                  saveState === "error" ? "text-red-600" : saveState === "saved" ? "text-emerald-600" : "text-brand-500"
+                }`}
+              >
+                {saveState === "saving" ? "Saving…" : saveState === "saved" ? "Saved ✓" : "Save failed"}
+              </span>
+            )}
             <a
-              href="/admin/open-house"
+              href="/admin"
               className="rounded-md border border-brand-200 px-3 py-1.5 text-sm font-medium text-brand-700 hover:bg-brand-50"
             >
-              Open House Sign-In
+              ← Admin home
             </a>
             <button
               onClick={() => setEditMode((v) => !v)}
@@ -444,7 +513,8 @@ export function InventoryClient({
                           </a>
                         </td>
                         <td className={TD}>
-                          {u.beds}/{u.baths}
+                          {u.beds}
+                          {u.baths ? `/${u.baths}` : ""}
                         </td>
                         <td className={TD}>{u.sqft.toLocaleString()}</td>
                         <td className={TD}>
@@ -520,7 +590,9 @@ export function InventoryClient({
           </>
         )}
 
-        {section === "parking" && (
+        {section === "parking" && building === "iris" && <ComingSoon label="Iris parking" />}
+
+        {section === "parking" && building === "concourse" && (
           <>
             <div className="mb-4 flex flex-wrap items-end gap-3">
               <Filter label="Type">
@@ -538,6 +610,7 @@ export function InventoryClient({
                     <th className={THP}>Type</th>
                     <th className={`${THP} text-right`}>Price</th>
                     <th className={THP}>Status</th>
+                    <th className={THP}>Notes</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -552,6 +625,15 @@ export function InventoryClient({
                         ) : (
                           <StatusBadge status={p.status} />
                         )}
+                      </td>
+                      <td className="px-5 py-1.5">
+                        <input
+                          type="text"
+                          value={p.note ?? ""}
+                          onChange={(e) => updateParkingNote(p.number, e.target.value)}
+                          placeholder="Add note…"
+                          className="w-40 rounded border border-brand-200 px-1.5 py-0.5 text-[11px] outline-none focus:border-black"
+                        />
                       </td>
                     </tr>
                   ))}
@@ -574,7 +656,9 @@ export function InventoryClient({
           </>
         )}
 
-        {section === "storage" && (
+        {section === "storage" && building === "iris" && <ComingSoon label="Iris storage" />}
+
+        {section === "storage" && building === "concourse" && (
           <>
             <div className="mb-4 flex flex-wrap items-end gap-3">
               <Filter label="Status">
@@ -585,10 +669,10 @@ export function InventoryClient({
               <table className="w-auto">
                 <thead>
                   <tr className="border-b border-brand-200 bg-brand-50">
-                    <th className={THP}>Unit</th>
+                    <th className={THP}>Space</th>
                     <th className={`${THP} text-right`}>Price</th>
                     <th className={THP}>Status</th>
-                    <th className={THP}>Note</th>
+                    <th className={THP}>Notes</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -605,37 +689,48 @@ export function InventoryClient({
                           <StatusBadge status={s.status} />
                         )}
                       </td>
-                      <td className={TDP}>{s.note ?? ""}</td>
+                      <td className="px-5 py-1.5">
+                        <input
+                          type="text"
+                          value={s.note ?? ""}
+                          onChange={(e) => updateStorageNote(s.number, e.target.value)}
+                          placeholder="Add note…"
+                          className="w-40 rounded border border-brand-200 px-1.5 py-0.5 text-[11px] outline-none focus:border-black"
+                        />
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-            {building === "iris" ? (
-              <p className="mt-2 text-xs text-brand-400">
-                Iris storage is placeholder (mock) — replace with real units/prices when available.
-              </p>
-            ) : (
-              <figure className="mt-8">
-                <figcaption className="mb-2 text-[11px] font-medium uppercase tracking-wide text-brand-500">
-                  Concourse Storage Map
-                </figcaption>
-                <object
-                  data="/images/Storage/Storage%20and%20Pricing.pdf#page=1&view=Fit"
-                  type="application/pdf"
-                  className="h-[700px] w-full rounded-lg border border-brand-200 bg-white"
-                >
-                  <p className="p-4 text-sm text-brand-500">
-                    <a className="underline" href="/images/Storage/Storage%20and%20Pricing.pdf" target="_blank" rel="noopener noreferrer">
-                      Open the Concourse storage map ↗
-                    </a>
-                  </p>
-                </object>
-              </figure>
-            )}
+            <figure className="mt-8">
+              <figcaption className="mb-2 text-[11px] font-medium uppercase tracking-wide text-brand-500">
+                Concourse Storage Map
+              </figcaption>
+              <object
+                data="/images/Storage/Storage%20and%20Pricing.pdf#page=1&view=Fit"
+                type="application/pdf"
+                className="h-[700px] w-full rounded-lg border border-brand-200 bg-white"
+              >
+                <p className="p-4 text-sm text-brand-500">
+                  <a className="underline" href="/images/Storage/Storage%20and%20Pricing.pdf" target="_blank" rel="noopener noreferrer">
+                    Open the Concourse storage map ↗
+                  </a>
+                </p>
+              </object>
+            </figure>
           </>
         )}
       </main>
+    </div>
+  );
+}
+
+function ComingSoon({ label }: { label: string }) {
+  return (
+    <div className="flex flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-brand-300 bg-white py-16 text-center">
+      <div className="text-lg font-semibold text-brand-700">Coming soon</div>
+      <div className="text-sm text-brand-500">{label} isn’t available yet.</div>
     </div>
   );
 }
