@@ -1,0 +1,63 @@
+name: Weekly Report
+
+on:
+  schedule:
+    # Monday 14:00 UTC = 9:00am US Central during CDT (summer). GitHub cron is
+    # UTC-only with no DST, so in CST (winter) this fires at 8:00am Central.
+    # Reports the week that just ended (Mon–Sun); window auto-resolves to the
+    # prior Sunday.
+    - cron: "0 14 * * 1"
+  workflow_dispatch: {} # allow manual runs from the Actions tab
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # to commit the snapshot back
+    # The iris-concourse app lives in the turbo monorepo at apps/iris-concourse.
+    env:
+      BASE_URL: http://localhost:3000
+      FUB_API_KEY: ${{ secrets.FUB_API_KEY }}
+      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+      CONTRACTS_SHEET_ID: ${{ secrets.CONTRACTS_SHEET_ID }}
+      CONTRACTS_SHEET_GID: ${{ secrets.CONTRACTS_SHEET_GID }}
+      RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+      REPORT_RECIPIENTS: ${{ secrets.REPORT_RECIPIENTS }}
+      REPORT_FROM: ${{ secrets.REPORT_FROM }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --no-frozen-lockfile
+      - name: Build iris-concourse
+        run: pnpm turbo run build --filter=iris-concourse
+      - name: Start app
+        working-directory: apps/iris-concourse
+        run: pnpm start > server.log 2>&1 &
+      - run: npx wait-on http://localhost:3000 -t 60000
+      - name: Generate snapshot (FUB + sheet pull)
+        working-directory: apps/iris-concourse
+        run: node scripts/refresh-snapshot.mjs
+      # Commit the snapshot + history FIRST, so a later PDF/email failure can
+      # never drop the week's data. The PDF step runs afterwards.
+      - name: Commit snapshot
+        run: |
+          git config user.name "modus-report-bot"
+          git config user.email "report-bot@users.noreply.github.com"
+          git add apps/iris-concourse/src/data/report-snapshot.json apps/iris-concourse/src/data/report-history
+          git commit -m "chore: weekly report snapshot $(date -u +%F)" || echo "no changes"
+          git push
+      - name: Render PDF + email
+        working-directory: apps/iris-concourse
+        run: node scripts/report-pdf.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: weekly-report-pdf
+          path: apps/iris-concourse/report.pdf
+          if-no-files-found: ignore

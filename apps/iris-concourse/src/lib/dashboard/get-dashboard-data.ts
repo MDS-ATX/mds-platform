@@ -9,8 +9,6 @@ import { computeMetrics } from "./metrics";
 import { getInventorySummary } from "./units";
 import type { DashboardData, DashLead } from "./types";
 
-export const IRIS_CONCOURSE_TAG = "mds:iris-concourse";
-
 function emptyMetrics(): DashboardData["metrics"] {
   return computeMetrics([]);
 }
@@ -24,7 +22,8 @@ export async function getDashboardData(): Promise<DashboardData> {
   const generatedAt = new Date().toISOString();
 
   try {
-    const people = await listAllPeople({ tag: IRIS_CONCOURSE_TAG });
+    // All FUB contacts are treated as this project (no tag filter).
+    const people = await listAllPeople({ maxPages: 30 });
     const leads: DashLead[] = people.map(mapPersonToLead);
     return {
       connected: true,

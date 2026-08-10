@@ -11,6 +11,13 @@ export {
   listEvents,
   listStages,
   listUsers,
+  listCallsSince,
+  listNotesSince,
+  listAppointmentsSince,
+  listPersonIdsByTag,
+  listActionPlanEnrollments,
+  countPersonActivitySince,
+  listPersonActivitySince,
   FUBNotConnectedError,
 } from "./client";
 export {
@@ -37,3 +44,4 @@ export type {
   FUBEventRecord,
   FUBEventsResponse,
 } from "./types";
+export type { FUBActivityRecord, FUBAppointment } from "./client";

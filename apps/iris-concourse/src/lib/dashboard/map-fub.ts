@@ -157,6 +157,9 @@ export function mapPersonToLead(p: FUBPersonRecord): DashLead {
     tags,
     assignedAgent: p.assignedTo ?? null,
     type: p.type ?? null,
+    // Prefer the "Lead Type" custom field (Agent/Buyer/Other); fall back to the
+    // FUB person type, then "Buyer" for the buyer-heavy database.
+    leadType: p.customLeadType?.trim() || p.type?.trim() || "Buyer",
     moveDate,
     lastActivity: p.lastActivity ?? null,
     created: p.created ?? null,

@@ -4,6 +4,11 @@
 
 import type { DashLead, InventorySummary } from "./types";
 import { BUILDING_LABELS, type Building } from "./types";
+import type { ReportInputs } from "./report-inputs";
+import type { TouchPoints } from "./touchpoints";
+import { EMPTY_TOUCHPOINTS } from "./touchpoints";
+import type { Visits, VisitItem } from "./visits";
+import { EMPTY_VISITS } from "./visits";
 
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
@@ -16,9 +21,11 @@ function parse(iso: string | null): number | null {
 export interface ProspectRow {
   id: number;
   name: string;
+  leadType: string;
   community: string;
   moveDate: string | null;
   source: string;
+  created: string | null;
   lastActivity: string | null;
   appt: boolean;
 }
@@ -32,16 +39,64 @@ export interface CommunitySales {
   unsoldInventory: number;
 }
 
+export interface DealDetail {
+  building: Building;
+  unit: string;
+  /** Base price from the team log. */
+  basePrice: number | null;
+  offerPrice: number | null;
+  /** Net sales price from the team log. */
+  net: number | null;
+  /** Incentive as written in the sheet (e.g. "2%"). */
+  incentive: string | null;
+  parking: number | null;
+  storage: number | null;
+  offerDate: string | null;
+  executedDate: string | null;
+  /** Raw status from the team log (e.g. "Offer", "Waiting for Approval"). */
+  status: string | null;
+}
+
+export interface ContractActivity {
+  offers: DealDetail[];
+  underContract: DealDetail[];
+  closed: { count: number; volume: number | null };
+  /** Closed deals, kept so the report can break Closed out by community. */
+  closedDeals: DealDetail[];
+  hold: { count: number };
+}
+
+/** Broader outreach footprint: human touches + automated nurture + farm list. */
+export interface Reach {
+  touchPoints: number; // curated human touch points this week
+  inNurture: number; // contacts in active drip campaigns
+  agentList: number; // imported agent farm list
+  total: number;
+}
+
+export const EMPTY_REACH: Reach = { touchPoints: 0, inNurture: 0, agentList: 0, total: 0 };
+
 export interface WeeklyReport {
-  weekOf: string; // ISO date the report covers (the `now`)
+  weekOf: string; // ISO of the reporting week's end (Sunday)
+  /** Display strings for the reporting week (e.g. "6/15/26"). */
+  periodStart: string;
+  periodEnd: string;
   totalProspects: number;
   newProspects: number;
   returnProspects: number;
-  /** Open-house attendees (in-person visits), buyers only. */
-  openHouseTotal: number;
-  openHouseThisWeek: number;
+  /** New leads added in the past 7 days (buyers). */
+  newLeads: number;
+  /** In-person visits this week (appointments ∪ walk-ins). */
+  visits: Visits;
+  /** Per-visit detail (name + date) for the visits table. */
+  visitList: VisitItem[];
+  touchPoints: TouchPoints;
+  reach: Reach;
+  /** Automated marketing (drip) emails sent this week. */
+  marketingEmails: number;
+  contract: ContractActivity;
   newProspectRows: ProspectRow[];
-  topProspectRows: ProspectRow[];
+  returnProspectRows: ProspectRow[];
   salesByCommunity: CommunitySales[];
 }
 
@@ -49,9 +104,12 @@ function toRow(l: DashLead): ProspectRow {
   return {
     id: l.id,
     name: l.name,
-    community: BUILDING_LABELS[l.building],
+    leadType: l.leadType,
+    // All contacts are treated as Concourse for now (tags to come later).
+    community: "Concourse",
     moveDate: l.moveDate,
     source: l.source,
+    created: l.created,
     lastActivity: l.lastActivity,
     appt: l.isOpenHouseAttendee,
   };
@@ -60,50 +118,52 @@ function toRow(l: DashLead): ProspectRow {
 export function buildWeeklyReport(
   leads: DashLead[],
   inventory: InventorySummary,
-  now: Date = new Date()
+  opts: {
+    inputs?: ReportInputs;
+    touchPoints?: TouchPoints;
+    visits?: Visits;
+    visitList?: VisitItem[];
+    reach?: Reach;
+    marketingEmails?: number;
+    contract?: ContractActivity;
+    reengagedIds?: number[];
+    /** Fixed reporting week [startMs, endMs] (Mon 00:00 → Sun 23:59:59). */
+    window?: { startMs: number; endMs: number };
+  } = {}
 ): WeeklyReport {
-  const nowMs = now.getTime();
-  const weekStart = nowMs - WEEK_MS;
+  const weekStart = opts.window?.startMs ?? Date.now() - WEEK_MS;
+  const weekEnd = opts.window?.endMs ?? Date.now();
+  const fmt = (ms: number) =>
+    new Date(ms).toLocaleDateString("en-US", {
+      month: "numeric",
+      day: "numeric",
+      year: "2-digit",
+      timeZone: "America/Chicago",
+    });
 
-  // Buyers only — exclude cooperating-agent / BD contacts.
-  const buyers = leads.filter((l) => !l.isAgentContact);
+  // All FUB contacts are treated as project prospects.
+  const buyers = leads;
 
-  // New = created this week. Return = created earlier but active this week.
+  // New = created within the reporting week. Return = an existing contact who
+  // reached back out (inbound call/text) — genuine two-way re-engagement.
+  // Bulk-imported contacts (source contains "import") are excluded — a one-time
+  // list load isn't real new-prospect traffic.
+  const isBulkImport = (l: DashLead) => /import/i.test(l.source ?? "");
+  const reengaged = new Set(opts.reengagedIds ?? []);
   const newProspects: DashLead[] = [];
   const returnProspects: DashLead[] = [];
   for (const l of buyers) {
+    if (isBulkImport(l)) continue;
     const created = parse(l.created);
-    const active = parse(l.lastActivity);
-    if (created !== null && created >= weekStart) {
+    if (created !== null && created >= weekStart && created <= weekEnd) {
       newProspects.push(l);
-    } else if (active !== null && active >= weekStart) {
+    } else if (reengaged.has(l.id)) {
       returnProspects.push(l);
     }
   }
 
   const byCreatedDesc = (a: DashLead, b: DashLead) =>
     (parse(b.created) ?? 0) - (parse(a.created) ?? 0);
-  const byActivityDesc = (a: DashLead, b: DashLead) =>
-    (parse(b.lastActivity) ?? 0) - (parse(a.lastActivity) ?? 0);
-
-  // Top prospects: buyers active in the past 7 days who aren't brand-new this
-  // week, most-recently-active first.
-  const newIds = new Set(newProspects.map((l) => l.id));
-  const topProspects = buyers
-    .filter((l) => {
-      if (newIds.has(l.id)) return false;
-      const active = parse(l.lastActivity);
-      return active !== null && active >= weekStart;
-    })
-    .sort(byActivityDesc)
-    .slice(0, 10);
-
-  // Open-house attendees (in-person visits), buyers only.
-  const attendees = buyers.filter((l) => l.isOpenHouseAttendee);
-  const openHouseThisWeek = attendees.filter((l) => {
-    const created = parse(l.created);
-    return created !== null && created >= weekStart;
-  }).length;
 
   // Sales by community — pre-launch, so sales are zero; show inventory size.
   const communities: Building[] = ["iris", "concourse"];
@@ -116,15 +176,33 @@ export function buildWeeklyReport(
     unsoldInventory: inventory.byBuilding[b]?.total ?? 0,
   }));
 
+  const inputs = opts.inputs;
+  // Offers + under-contract come live from the team-log "CC Contracts" sheet
+  // tab. Closed / hold counts are still manual inputs for now.
+  const contract: ContractActivity = opts.contract ?? {
+    offers: [],
+    underContract: [],
+    closed: inputs?.closed ?? { count: 0, volume: null },
+    closedDeals: [],
+    hold: inputs?.hold ?? { count: 0 },
+  };
+
   return {
-    weekOf: now.toISOString(),
+    weekOf: new Date(weekEnd).toISOString(),
+    periodStart: fmt(weekStart),
+    periodEnd: fmt(weekEnd),
     totalProspects: newProspects.length + returnProspects.length,
     newProspects: newProspects.length,
     returnProspects: returnProspects.length,
-    openHouseTotal: attendees.length,
-    openHouseThisWeek,
+    newLeads: newProspects.length,
+    visits: opts.visits ?? EMPTY_VISITS,
+    visitList: opts.visitList ?? [],
+    touchPoints: opts.touchPoints ?? EMPTY_TOUCHPOINTS,
+    reach: opts.reach ?? EMPTY_REACH,
+    marketingEmails: opts.marketingEmails ?? 0,
+    contract,
     newProspectRows: [...newProspects].sort(byCreatedDesc).map(toRow),
-    topProspectRows: topProspects.map(toRow),
+    returnProspectRows: returnProspects.map(toRow),
     salesByCommunity,
   };
 }

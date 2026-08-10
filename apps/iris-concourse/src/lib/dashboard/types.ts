@@ -85,6 +85,8 @@ export interface DashLead {
   assignedAgent: string | null;
   /** Buyer / Seller / Agent (FUB person type). */
   type: string | null;
+  /** Lead Type category from the FUB custom field: Agent | Buyer | Other. */
+  leadType: string;
   /** Move/buying timeframe, if the team filled it in (usually blank). */
   moveDate: string | null;
   lastActivity: string | null;

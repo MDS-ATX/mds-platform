@@ -56,6 +56,8 @@ export interface FUBPersonRecord {
   source?: string;
   tags?: string[];
   type?: string;
+  /** Custom dropdown field "Lead Type": Agent | Buyer | Other. */
+  customLeadType?: string;
   assignedUserId?: number;
   assignedTo?: string;
   timeframeStatus?: string | null;

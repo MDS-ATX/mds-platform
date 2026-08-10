@@ -1,0 +1,15 @@
+{
+  "_comment": "Weekly manual figures. Base price auto-looked-up from the team log by building+unit. Offers take offerDate (YYYY-MM-DD); under-contract take executedDate. Net = offerPrice - incentive + parking + storage - basePrice. Null = unknown.",
+  "weekOf": "auto",
+  "offers": [
+    { "building": "concourse", "unit": "202", "offerDate": null, "offerPrice": null, "incentive": null, "parking": null, "storage": null },
+    { "building": "concourse", "unit": "216", "offerDate": null, "offerPrice": null, "incentive": null, "parking": null, "storage": null },
+    { "building": "concourse", "unit": "317", "offerDate": null, "offerPrice": null, "incentive": null, "parking": null, "storage": null }
+  ],
+  "underContract": [
+    { "building": "concourse", "unit": "303", "executedDate": null, "offerPrice": null, "incentive": null, "parking": null, "storage": null },
+    { "building": "concourse", "unit": "208", "executedDate": null, "offerPrice": null, "incentive": null, "parking": null, "storage": null }
+  ],
+  "closed": { "count": 0, "volume": null },
+  "hold": { "count": 0 }
+}

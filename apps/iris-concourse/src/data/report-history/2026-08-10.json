@@ -1,0 +1,360 @@
+{
+  "connected": true,
+  "report": {
+    "weekOf": "2026-08-10T04:59:59.000Z",
+    "periodStart": "8/3/26",
+    "periodEnd": "8/9/26",
+    "totalProspects": 17,
+    "newProspects": 13,
+    "returnProspects": 4,
+    "newLeads": 13,
+    "visits": {
+      "total": 0,
+      "scheduled": 0,
+      "walkIns": 0
+    },
+    "visitList": [],
+    "touchPoints": {
+      "total": 112,
+      "calls": 6,
+      "texts": 16,
+      "emails": 90
+    },
+    "reach": {
+      "touchPoints": 112,
+      "inNurture": 0,
+      "agentList": 0,
+      "total": 1674
+    },
+    "marketingEmails": 41,
+    "contract": {
+      "offers": [
+        {
+          "building": "concourse",
+          "unit": "317",
+          "basePrice": 349900,
+          "offerPrice": 310000,
+          "net": 325000,
+          "incentive": "2%",
+          "parking": 15000,
+          "storage": null,
+          "offerDate": "2026-06-19T05:00:00.000Z",
+          "executedDate": null,
+          "status": "Offer"
+        },
+        {
+          "building": "concourse",
+          "unit": "313",
+          "basePrice": 434900,
+          "offerPrice": 434900,
+          "net": 454900,
+          "incentive": "2%",
+          "parking": 20000,
+          "storage": null,
+          "offerDate": "2026-07-31T05:00:00.000Z",
+          "executedDate": null,
+          "status": "Offer"
+        }
+      ],
+      "underContract": [
+        {
+          "building": "concourse",
+          "unit": "202",
+          "basePrice": 284900,
+          "offerPrice": 284900,
+          "net": 284900,
+          "incentive": "2%",
+          "parking": 0,
+          "storage": null,
+          "offerDate": "2026-07-01T05:00:00.000Z",
+          "executedDate": "2026-07-05T05:00:00.000Z",
+          "status": "Pending"
+        },
+        {
+          "building": "concourse",
+          "unit": "216",
+          "basePrice": 396500,
+          "offerPrice": 396500,
+          "net": 416500,
+          "incentive": "2%",
+          "parking": 20000,
+          "storage": null,
+          "offerDate": "2026-07-31T05:00:00.000Z",
+          "executedDate": null,
+          "status": "Pending"
+        },
+        {
+          "building": "concourse",
+          "unit": "207",
+          "basePrice": 244900,
+          "offerPrice": 244900,
+          "net": 254900,
+          "incentive": "3%",
+          "parking": 10000,
+          "storage": null,
+          "offerDate": "2026-07-27T05:00:00.000Z",
+          "executedDate": "2026-07-30T05:00:00.000Z",
+          "status": "Pending"
+        }
+      ],
+      "closed": {
+        "count": 3,
+        "volume": 935200
+      },
+      "closedDeals": [
+        {
+          "building": "concourse",
+          "unit": "303",
+          "basePrice": 449900,
+          "offerPrice": 425900,
+          "net": 440900,
+          "incentive": "2%",
+          "parking": 15000,
+          "storage": null,
+          "offerDate": "2026-06-11T05:00:00.000Z",
+          "executedDate": "2026-06-16T05:00:00.000Z",
+          "status": "Closed"
+        },
+        {
+          "building": "concourse",
+          "unit": "208",
+          "basePrice": 194400,
+          "offerPrice": 194400,
+          "net": 204400,
+          "incentive": "2%",
+          "parking": 10000,
+          "storage": null,
+          "offerDate": "2026-06-11T05:00:00.000Z",
+          "executedDate": "2026-06-16T05:00:00.000Z",
+          "status": "Closed"
+        },
+        {
+          "building": "concourse",
+          "unit": "302",
+          "basePrice": 289900,
+          "offerPrice": 289900,
+          "net": 289900,
+          "incentive": "0%",
+          "parking": 10000,
+          "storage": null,
+          "offerDate": "2026-07-03T05:00:00.000Z",
+          "executedDate": "2026-07-10T05:00:00.000Z",
+          "status": "Closed"
+        }
+      ],
+      "hold": {
+        "count": 0
+      }
+    },
+    "newProspectRows": [
+      {
+        "id": 5051,
+        "name": "INTOWN HOMES WEBSITE",
+        "leadType": "Buyer",
+        "community": "Concourse",
+        "moveDate": null,
+        "source": "Website",
+        "created": "2026-08-07T21:36:59Z",
+        "lastActivity": "2026-08-07T21:37:02Z",
+        "appt": false
+      },
+      {
+        "id": 5050,
+        "name": "Jacobs  CC Iris Website",
+        "leadType": "Buyer",
+        "community": "Concourse",
+        "moveDate": null,
+        "source": "Concourse & Iris Website",
+        "created": "2026-08-07T21:32:50Z",
+        "lastActivity": "2026-08-07T21:32:55Z",
+        "appt": false
+      },
+      {
+        "id": 5049,
+        "name": "New Site Test",
+        "leadType": "Buyer",
+        "community": "Concourse",
+        "moveDate": null,
+        "source": "Overlook Sales",
+        "created": "2026-08-07T21:30:41Z",
+        "lastActivity": "2026-08-10T15:35:09Z",
+        "appt": false
+      },
+      {
+        "id": 5048,
+        "name": "Chase Testing",
+        "leadType": "Buyer",
+        "community": "Concourse",
+        "moveDate": null,
+        "source": "Website",
+        "created": "2026-08-07T21:04:56Z",
+        "lastActivity": "2026-08-07T21:05:23Z",
+        "appt": false
+      },
+      {
+        "id": 5047,
+        "name": "Another Test",
+        "leadType": "Buyer",
+        "community": "Concourse",
+        "moveDate": null,
+        "source": "Overlook Sales",
+        "created": "2026-08-07T20:56:51Z",
+        "lastActivity": "2026-08-07T20:56:51Z",
+        "appt": false
+      },
+      {
+        "id": 5046,
+        "name": "Chase Test",
+        "leadType": "Buyer",
+        "community": "Concourse",
+        "moveDate": null,
+        "source": "Overlook Sales",
+        "created": "2026-08-07T20:54:03Z",
+        "lastActivity": "2026-08-07T20:54:03Z",
+        "appt": false
+      },
+      {
+        "id": 5045,
+        "name": "Kara Moss",
+        "leadType": "Buyer",
+        "community": "Concourse",
+        "moveDate": null,
+        "source": "Concourse & Iris Website",
+        "created": "2026-08-06T20:53:21Z",
+        "lastActivity": "2026-08-06T20:53:24Z",
+        "appt": false
+      },
+      {
+        "id": 5044,
+        "name": "Sharon Davis",
+        "leadType": "Buyer",
+        "community": "Concourse",
+        "moveDate": null,
+        "source": "Concourse & Iris Website",
+        "created": "2026-08-04T21:50:33Z",
+        "lastActivity": "2026-08-04T21:50:35Z",
+        "appt": false
+      },
+      {
+        "id": 5043,
+        "name": "Peter Nobody",
+        "leadType": "Buyer",
+        "community": "Concourse",
+        "moveDate": null,
+        "source": "Zillow",
+        "created": "2026-08-04T14:04:07Z",
+        "lastActivity": "2026-08-04T14:04:07Z",
+        "appt": false
+      },
+      {
+        "id": 5042,
+        "name": "Intown Website",
+        "leadType": "Buyer",
+        "community": "Concourse",
+        "moveDate": null,
+        "source": "Website",
+        "created": "2026-08-03T16:52:53Z",
+        "lastActivity": "2026-08-10T14:09:24Z",
+        "appt": false
+      },
+      {
+        "id": 5041,
+        "name": "Overlook Website",
+        "leadType": "Buyer",
+        "community": "Concourse",
+        "moveDate": null,
+        "source": "Website",
+        "created": "2026-08-03T16:49:34Z",
+        "lastActivity": "2026-08-10T14:09:11Z",
+        "appt": false
+      },
+      {
+        "id": 5040,
+        "name": "Intown Website",
+        "leadType": "Buyer",
+        "community": "Concourse",
+        "moveDate": null,
+        "source": "Website",
+        "created": "2026-08-03T16:45:31Z",
+        "lastActivity": "2026-08-04T02:41:15Z",
+        "appt": false
+      },
+      {
+        "id": 5039,
+        "name": "Hello There",
+        "leadType": "Buyer",
+        "community": "Concourse",
+        "moveDate": null,
+        "source": "Website",
+        "created": "2026-08-03T16:42:15Z",
+        "lastActivity": "2026-08-04T02:41:16Z",
+        "appt": false
+      }
+    ],
+    "returnProspectRows": [
+      {
+        "id": 3401,
+        "name": "Tushar Mohammed Islam",
+        "leadType": "Agent",
+        "community": "Concourse",
+        "moveDate": null,
+        "source": "Concourse IRIS",
+        "created": "2026-03-31T18:22:35Z",
+        "lastActivity": "2026-08-07T01:13:54Z",
+        "appt": false
+      },
+      {
+        "id": 3402,
+        "name": "Aditi Tiwari",
+        "leadType": "Buyer",
+        "community": "Concourse",
+        "moveDate": "Jul 9 to Oct 9 2026",
+        "source": "Concourse IRIS",
+        "created": "2026-03-31T20:36:31Z",
+        "lastActivity": "2026-08-10T16:41:20Z",
+        "appt": false
+      },
+      {
+        "id": 4610,
+        "name": "Audrey Smith",
+        "leadType": "Agent",
+        "community": "Concourse",
+        "moveDate": null,
+        "source": "MLS",
+        "created": "2026-06-08T00:13:12Z",
+        "lastActivity": "2026-08-04T22:40:48Z",
+        "appt": false
+      },
+      {
+        "id": 4712,
+        "name": "Progyna Khondkar",
+        "leadType": "Buyer",
+        "community": "Concourse",
+        "moveDate": null,
+        "source": "Concourse IRIS",
+        "created": "2026-07-12T15:34:09Z",
+        "lastActivity": "2026-08-07T01:13:54Z",
+        "appt": false
+      }
+    ],
+    "salesByCommunity": [
+      {
+        "community": "Iris",
+        "totalSales": 0,
+        "lastWeek": 0,
+        "thisMonth": 0,
+        "thisYear": 0,
+        "unsoldInventory": 31
+      },
+      {
+        "community": "Concourse",
+        "totalSales": 0,
+        "lastWeek": 0,
+        "thisMonth": 0,
+        "thisYear": 0,
+        "unsoldInventory": 34
+      }
+    ]
+  },
+  "generatedAt": "2026-08-10T18:38:12.285Z"
+}
