@@ -42,7 +42,7 @@ const H = {
   baths: ["Bath", "Baths"],
   designation: ["Market / AH", "Market / AH (NEW)", "Market/AH"],
   sqft: ["SQFT"],
-  price: ["Approved Pricing - Apr 30", "Pricing - Apr 30"],
+  price: ["Approved Pricing", "Approved Pricing - Apr 30", "Pricing - Apr 30", "Pricing"],
   hoa: ["HOA Fee"],
   notes: ["Notes"],
   status: ["Status"],
@@ -146,6 +146,22 @@ function resolver(headers: string[]) {
   };
 }
 
+// The price header carries a re-pricing date that changes over time
+// ("Approved Pricing - Apr 30" → "Approved Pricing"), so when no alias matches
+// exactly, fall back to the first header starting with a pricing prefix. Guarded
+// to these prefixes so "Original Pricing" / "Approved $/sf" never win.
+const PRICE_PREFIXES = ["approved pricing", "pricing"];
+function priceCol(headers: string[], idx: (aliases: string[]) => number): number {
+  const exact = idx(H.price);
+  if (exact >= 0) return exact;
+  const norm = headers.map((h) => (h || "").trim().toLowerCase());
+  for (const prefix of PRICE_PREFIXES) {
+    const i = norm.findIndex((h) => h.startsWith(prefix));
+    if (i >= 0) return i;
+  }
+  return -1;
+}
+
 async function readTab(cfg: TabCfg) {
   const sheets = getSheets();
   const res = await sheets.spreadsheets.values.get({
@@ -165,6 +181,7 @@ export async function readUnits(building: Building): Promise<ResidentialUnit[]> 
   const { headers, rows } = await readTab(TABS[building].unit);
   const idx = resolver(headers);
   const cUnit = idx(H.unitNumber);
+  const cPrice = priceCol(headers, idx);
   const out: ResidentialUnit[] = [];
   for (const r of rows) {
     const unitNumber = (r[cUnit] || "").trim();
@@ -178,7 +195,7 @@ export async function readUnits(building: Building): Promise<ResidentialUnit[]> 
       baths: parseInt0(at(H.baths)),
       designation: normalizeDesignation(at(H.designation)),
       sqft: parseInt0(at(H.sqft)),
-      price: parseMoney(at(H.price)),
+      price: parseMoney(cPrice >= 0 ? r[cPrice] : undefined),
       hoaFee: parseMoney(at(H.hoa)) || undefined,
       status: statusFromSheet(at(H.status)),
       notes: clean(at(H.notes)),
